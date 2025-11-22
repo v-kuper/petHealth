@@ -538,6 +538,8 @@
         let currentCalendarDate = new Date(2025, 10, 22); // November 22, 2025
         let currentCalendarView = 'month';
         let selectedCalendarPet = 'all';
+        // Records filter state
+        let currentRecordTypeFilter = 'all';
         
         // Calendar events data
         let calendarEvents = {
@@ -1479,6 +1481,26 @@
             if (screenId === 'screen-more') renderMoreScreen();
             if (screenId === 'screen-nutrition-weight') renderNutritionWeightScreen();
             if (screenId === 'notifications-screen') renderNotifications();
+            if (screenId === 'screen-records') {
+                // Reset filter to 'all' if not set
+                if (!currentRecordTypeFilter) {
+                    currentRecordTypeFilter = 'all';
+                }
+                // Initialize chip highlighting
+                document.querySelectorAll('#screen-records .chip').forEach(chip => {
+                    chip.style.background = 'var(--color-secondary)';
+                    chip.style.color = 'var(--color-text)';
+                });
+                // Highlight "Все" chip if filter is 'all'
+                if (currentRecordTypeFilter === 'all') {
+                    const allChip = Array.from(document.querySelectorAll('#screen-records .chip')).find(chip => chip.textContent.trim() === 'Все');
+                    if (allChip) {
+                        allChip.style.background = 'var(--color-primary)';
+                        allChip.style.color = 'white';
+                    }
+                }
+                renderAllRecords();
+            }
         }
 
         function renderPets() {
@@ -1844,18 +1866,114 @@
             // Update pet filter
             const filterSelect = document.getElementById('records-pet-filter');
             if (filterSelect) {
+                const currentPetFilter = filterSelect.value || 'all';
                 filterSelect.innerHTML = '<option value="all">Все питомцы</option>' + 
-                    pets.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+                    pets.map(p => `<option value="${p.id}" ${currentPetFilter == p.id ? 'selected' : ''}>${p.name}</option>`).join('');
             }
             
-            const allRecords = pets.flatMap(pet => 
-                pet.medicalRecords.map(r => ({ ...r, petName: pet.name, petId: pet.id }))
-            ).sort((a, b) => new Date(b.date) - new Date(a.date));
+            // Get current filters
+            const petFilter = filterSelect ? filterSelect.value : 'all';
+            const typeFilter = currentRecordTypeFilter || 'all';
+            
+            // Collect all records based on type filter
+            let allRecords = [];
+            
+            if (typeFilter === 'all' || typeFilter === 'visits') {
+                // Medical records (visits) - exclude tests
+                const selectedPets = petFilter === 'all' ? pets : pets.filter(p => p.id == petFilter);
+                const medicalRecords = selectedPets.flatMap(pet => 
+                    (pet.medicalRecords || [])
+                        .filter(r => r.visitType !== 'test' && r.visitType !== 'lab_test')
+                        .map(r => ({ 
+                            ...r, 
+                            petName: pet.name, 
+                            petId: pet.id,
+                            recordType: 'visit'
+                        }))
+                );
+                allRecords = allRecords.concat(medicalRecords);
+            }
+            
+            if (typeFilter === 'all' || typeFilter === 'tests') {
+                // Test records (lab tests, analyses)
+                const selectedPets = petFilter === 'all' ? pets : pets.filter(p => p.id == petFilter);
+                const testRecords = selectedPets.flatMap(pet => 
+                    (pet.medicalRecords || [])
+                        .filter(r => r.visitType === 'test' || r.visitType === 'lab_test')
+                        .map(r => ({ 
+                            ...r, 
+                            petName: pet.name, 
+                            petId: pet.id,
+                            recordType: 'test'
+                        }))
+                );
+                allRecords = allRecords.concat(testRecords);
+            }
+            
+            if (typeFilter === 'all' || typeFilter === 'vaccines') {
+                // Vaccination records
+                const selectedPets = petFilter === 'all' ? pets : pets.filter(p => p.id == petFilter);
+                const vaccineRecords = selectedPets.flatMap(pet => 
+                    (pet.vaccinationStatus || []).map(v => ({
+                        id: `vaccine-${pet.id}-${v.vaccine}`,
+                        date: v.lastDate || v.nextDue,
+                        petName: pet.name,
+                        petId: pet.id,
+                        recordType: 'vaccine',
+                        visitType: 'vaccination',
+                        clinicName: 'Вакцинация',
+                        diagnosis: `Вакцинация: ${v.vaccine}`,
+                        notes: `Последняя: ${v.lastDate ? formatDate(v.lastDate) : 'Не указана'}, Следующая: ${v.nextDue ? formatDate(v.nextDue) : 'Не указана'}, Статус: ${v.status === 'current' ? 'Актуальна' : v.status === 'due_soon' ? 'Скоро нужна' : 'Просрочена'}`
+                    }))
+                );
+                allRecords = allRecords.concat(vaccineRecords);
+            }
+            
+            if (typeFilter === 'all' || typeFilter === 'medications') {
+                // Medication records
+                const selectedPets = petFilter === 'all' ? pets : pets.filter(p => p.id == petFilter);
+                const medicationRecords = selectedPets.flatMap(pet => 
+                    (pet.medications || []).map(m => ({
+                        id: `medication-${pet.id}-${m.id}`,
+                        date: m.startDate || new Date().toISOString().split('T')[0],
+                        petName: pet.name,
+                        petId: pet.id,
+                        recordType: 'medication',
+                        visitType: 'medication',
+                        clinicName: 'Лекарство',
+                        diagnosis: m.name,
+                        notes: `Дозировка: ${m.dosage}, Частота: ${m.frequency}, Причина: ${m.reason || 'Не указана'}, Статус: ${m.status === 'active' ? 'Активно' : 'Завершено'}`
+                    }))
+                );
+                allRecords = allRecords.concat(medicationRecords);
+            }
+            
+            if (typeFilter === 'all' || typeFilter === 'symptoms') {
+                // Symptom records
+                const selectedPets = petFilter === 'all' ? pets : pets.filter(p => p.id == petFilter);
+                const symptomRecords = selectedPets.flatMap(pet => 
+                    (pet.symptoms || []).map(s => ({
+                        id: `symptom-${pet.id}-${s.id}`,
+                        date: s.date,
+                        petName: pet.name,
+                        petId: pet.id,
+                        recordType: 'symptom',
+                        visitType: 'symptom',
+                        clinicName: 'Симптом',
+                        diagnosis: `Симптомы: ${Array.isArray(s.symptoms) ? s.symptoms.join(', ') : s.symptoms}`,
+                        notes: `Тяжесть: ${s.severity}/10, Длительность: ${s.duration || 'Не указана'}, ${s.notes || ''}`
+                    }))
+                );
+                allRecords = allRecords.concat(symptomRecords);
+            }
+            
+            // Sort by date
+            allRecords.sort((a, b) => new Date(b.date) - new Date(a.date));
             
             const content = document.getElementById('all-records-content');
             
             if (allRecords.length === 0) {
-                content.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>Нет медицинских записей</p><button class="btn btn-primary" onclick="showAddRecordModal()" style="margin-top: 16px;">+ Добавить запись</button></div>';
+                content.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>Нет записей</p><button class="btn btn-primary" onclick="showAddRecordModal()" style="margin-top: 16px;">+ Добавить запись</button></div>';
                 return;
             }
             
@@ -1865,8 +1983,8 @@
                         <div class="timeline-item">
                             <div class="timeline-date">${formatDate(record.date)} • ${record.petName}</div>
                             <div class="timeline-content">
-                                <div class="timeline-title">${visitTypeNames[record.visitType] || record.visitType} - ${record.clinicName}</div>
-                                <div style="margin: 8px 0;"><strong>Диагноз:</strong> ${record.diagnosis}</div>
+                                <div class="timeline-title">${visitTypeNames[record.visitType] || record.visitType || 'Запись'} - ${record.clinicName || 'Не указано'}</div>
+                                <div style="margin: 8px 0;"><strong>${record.recordType === 'symptom' ? 'Описание' : 'Диагноз'}:</strong> ${record.diagnosis}</div>
                                 ${record.notes ? `<div style="color: var(--color-text-secondary);">${record.notes}</div>` : ''}
                                 ${record.medications && record.medications.length > 0 ? `
                                     <div style="margin-top: 12px;">
@@ -2771,16 +2889,37 @@
         }
         
         function filterRecordsByType(type) {
+            // Update current filter
+            currentRecordTypeFilter = type;
+            
             // Update chip styling
             document.querySelectorAll('#screen-records .chip').forEach(chip => {
                 chip.style.background = 'var(--color-secondary)';
                 chip.style.color = 'var(--color-text)';
             });
-            event.target.style.background = 'var(--color-primary)';
-            event.target.style.color = 'white';
             
-            // Filter logic would go here
-            showToast(`Фильтр: ${type}`);
+            // Find and highlight the clicked chip
+            if (event && event.target) {
+                event.target.style.background = 'var(--color-primary)';
+                event.target.style.color = 'white';
+            } else {
+                // Fallback: find chip by text content
+                document.querySelectorAll('#screen-records .chip').forEach(chip => {
+                    const chipText = chip.textContent.trim();
+                    if ((type === 'all' && chipText === 'Все') ||
+                        (type === 'visits' && chipText === 'Визиты') ||
+                        (type === 'tests' && chipText === 'Анализы') ||
+                        (type === 'vaccines' && chipText === 'Вакцины') ||
+                        (type === 'medications' && chipText === 'Лекарства') ||
+                        (type === 'symptoms' && chipText === 'Симптомы')) {
+                        chip.style.background = 'var(--color-primary)';
+                        chip.style.color = 'white';
+                    }
+                });
+            }
+            
+            // Apply filter
+            renderAllRecords();
         }
         
         function renderAIContent() {
