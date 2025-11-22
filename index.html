@@ -297,7 +297,7 @@
                 <button class="btn btn-primary" onclick="showAddRecordModal()" style="padding: 20px;">📝<br>Новая запись визита</button>
                 <button class="btn btn-primary" onclick="showScreen('screen-ai')" style="padding: 20px;">📸<br>Сканировать рецепт</button>
                 <button class="btn btn-primary" onclick="showAddSymptomModal()" style="padding: 20px;">🩺<br>Лог симптома</button>
-                <button class="btn btn-primary" onclick="showAddMealModal()" style="padding: 20px;">📅<br>Запланировать событие</button>
+                <button class="btn btn-primary" onclick="showScreen('screen-nutrition-weight')" style="padding: 20px;">🍽️<br>Питание и вес</button>
             </div>
             
             <div class="section-title">Недавняя активность</div>
@@ -580,6 +580,44 @@
             </div>
             <div id="notifications-content"></div>
         </div>
+
+        <!-- Nutrition & Weight Screen -->
+        <div id="screen-nutrition-weight" class="screen">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div class="section-title" style="margin-bottom: 0;">Питание и вес</div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-primary btn-sm" onclick="showAddMealModal()">🍽️ Добавить прием</button>
+                    <button class="btn btn-secondary btn-sm" onclick="showAddWeightModal()">⚖️ Записать вес</button>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <select class="form-control" id="nutrition-pet-select" onchange="renderNutritionWeightScreen()">
+                    <option value="all">Все питомцы</option>
+                </select>
+            </div>
+
+            <div class="tabs" style="margin-bottom: 20px;">
+                <div class="tab active" onclick="switchNutritionTab(event, 'nutrition-overview')">🍽️ Питание</div>
+                <div class="tab" onclick="switchNutritionTab(event, 'weight-overview')">⚖️ Вес</div>
+                <div class="tab" onclick="switchNutritionTab(event, 'analytics')">📊 Аналитика</div>
+            </div>
+
+            <!-- Nutrition Tab -->
+            <div id="nutrition-overview" class="tab-content active">
+                <div id="nutrition-content"></div>
+            </div>
+
+            <!-- Weight Tab -->
+            <div id="weight-overview" class="tab-content">
+                <div id="weight-content"></div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics" class="tab-content">
+                <div id="analytics-content"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Modals -->
@@ -773,6 +811,34 @@
                 <div class="form-group">
                     <label class="form-label">Заметки</label>
                     <textarea class="form-control" name="notes"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="add-weight-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Записать вес</h2>
+                <button class="close-btn" onclick="closeModal('add-weight-modal')">&times;</button>
+            </div>
+            <form id="add-weight-form" onsubmit="addWeightEntry(event)">
+                <div class="form-group">
+                    <label class="form-label">Питомец</label>
+                    <select class="form-control" name="petId" id="add-weight-pet-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Дата</label>
+                    <input type="date" class="form-control" name="date" required value="${new Date().toISOString().split('T')[0]}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Вес (кг)</label>
+                    <input type="number" step="0.1" class="form-control" name="weight" required placeholder="Введите вес">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Заметки (необязательно)</label>
+                    <textarea class="form-control" name="notes" placeholder="Добавьте заметки о взвешивании"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Сохранить</button>
             </form>

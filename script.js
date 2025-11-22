@@ -43,13 +43,146 @@
                     activityLevel: "moderate",
                     lifeStage: "adult",
                     meals: [
+                        // November 2025
                         { id: 1, date: "2025-11-22T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "Regular morning feeding" },
                         { id: 2, date: "2025-11-22T18:30", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
                         { id: 3, date: "2025-11-21T08:15", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
                         { id: 4, date: "2025-11-21T14:00", foodName: "Chicken treats", amount: 50, unit: "g", calories: 120, mealType: "treat", notes: "Training session" },
                         { id: 5, date: "2025-11-21T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
                         { id: 6, date: "2025-11-20T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
-                        { id: 7, date: "2025-11-20T18:00", foodName: "Royal Canin Adult + vegetables", amount: 220, unit: "g", calories: 400, mealType: "dinner", notes: "Added carrots and green beans" }
+                        { id: 7, date: "2025-11-20T18:00", foodName: "Royal Canin Adult + vegetables", amount: 220, unit: "g", calories: 400, mealType: "dinner", notes: "Added carrots and green beans" },
+                        { id: 8, date: "2025-11-19T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 9, date: "2025-11-19T18:30", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 10, date: "2025-11-18T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 11, date: "2025-11-18T13:00", foodName: "Beef jerky treats", amount: 30, unit: "g", calories: 90, mealType: "treat", notes: "After walk" },
+                        { id: 12, date: "2025-11-18T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 13, date: "2025-11-17T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 14, date: "2025-11-17T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 15, date: "2025-11-16T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 16, date: "2025-11-16T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 17, date: "2025-11-15T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 18, date: "2025-11-15T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 19, date: "2025-11-14T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 20, date: "2025-11-14T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 21, date: "2025-11-13T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 22, date: "2025-11-13T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 23, date: "2025-11-12T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 24, date: "2025-11-12T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 25, date: "2025-11-11T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 26, date: "2025-11-11T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 27, date: "2025-11-10T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 28, date: "2025-11-10T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 29, date: "2025-11-09T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 30, date: "2025-11-09T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 31, date: "2025-11-08T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 32, date: "2025-11-08T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 33, date: "2025-11-07T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 34, date: "2025-11-07T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 35, date: "2025-11-06T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 36, date: "2025-11-06T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 37, date: "2025-11-05T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 38, date: "2025-11-05T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 39, date: "2025-11-04T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 40, date: "2025-11-04T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 41, date: "2025-11-03T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 42, date: "2025-11-03T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 43, date: "2025-11-02T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 44, date: "2025-11-02T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 45, date: "2025-11-01T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 46, date: "2025-11-01T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        // October 2025
+                        { id: 47, date: "2025-10-31T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 48, date: "2025-10-31T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 49, date: "2025-10-30T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 50, date: "2025-10-30T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 51, date: "2025-10-29T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 52, date: "2025-10-29T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 53, date: "2025-10-28T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 54, date: "2025-10-28T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 55, date: "2025-10-27T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 56, date: "2025-10-27T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 57, date: "2025-10-26T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 58, date: "2025-10-26T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 59, date: "2025-10-25T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 60, date: "2025-10-25T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 61, date: "2025-10-24T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 62, date: "2025-10-24T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 63, date: "2025-10-23T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 64, date: "2025-10-23T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 65, date: "2025-10-22T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 66, date: "2025-10-22T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 67, date: "2025-10-21T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 68, date: "2025-10-21T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 69, date: "2025-10-20T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 70, date: "2025-10-20T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 71, date: "2025-10-19T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 72, date: "2025-10-19T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 73, date: "2025-10-18T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 74, date: "2025-10-18T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 75, date: "2025-10-17T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 76, date: "2025-10-17T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 77, date: "2025-10-16T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 78, date: "2025-10-16T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 79, date: "2025-10-15T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 80, date: "2025-10-15T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 81, date: "2025-10-14T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 82, date: "2025-10-14T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 83, date: "2025-10-13T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 84, date: "2025-10-13T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 85, date: "2025-10-12T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 86, date: "2025-10-12T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 87, date: "2025-10-11T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 88, date: "2025-10-11T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 89, date: "2025-10-10T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 90, date: "2025-10-10T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 91, date: "2025-10-09T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 92, date: "2025-10-09T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 93, date: "2025-10-08T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 94, date: "2025-10-08T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 95, date: "2025-10-07T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 96, date: "2025-10-07T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 97, date: "2025-10-06T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 98, date: "2025-10-06T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 99, date: "2025-10-05T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 100, date: "2025-10-05T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 101, date: "2025-10-04T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 102, date: "2025-10-04T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 103, date: "2025-10-03T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 104, date: "2025-10-03T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 105, date: "2025-10-02T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 106, date: "2025-10-02T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 107, date: "2025-10-01T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 108, date: "2025-10-01T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        // September 2025 - sample days
+                        { id: 109, date: "2025-09-30T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 110, date: "2025-09-30T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 111, date: "2025-09-25T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 112, date: "2025-09-25T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 113, date: "2025-09-20T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 114, date: "2025-09-20T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 115, date: "2025-09-15T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 116, date: "2025-09-15T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 117, date: "2025-09-10T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 118, date: "2025-09-10T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 119, date: "2025-09-05T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 120, date: "2025-09-05T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 121, date: "2025-09-01T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 122, date: "2025-09-01T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        // August 2025 - sample days
+                        { id: 123, date: "2025-08-30T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 124, date: "2025-08-30T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 125, date: "2025-08-25T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 126, date: "2025-08-25T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 127, date: "2025-08-20T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 128, date: "2025-08-20T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 129, date: "2025-08-15T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 130, date: "2025-08-15T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 131, date: "2025-08-10T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 132, date: "2025-08-10T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 133, date: "2025-08-05T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 134, date: "2025-08-05T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" },
+                        { id: 135, date: "2025-08-01T08:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "breakfast", notes: "" },
+                        { id: 136, date: "2025-08-01T19:00", foodName: "Royal Canin Adult", amount: 200, unit: "g", calories: 380, mealType: "dinner", notes: "" }
                     ]
                 },
                 weightGoals: {
@@ -59,13 +192,36 @@
                     weeklyRate: 0.5
                 },
                 weightHistory: [
-                    { date: "2025-11-22", weight: 32 },
-                    { date: "2025-11-15", weight: 32.2 },
-                    { date: "2025-11-08", weight: 32.5 },
-                    { date: "2025-11-01", weight: 32.8 },
-                    { date: "2025-10-25", weight: 33 },
-                    { date: "2025-10-18", weight: 33.2 },
-                    { date: "2025-10-11", weight: 33.5 }
+                    { date: "2025-11-22", weight: 32.0, notes: "Еженедельное взвешивание" },
+                    { date: "2025-11-15", weight: 32.2, notes: "Еженедельное взвешивание" },
+                    { date: "2025-11-08", weight: 32.5, notes: "Еженедельное взвешивание" },
+                    { date: "2025-11-01", weight: 32.8, notes: "Еженедельное взвешивание" },
+                    { date: "2025-10-25", weight: 33.0, notes: "Еженедельное взвешивание" },
+                    { date: "2025-10-18", weight: 33.2, notes: "Еженедельное взвешивание" },
+                    { date: "2025-10-11", weight: 33.5, notes: "Еженедельное взвешивание" },
+                    { date: "2025-10-04", weight: 33.7, notes: "Еженедельное взвешивание" },
+                    { date: "2025-09-27", weight: 33.9, notes: "Еженедельное взвешивание" },
+                    { date: "2025-09-20", weight: 34.1, notes: "Еженедельное взвешивание" },
+                    { date: "2025-09-13", weight: 34.3, notes: "Еженедельное взвешивание" },
+                    { date: "2025-09-06", weight: 34.5, notes: "Еженедельное взвешивание" },
+                    { date: "2025-08-30", weight: 34.7, notes: "Еженедельное взвешивание" },
+                    { date: "2025-08-23", weight: 34.9, notes: "Еженедельное взвешивание" },
+                    { date: "2025-08-16", weight: 35.1, notes: "Еженедельное взвешивание" },
+                    { date: "2025-08-09", weight: 35.2, notes: "Еженедельное взвешивание" },
+                    { date: "2025-08-02", weight: 35.4, notes: "Еженедельное взвешивание" },
+                    { date: "2025-07-26", weight: 35.5, notes: "Еженедельное взвешивание" },
+                    { date: "2025-07-19", weight: 35.6, notes: "Еженедельное взвешивание" },
+                    { date: "2025-07-12", weight: 35.7, notes: "Еженедельное взвешивание" },
+                    { date: "2025-07-05", weight: 35.8, notes: "Еженедельное взвешивание" },
+                    { date: "2025-06-28", weight: 35.9, notes: "Еженедельное взвешивание" },
+                    { date: "2025-06-21", weight: 36.0, notes: "Еженедельное взвешивание" },
+                    { date: "2025-06-14", weight: 36.1, notes: "Еженедельное взвешивание" },
+                    { date: "2025-06-07", weight: 36.2, notes: "Еженедельное взвешивание" },
+                    { date: "2025-05-31", weight: 36.3, notes: "Еженедельное взвешивание" },
+                    { date: "2025-05-24", weight: 36.4, notes: "Еженедельное взвешивание" },
+                    { date: "2025-05-17", weight: 36.5, notes: "Еженедельное взвешивание" },
+                    { date: "2025-05-10", weight: 36.6, notes: "Еженедельное взвешивание" },
+                    { date: "2025-05-03", weight: 36.7, notes: "Еженедельное взвешивание" }
                 ],
                 foodRecommendations: [
                     { brand: "Royal Canin Medium Adult", type: "dry", price: "3500-4200 руб", rating: 4.7, ingredients: "Курица, рис, кукуруза, витамины", benefits: "Для поддержания здоровья суставов" },
@@ -77,7 +233,17 @@
                     { id: 1, type: "vaccination", title: "Bordetella Booster Due", description: "Bordetella vaccination due on November 27", dueDate: "2025-11-27T10:00", status: "pending", priority: "high" },
                     { id: 2, type: "medication", title: "Fish Oil Supplement", description: "Time for daily fish oil supplement", dueDate: "2025-11-22T20:00", status: "pending", priority: "medium" },
                     { id: 3, type: "weight", title: "Weekly Weight Check", description: "Time to log Max's weight", dueDate: "2025-11-23T09:00", status: "pending", priority: "low" },
-                    { id: 4, type: "appointment", title: "Vet Checkup Scheduled", description: "Regular checkup at Happy Paws Clinic", dueDate: "2025-12-10T14:30", status: "pending", priority: "medium" }
+                    { id: 4, type: "appointment", title: "Vet Checkup Scheduled", description: "Regular checkup at Happy Paws Clinic", dueDate: "2025-12-10T14:30", status: "pending", priority: "medium" },
+                    { id: 5, type: "medication", title: "Глюкозамин + Хондроитин", description: "Ежедневная добавка для суставов", dueDate: "2025-11-23T08:00", status: "pending", priority: "medium" },
+                    { id: 6, type: "appointment", title: "Повторный осмотр", description: "Проверка прогресса по снижению веса", dueDate: "2025-12-20T15:00", status: "pending", priority: "low" },
+                    { id: 7, type: "medication", title: "Fish Oil Supplement", description: "Ежедневный приём рыбьего жира", dueDate: "2025-11-24T08:00", status: "pending", priority: "medium" },
+                    { id: 8, type: "food", title: "Напоминание о кормлении", description: "Время для утреннего кормления", dueDate: "2025-11-23T08:00", status: "pending", priority: "low" },
+                    { id: 9, type: "weight", title: "Еженедельное взвешивание", description: "Записать вес для отслеживания прогресса", dueDate: "2025-11-29T09:00", status: "pending", priority: "low" },
+                    { id: 10, type: "appointment", title: "Плановый осмотр", description: "Ежегодный профилактический осмотр", dueDate: "2025-12-05T10:00", status: "pending", priority: "medium" },
+                    { id: 11, type: "medication", title: "Глюкозамин + Хондроитин", description: "Ежедневная добавка для суставов", dueDate: "2025-11-24T08:00", status: "pending", priority: "medium" },
+                    { id: 12, type: "vaccination", title: "Rabies Booster Reminder", description: "Напоминание о ревакцинации от бешенства через год", dueDate: "2026-10-15T10:00", status: "pending", priority: "low" },
+                    { id: 13, type: "food", title: "Напоминание о кормлении", description: "Время для вечернего кормления", dueDate: "2025-11-23T19:00", status: "pending", priority: "low" },
+                    { id: 14, type: "appointment", title: "Консультация по питанию", description: "Обсуждение диеты для снижения веса", dueDate: "2025-11-28T14:00", status: "pending", priority: "medium" }
                 ],
                 notificationSettings: {
                     vaccinations: true,
@@ -91,45 +257,108 @@
                     quietHoursEnd: "08:00"
                 },
                 vaccinationStatus: [
-                    { vaccine: "Rabies", lastDate: "2024-09-15", nextDue: "2025-09-15", status: "current" },
-                    { vaccine: "DHPP", lastDate: "2024-08-20", nextDue: "2025-08-20", status: "current" },
-                    { vaccine: "Bordetella", lastDate: "2024-10-01", nextDue: "2025-04-01", status: "due_soon" }
+                    { vaccine: "Rabies", lastDate: "2025-10-15", nextDue: "2026-10-15", status: "current" },
+                    { vaccine: "DHPP", lastDate: "2025-07-12", nextDue: "2026-07-12", status: "current" },
+                    { vaccine: "Bordetella", lastDate: "2025-03-20", nextDue: "2025-11-27", status: "due_soon" }
                 ],
                 medicalRecords: [
                     {
                         id: 1,
-                        date: "2024-11-10",
+                        date: "2025-11-10",
                         clinicName: "Happy Paws Clinic",
                         visitType: "routine_checkup",
                         diagnosis: "Здоров",
-                        notes: "Регулярный осмотр. Сердце и лёгкие в норме. Вес стабильный.",
+                        notes: "Регулярный осмотр. Сердце и лёгкие в норме. Вес стабильный. Рекомендовано продолжить диету для снижения веса.",
                         medications: []
                     },
                     {
                         id: 2,
-                        date: "2024-10-15",
+                        date: "2025-10-15",
                         clinicName: "Happy Paws Clinic",
                         visitType: "vaccination",
                         diagnosis: "Ревакцинация",
-                        notes: "Введена ревакцинация от бешенства. Побочных эффектов не ожидается.",
+                        notes: "Введена ревакцинация от бешенства. Побочных эффектов не ожидается. Следующая вакцинация через год.",
                         medications: []
                     },
                     {
                         id: 3,
-                        date: "2024-09-20",
+                        date: "2025-09-20",
                         clinicName: "Emergency Vet Center",
                         visitType: "emergency",
                         diagnosis: "Ушная инфекция",
-                        notes: "Инфекция левого уха, назначены антибиотики",
+                        notes: "Инфекция левого уха, назначены антибиотики. Собака трясла головой, были выделения.",
                         medications: [
                             { name: "Амоксициллин", dosage: "500мг", frequency: "Два раза в день", duration: "10 дней" }
                         ]
+                    },
+                    {
+                        id: 4,
+                        date: "2025-08-25",
+                        clinicName: "Happy Paws Clinic",
+                        visitType: "routine_checkup",
+                        diagnosis: "Избыточный вес",
+                        notes: "Обнаружен избыточный вес. Рекомендована диета и увеличение физической активности. Установлена цель снижения веса до 30 кг.",
+                        medications: []
+                    },
+                    {
+                        id: 5,
+                        date: "2025-07-12",
+                        clinicName: "Happy Paws Clinic",
+                        visitType: "vaccination",
+                        diagnosis: "Вакцинация DHPP",
+                        notes: "Плановая вакцинация DHPP. Перенёс хорошо, без побочных эффектов.",
+                        medications: []
+                    },
+                    {
+                        id: 6,
+                        date: "2025-06-18",
+                        clinicName: "Happy Paws Clinic",
+                        visitType: "routine_checkup",
+                        diagnosis: "Здоров",
+                        notes: "Ежегодный осмотр. Все показатели в норме. Рекомендовано продолжить приём рыбьего жира для суставов.",
+                        medications: []
+                    },
+                    {
+                        id: 7,
+                        date: "2025-05-22",
+                        clinicName: "Happy Paws Clinic",
+                        visitType: "dental",
+                        diagnosis: "Чистка зубов",
+                        notes: "Профессиональная чистка зубов под наркозом. Обнаружен лёгкий зубной камень, удалён. Рекомендована регулярная чистка зубов дома.",
+                        medications: []
+                    },
+                    {
+                        id: 8,
+                        date: "2025-04-15",
+                        clinicName: "Happy Paws Clinic",
+                        visitType: "routine_checkup",
+                        diagnosis: "Здоров",
+                        notes: "Плановый осмотр. Вес 36.5 кг. Рекомендовано следить за питанием.",
+                        medications: []
+                    },
+                    {
+                        id: 9,
+                        date: "2025-03-20",
+                        clinicName: "Happy Paws Clinic",
+                        visitType: "vaccination",
+                        diagnosis: "Вакцинация Bordetella",
+                        notes: "Вакцинация от бордетеллёза. Перенёс хорошо.",
+                        medications: []
+                    },
+                    {
+                        id: 10,
+                        date: "2025-02-10",
+                        clinicName: "Happy Paws Clinic",
+                        visitType: "routine_checkup",
+                        diagnosis: "Здоров",
+                        notes: "Регулярный осмотр. Все показатели в норме. Рекомендовано продолжить приём добавок для суставов.",
+                        medications: []
                     }
                 ],
                 symptoms: [
                     {
                         id: 1,
-                        date: "2024-11-08",
+                        date: "2025-11-08",
                         symptoms: ["lethargy", "loss_of_appetite"],
                         severity: 4,
                         duration: "2 дня",
@@ -137,15 +366,65 @@
                     },
                     {
                         id: 2,
-                        date: "2024-10-22",
+                        date: "2025-10-22",
                         symptoms: ["head_shaking", "ear_discharge"],
                         severity: 7,
                         duration: "3 дня",
                         notes: "Привело к визиту к ветеринару, диагностирована ушная инфекция"
+                    },
+                    {
+                        id: 3,
+                        date: "2025-09-15",
+                        symptoms: ["limping"],
+                        severity: 3,
+                        duration: "1 день",
+                        notes: "Небольшая хромота на левую переднюю лапу после активной игры. Прошла сама."
+                    },
+                    {
+                        id: 4,
+                        date: "2025-08-28",
+                        symptoms: ["itching"],
+                        severity: 5,
+                        duration: "4 дня",
+                        notes: "Чесался чаще обычного. Проверили на блох - не обнаружено. Возможно сезонная аллергия."
+                    },
+                    {
+                        id: 5,
+                        date: "2025-07-20",
+                        symptoms: ["vomiting"],
+                        severity: 4,
+                        duration: "1 день",
+                        notes: "Однократная рвота утром. Возможно съел что-то на прогулке. Больше не повторялось."
+                    },
+                    {
+                        id: 6,
+                        date: "2025-06-10",
+                        symptoms: ["lethargy"],
+                        severity: 3,
+                        duration: "1 день",
+                        notes: "Был менее активен после долгой прогулки. Нормальное поведение восстановилось на следующий день."
+                    },
+                    {
+                        id: 7,
+                        date: "2025-05-25",
+                        symptoms: ["loss_of_appetite"],
+                        severity: 3,
+                        duration: "1 день",
+                        notes: "Съел меньше обычного. На следующий день аппетит восстановился."
+                    },
+                    {
+                        id: 8,
+                        date: "2025-04-18",
+                        symptoms: ["cough"],
+                        severity: 4,
+                        duration: "2 дня",
+                        notes: "Лёгкий кашель. Возможно из-за пыльцы. Прошёл сам."
                     }
                 ],
                 medications: [
-                    { id: 1, name: "Рыбий жир", dosage: "1000мг", frequency: "Раз в день", startDate: "2024-08-01", reason: "Здоровье суставов" }
+                    { id: 1, name: "Рыбий жир", dosage: "1000мг", frequency: "Раз в день", startDate: "2024-08-01", reason: "Здоровье суставов", status: "active" },
+                    { id: 2, name: "Глюкозамин + Хондроитин", dosage: "500мг", frequency: "Раз в день", startDate: "2025-08-25", reason: "Поддержка суставов при артрите", status: "active" },
+                    { id: 3, name: "Амоксициллин", dosage: "500мг", frequency: "Два раза в день", startDate: "2025-09-20", endDate: "2025-09-30", reason: "Ушная инфекция", status: "completed" }
                 ],
                 allergies: ["курица"],
                 conditions: ["лёгкий артрит"]
@@ -212,7 +491,13 @@
                 ],
                 notifications: [
                     { id: 1, type: "vaccination", title: "FVRCP Due Soon", description: "FVRCP vaccination due on July 20", dueDate: "2025-07-20T10:00", status: "pending", priority: "medium" },
-                    { id: 2, type: "appointment", title: "Dental Checkup", description: "Teeth cleaning appointment", dueDate: "2025-12-15T11:00", status: "pending", priority: "low" }
+                    { id: 2, type: "appointment", title: "Dental Checkup", description: "Teeth cleaning appointment", dueDate: "2025-12-15T11:00", status: "pending", priority: "low" },
+                    { id: 3, type: "food", title: "Напоминание о кормлении", description: "Время для утреннего кормления Luna", dueDate: "2025-11-23T07:30", status: "pending", priority: "low" },
+                    { id: 4, type: "food", title: "Напоминание о кормлении", description: "Время для вечернего кормления", dueDate: "2025-11-23T19:00", status: "pending", priority: "low" },
+                    { id: 5, type: "appointment", title: "Плановый осмотр", description: "Ежегодный профилактический осмотр у ветеринара", dueDate: "2025-12-01T10:00", status: "pending", priority: "medium" },
+                    { id: 6, type: "vaccination", title: "Rabies Booster Reminder", description: "Напоминание о ревакцинации от бешенства", dueDate: "2025-08-10T10:00", status: "pending", priority: "medium" },
+                    { id: 7, type: "weight", title: "Ежемесячное взвешивание", description: "Записать вес для отслеживания", dueDate: "2025-12-22T09:00", status: "pending", priority: "low" },
+                    { id: 8, type: "appointment", title: "Консультация по поведению", description: "Обсуждение вокального поведения", dueDate: "2025-11-30T15:00", status: "pending", priority: "low" }
                 ],
                 notificationSettings: {
                     vaccinations: true,
@@ -256,33 +541,117 @@
         
         // Calendar events data
         let calendarEvents = {
-            "2025-10-15": [
-                { id: 1, type: "appointment", petId: 1, time: "14:30", duration: 30, clinic: "Happy Paws Clinic", eventType: "vaccination", vaccine: "Rabies Booster", status: "completed", notes: "" }
+            // November 2025
+            "2025-11-22": [
+                { id: 6, type: "medication", petId: 1, time: "08:00", medication: "Fish Oil", dosage: "1000мг", status: "taken", notes: "" },
+                { id: 7, type: "medication", petId: 1, time: "20:00", medication: "Fish Oil", dosage: "1000мг", status: "pending", notes: "" },
+                { id: 12, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 32.0 кг" }
             ],
-            "2025-10-22": [
-                { id: 2, type: "symptom", petId: 1, time: "all-day", symptoms: ["Тряска головой", "Выделения из уха"], severity: 7, notes: "Привело к визиту" }
-            ],
-            "2025-11-08": [
-                { id: 3, type: "symptom", petId: 1, time: "all-day", symptoms: ["Вялость", "Потеря аппетита"], severity: 4, notes: "" }
-            ],
-            "2025-11-10": [
-                { id: 4, type: "appointment", petId: 1, time: "10:00", duration: 60, clinic: "Happy Paws Clinic", eventType: "routine_checkup", status: "completed", diagnosis: "Здоров", notes: "" }
+            "2025-11-21": [
+                { id: 13, type: "medication", petId: 1, time: "08:00", medication: "Fish Oil", dosage: "1000мг", status: "taken", notes: "" },
+                { id: 14, type: "medication", petId: 1, time: "08:00", medication: "Глюкозамин", dosage: "500мг", status: "taken", notes: "" }
             ],
             "2025-11-20": [
                 { id: 5, type: "appointment", petId: 1, time: "15:00", duration: 45, clinic: "Emergency Vet", eventType: "emergency", status: "completed", diagnosis: "Инфекция уха", notes: "" }
             ],
-            "2025-11-22": [
-                { id: 6, type: "medication", petId: 1, time: "08:00", medication: "Fish Oil", dosage: "1000мг", status: "taken", notes: "" },
-                { id: 7, type: "medication", petId: 1, time: "20:00", medication: "Fish Oil", dosage: "1000мг", status: "pending", notes: "" }
+            "2025-11-15": [
+                { id: 15, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 32.2 кг" }
+            ],
+            "2025-11-10": [
+                { id: 4, type: "appointment", petId: 1, time: "10:00", duration: 60, clinic: "Happy Paws Clinic", eventType: "routine_checkup", status: "completed", diagnosis: "Здоров", notes: "" }
+            ],
+            "2025-11-08": [
+                { id: 3, type: "symptom", petId: 1, time: "all-day", symptoms: ["Вялость", "Потеря аппетита"], severity: 4, notes: "" }
+            ],
+            "2025-11-01": [
+                { id: 16, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 32.8 кг" }
             ],
             "2025-11-27": [
-                { id: 8, type: "vaccination", petId: 1, time: "10:00", duration: 30, clinic: "Happy Paws Clinic", vaccine: "DHPP Booster", status: "scheduled", reminder: "1_day", notes: "" }
+                { id: 8, type: "vaccination", petId: 1, time: "10:00", duration: 30, clinic: "Happy Paws Clinic", vaccine: "Bordetella Booster", status: "scheduled", reminder: "1_day", notes: "Напоминание за 3 дня" }
             ],
+            "2025-11-23": [
+                { id: 17, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "scheduled", notes: "Еженедельная проверка веса" }
+            ],
+            // October 2025
+            "2025-10-25": [
+                { id: 18, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 33.0 кг" }
+            ],
+            "2025-10-22": [
+                { id: 2, type: "symptom", petId: 1, time: "all-day", symptoms: ["Тряска головой", "Выделения из уха"], severity: 7, notes: "Привело к визиту" }
+            ],
+            "2025-10-18": [
+                { id: 19, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 33.2 кг" }
+            ],
+            "2025-10-15": [
+                { id: 1, type: "appointment", petId: 1, time: "14:30", duration: 30, clinic: "Happy Paws Clinic", eventType: "vaccination", vaccine: "Rabies Booster", status: "completed", notes: "" }
+            ],
+            "2025-10-11": [
+                { id: 20, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 33.5 кг" }
+            ],
+            "2025-10-04": [
+                { id: 21, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 33.7 кг" }
+            ],
+            // September 2025
+            "2025-09-30": [
+                { id: 22, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 33.9 кг" }
+            ],
+            "2025-09-20": [
+                { id: 23, type: "appointment", petId: 1, time: "16:00", duration: 45, clinic: "Emergency Vet Center", eventType: "emergency", status: "completed", diagnosis: "Ушная инфекция", notes: "Назначены антибиотики" }
+            ],
+            "2025-09-15": [
+                { id: 24, type: "symptom", petId: 1, time: "all-day", symptoms: ["Хромота"], severity: 3, notes: "Небольшая хромота после игры" }
+            ],
+            "2025-09-13": [
+                { id: 25, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 34.1 кг" }
+            ],
+            "2025-09-06": [
+                { id: 26, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 34.5 кг" }
+            ],
+            // August 2025
+            "2025-08-30": [
+                { id: 27, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 34.7 кг" }
+            ],
+            "2025-08-28": [
+                { id: 28, type: "symptom", petId: 1, time: "all-day", symptoms: ["Зуд"], severity: 5, notes: "Чесался чаще обычного" }
+            ],
+            "2025-08-25": [
+                { id: 29, type: "appointment", petId: 1, time: "11:00", duration: 60, clinic: "Happy Paws Clinic", eventType: "routine_checkup", status: "completed", diagnosis: "Избыточный вес", notes: "Установлена цель снижения веса" }
+            ],
+            "2025-08-23": [
+                { id: 30, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 34.9 кг" }
+            ],
+            "2025-08-16": [
+                { id: 31, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 35.1 кг" }
+            ],
+            "2025-08-09": [
+                { id: 32, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 35.2 кг" }
+            ],
+            "2025-08-02": [
+                { id: 33, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 35.4 кг" }
+            ],
+            // July 2025
+            "2025-07-26": [
+                { id: 34, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 35.5 кг" }
+            ],
+            "2025-07-20": [
+                { id: 35, type: "symptom", petId: 1, time: "all-day", symptoms: ["Рвота"], severity: 4, notes: "Однократная рвота утром" }
+            ],
+            "2025-07-12": [
+                { id: 36, type: "appointment", petId: 1, time: "14:00", duration: 30, clinic: "Happy Paws Clinic", eventType: "vaccination", vaccine: "DHPP", status: "completed", notes: "" }
+            ],
+            "2025-07-05": [
+                { id: 37, type: "weight", petId: 1, time: "09:00", eventType: "weight_check", status: "completed", notes: "Вес: 35.8 кг" }
+            ],
+            // December 2025 - Future events
             "2025-12-05": [
                 { id: 9, type: "appointment", petId: 1, time: "14:00", duration: 30, clinic: "Happy Paws Clinic", eventType: "follow_up", status: "scheduled", reminder: "1_day", notes: "Контроль после лечения уха" }
             ],
             "2025-12-10": [
-                { id: 10, type: "appointment", petId: 2, time: "11:00", duration: 60, clinic: "Whisker Care", eventType: "dental", status: "scheduled", reminder: "3_days", notes: "Чистка зубов" }
+                { id: 10, type: "appointment", petId: 1, time: "14:30", duration: 60, clinic: "Happy Paws Clinic", eventType: "routine_checkup", status: "scheduled", reminder: "3_days", notes: "Регулярный осмотр" },
+                { id: 38, type: "appointment", petId: 2, time: "11:00", duration: 60, clinic: "Whisker Care", eventType: "dental", status: "scheduled", reminder: "3_days", notes: "Чистка зубов" }
+            ],
+            "2025-12-20": [
+                { id: 39, type: "appointment", petId: 1, time: "15:00", duration: 45, clinic: "Happy Paws Clinic", eventType: "routine_checkup", status: "scheduled", reminder: "1_week", notes: "Проверка прогресса по снижению веса" }
             ],
             "2025-12-23": [
                 { id: 11, type: "reminder", petId: 1, time: "09:00", eventType: "weight_check", status: "scheduled", notes: "Еженедельная проверка веса" }
@@ -901,24 +1270,29 @@
         function getRecentActivities() {
             const activities = [];
             pets.forEach(pet => {
-                pet.medicalRecords?.forEach(record => {
+                if (pet.medicalRecords) {
+                    pet.medicalRecords.forEach(record => {
                     activities.push({
-                        date: record.date,
-                        petName: pet.name,
+                            date: record.date || new Date().toISOString().split('T')[0],
+                            petName: pet.name || 'Питомец',
                         icon: '🩺',
-                        title: visitTypeNames[record.visitType] || 'Визит',
-                        description: record.diagnosis
+                            title: visitTypeNames[record.visitType] || record.visitType || 'Визит',
+                            description: record.diagnosis || 'Диагноз не указан'
                     });
                 });
-                pet.symptoms?.forEach(symptom => {
+                }
+                if (pet.symptoms) {
+                    pet.symptoms.forEach(symptom => {
+                        const symptomList = (symptom.symptoms || []).map(s => symptomNames[s] || s).join(', ') || 'Симптомы не указаны';
                     activities.push({
-                        date: symptom.date,
-                        petName: pet.name,
+                            date: symptom.date || new Date().toISOString().split('T')[0],
+                            petName: pet.name || 'Питомец',
                         icon: '📊',
                         title: 'Симптом',
-                        description: symptom.symptoms.map(s => symptomNames[s]).join(', ')
+                            description: symptomList
                     });
                 });
+                }
             });
             return activities.sort((a, b) => new Date(b.date) - new Date(a.date));
         }
@@ -985,15 +1359,17 @@
         }
 
         function getWeightProgress() {
-            const pet = pets.find(p => p.weightGoals && p.weightGoals.targetWeight !== p.weight);
-            if (!pet || !pet.weightGoals) return { percent: 0, trend: '➡️' };
+            const pet = pets.find(p => p.weightGoals && p.weightGoals.targetWeight && p.weightGoals.targetWeight !== p.weight);
+            if (!pet || !pet.weightGoals || !pet.weightHistory || pet.weightHistory.length === 0) {
+                return { percent: 0, trend: '➡️' };
+            }
             
-            const current = pet.weight;
-            const target = pet.weightGoals.targetWeight;
-            const start = pet.weightHistory[pet.weightHistory.length - 1].weight;
+            const current = pet.weight || 0;
+            const target = pet.weightGoals.targetWeight || current;
+            const start = pet.weightHistory[pet.weightHistory.length - 1]?.weight || current;
             const totalChange = Math.abs(target - start);
             const currentChange = Math.abs(start - current);
-            const percent = Math.round((currentChange / totalChange) * 100);
+            const percent = totalChange > 0 ? Math.round((currentChange / totalChange) * 100) : 0;
             
             let trend = '➡️';
             if (pet.weightGoals.goalType === 'lose' && current < start) trend = '📉';
@@ -1101,14 +1477,18 @@
             if (screenId === 'screen-calendar') renderCalendar();
             if (screenId === 'screen-ai') renderAIScreen();
             if (screenId === 'screen-more') renderMoreScreen();
+            if (screenId === 'screen-nutrition-weight') renderNutritionWeightScreen();
+            if (screenId === 'notifications-screen') renderNotifications();
         }
 
         function renderPets() {
             const grid = document.getElementById('pets-grid');
             grid.innerHTML = pets.map(pet => {
                 const emoji = pet.species === 'dog' ? '🐕' : pet.species === 'cat' ? '🐈' : '🐾';
-                const nextVaccine = pet.vaccinationStatus.find(v => v.status === 'due_soon' || v.status === 'overdue');
-                const lastVisit = pet.medicalRecords.length > 0 ? pet.medicalRecords[0].date : 'Нет записей';
+                const vaccinationStatus = pet.vaccinationStatus || [];
+                const medicalRecords = pet.medicalRecords || [];
+                const nextVaccine = vaccinationStatus.find(v => v.status === 'due_soon' || v.status === 'overdue');
+                const lastVisit = medicalRecords.length > 0 ? medicalRecords[0].date : 'Нет записей';
                 
                 let statusBadge = '';
                 if (nextVaccine) {
@@ -1121,13 +1501,13 @@
                     <div class="card pet-card" onclick="showPetProfile(${pet.id})">
                         <div class="pet-avatar">${emoji}</div>
                         <div class="pet-info">
-                            <div class="pet-name">${pet.name}</div>
-                            <div class="pet-details">${pet.breed} • ${pet.age} лет • ${pet.weight} кг</div>
+                            <div class="pet-name">${pet.name || 'Питомец'}</div>
+                            <div class="pet-details">${pet.breed || ''} • ${pet.age || 0} лет • ${pet.weight || 0} кг</div>
                             <div class="pet-status">
                                 ${statusBadge}
                             </div>
                             <div style="margin-top: 12px; font-size: 12px; color: var(--color-text-secondary);">
-                                Последний визит: ${formatDate(lastVisit)}
+                                Последний визит: ${lastVisit === 'Нет записей' ? lastVisit : formatDate(lastVisit)}
                             </div>
                         </div>
                     </div>
@@ -1137,6 +1517,11 @@
 
         function showPetProfile(petId) {
             currentPet = pets.find(p => p.id === petId);
+            if (!currentPet) {
+                showToast('❌ Питомец не найден');
+                return;
+            }
+            
             const emoji = currentPet.species === 'dog' ? '🐕' : currentPet.species === 'cat' ? '🐈' : '🐾';
             
             const content = document.getElementById('pet-profile-content');
@@ -1147,9 +1532,9 @@
                         <div style="flex: 1;">
                             <div style="display: flex; justify-content: space-between; align-items: start;">
                                 <div>
-                                    <h2 style="margin-bottom: 8px;">${currentPet.name}</h2>
+                                    <h2 style="margin-bottom: 8px;">${currentPet.name || 'Питомец'}</h2>
                                     <div style="color: var(--color-text-secondary); margin-bottom: 8px;">
-                                        ${currentPet.breed} • ${currentPet.age} лет • ${currentPet.weight} кг
+                                        ${currentPet.breed || ''} • ${currentPet.age || 0} лет • ${currentPet.weight || 0} кг
                                     </div>
                                 </div>
                                 <button class="btn btn-outline btn-sm" onclick="showEditPetScreen(${currentPet.id})" title="Редактировать профиль">✏️</button>
@@ -1201,8 +1586,16 @@
         }
 
         function renderHealthSummary(pet) {
-            const activeVaccines = pet.vaccinationStatus.filter(v => v.status === 'current').length;
-            const dueSoonVaccines = pet.vaccinationStatus.filter(v => v.status === 'due_soon').length;
+            if (!pet) return '<div class="empty-state"><p>Питомец не найден</p></div>';
+            
+            const vaccinationStatus = pet.vaccinationStatus || [];
+            const medications = pet.medications || [];
+            const allergies = pet.allergies || [];
+            const conditions = pet.conditions || [];
+            const medicalRecords = pet.medicalRecords || [];
+            
+            const activeVaccines = vaccinationStatus.filter(v => v.status === 'current').length;
+            const dueSoonVaccines = vaccinationStatus.filter(v => v.status === 'due_soon').length;
             
             return `
                 <div class="grid">
@@ -1218,30 +1611,30 @@
                                 <strong style="color: var(--pet-warning);">${dueSoonVaccines}</strong>
                             </div>
                         </div>
-                        ${pet.vaccinationStatus.map(v => `
+                        ${vaccinationStatus.length > 0 ? vaccinationStatus.map(v => `
                             <div style="padding: 12px; background: var(--color-bg-1); border-radius: var(--radius-base); margin-bottom: 8px;">
                                 <div style="display: flex; justify-content: space-between; align-items: center;">
                                     <div>
-                                        <strong>${v.vaccine}</strong>
-                                        <div style="font-size: 12px; color: var(--color-text-secondary);">Следующая: ${formatDate(v.nextDue)}</div>
+                                        <strong>${v.vaccine || 'Вакцина'}</strong>
+                                        <div style="font-size: 12px; color: var(--color-text-secondary);">Следующая: ${v.nextDue ? formatDate(v.nextDue) : 'Не указано'}</div>
                                     </div>
                                     <span class="status-badge ${v.status === 'current' ? 'success' : 'warning'}">
                                         ${v.status === 'current' ? '✓ Актуально' : '⚠️ Скоро'}
                                     </span>
                                 </div>
                             </div>
-                        `).join('')}
+                        `).join('') : '<p style="color: var(--color-text-secondary);">Нет данных о вакцинациях</p>'}
                     </div>
                     
                     <div class="card">
                         <h3 style="margin-bottom: 16px;">💊 Активные препараты</h3>
-                        ${pet.medications.length > 0 ? `
+                        ${medications.length > 0 ? `
                             <div class="medication-list">
-                                ${pet.medications.map(m => `
+                                ${medications.filter(m => !m.status || m.status === 'active').map(m => `
                                     <div class="medication-item">
-                                        <strong>${m.name}</strong>
-                                        <div style="font-size: 12px; margin-top: 4px;">${m.dosage} • ${m.frequency}</div>
-                                        <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 4px;">Причина: ${m.reason}</div>
+                                        <strong>${m.name || 'Препарат'}</strong>
+                                        <div style="font-size: 12px; margin-top: 4px;">${m.dosage || ''} • ${m.frequency || ''}</div>
+                                        ${m.reason ? `<div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 4px;">Причина: ${m.reason}</div>` : ''}
                                     </div>
                                 `).join('')}
                             </div>
@@ -1250,63 +1643,66 @@
                     
                     <div class="card">
                         <h3 style="margin-bottom: 16px;">⚠️ Аллергии и состояния</h3>
-                        ${pet.allergies.length > 0 ? `
+                        ${allergies.length > 0 ? `
                             <div style="margin-bottom: 16px;">
                                 <strong>Аллергии:</strong>
                                 <div class="symptom-tags">
-                                    ${pet.allergies.map(a => `<span class="symptom-tag">${a}</span>`).join('')}
+                                    ${allergies.map(a => `<span class="symptom-tag">${a}</span>`).join('')}
                                 </div>
                             </div>
                         ` : ''}
-                        ${pet.conditions.length > 0 ? `
+                        ${conditions.length > 0 ? `
                             <div>
                                 <strong>Хронические состояния:</strong>
                                 <div class="symptom-tags">
-                                    ${pet.conditions.map(c => `<span class="symptom-tag">${c}</span>`).join('')}
+                                    ${conditions.map(c => `<span class="symptom-tag">${c}</span>`).join('')}
                                 </div>
                             </div>
                         ` : ''}
-                        ${pet.allergies.length === 0 && pet.conditions.length === 0 ? '<p style="color: var(--color-text-secondary);">Нет известных аллергий или состояний</p>' : ''}
+                        ${allergies.length === 0 && conditions.length === 0 ? '<p style="color: var(--color-text-secondary);">Нет известных аллергий или состояний</p>' : ''}
                     </div>
                     
                     <div class="card">
                         <h3 style="margin-bottom: 16px;">🩺 Последние визиты</h3>
-                        ${pet.medicalRecords.slice(0, 3).map(r => `
+                        ${medicalRecords.length > 0 ? medicalRecords.slice(0, 3).map(r => `
                             <div style="padding: 12px; background: var(--color-bg-2); border-radius: var(--radius-base); margin-bottom: 8px;">
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                                    <strong>${visitTypeNames[r.visitType] || r.visitType}</strong>
-                                    <span style="font-size: 12px; color: var(--color-text-secondary);">${formatDate(r.date)}</span>
+                                    <strong>${visitTypeNames[r.visitType] || r.visitType || 'Визит'}</strong>
+                                    <span style="font-size: 12px; color: var(--color-text-secondary);">${r.date ? formatDate(r.date) : ''}</span>
                                 </div>
-                                <div style="font-size: 12px;">${r.diagnosis}</div>
-                                <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 4px;">${r.clinicName}</div>
+                                <div style="font-size: 12px;">${r.diagnosis || 'Диагноз не указан'}</div>
+                                ${r.clinicName ? `<div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 4px;">${r.clinicName}</div>` : ''}
                             </div>
-                        `).join('')}
+                        `).join('') : '<p style="color: var(--color-text-secondary);">Нет записей о визитах</p>'}
                     </div>
                 </div>
             `;
         }
 
         function renderHealthTimeline(pet) {
-            if (pet.medicalRecords.length === 0) {
+            if (!pet) return '<div class="empty-state"><div class="empty-state-icon">📋</div><p>Питомец не найден</p></div>';
+            
+            const medicalRecords = pet.medicalRecords || [];
+            if (medicalRecords.length === 0) {
                 return '<div class="empty-state"><div class="empty-state-icon">📋</div><p>Нет медицинских записей</p></div>';
             }
             
             return `
                 <div class="timeline">
-                    ${pet.medicalRecords.map(record => `
+                    ${medicalRecords.map(record => `
                         <div class="timeline-item">
-                            <div class="timeline-date">${formatDate(record.date)}</div>
+                            <div class="timeline-date">${record.date ? formatDate(record.date) : 'Дата не указана'}</div>
                             <div class="timeline-content">
-                                <div class="timeline-title">${visitTypeNames[record.visitType] || record.visitType} - ${record.clinicName}</div>
-                                <div style="margin: 8px 0;"><strong>Диагноз:</strong> ${record.diagnosis}</div>
+                                <div class="timeline-title">${visitTypeNames[record.visitType] || record.visitType || 'Визит'} - ${record.clinicName || 'Клиника не указана'}</div>
+                                <div style="margin: 8px 0;"><strong>Диагноз:</strong> ${record.diagnosis || 'Не указан'}</div>
                                 ${record.notes ? `<div style="margin: 8px 0; color: var(--color-text-secondary);">${record.notes}</div>` : ''}
                                 ${record.medications && record.medications.length > 0 ? `
                                     <div style="margin-top: 12px;">
                                         <strong>Назначенные препараты:</strong>
                                         ${record.medications.map(m => `
                                             <div style="padding: 8px; background: var(--color-bg-3); border-radius: var(--radius-sm); margin-top: 8px;">
-                                                <strong>${m.name}</strong> - ${m.dosage}<br>
-                                                <small>${m.frequency} в течение ${m.duration}</small>
+                                                <strong>${m.name || 'Препарат'}</strong> - ${m.dosage || ''}<br>
+                                                <small>${m.frequency || ''} в течение ${m.duration || ''}</small>
                                             </div>
                                         `).join('')}
                                     </div>
@@ -1319,23 +1715,26 @@
         }
 
         function renderSymptomsDiary(pet) {
-            if (pet.symptoms.length === 0) {
+            if (!pet) return '<div class="empty-state"><div class="empty-state-icon">📊</div><p>Питомец не найден</p></div>';
+            
+            const symptoms = pet.symptoms || [];
+            if (symptoms.length === 0) {
                 return '<div class="empty-state"><div class="empty-state-icon">📊</div><p>Нет записей о симптомах</p></div>';
             }
             
             return `
                 <div class="timeline">
-                    ${pet.symptoms.map(symptom => `
+                    ${symptoms.map(symptom => `
                         <div class="timeline-item">
-                            <div class="timeline-date">${formatDate(symptom.date)}</div>
+                            <div class="timeline-date">${symptom.date ? formatDate(symptom.date) : 'Дата не указана'}</div>
                             <div class="timeline-content">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                                     <div class="symptom-tags">
-                                        ${symptom.symptoms.map(s => `<span class="symptom-tag">${symptomNames[s] || s}</span>`).join('')}
+                                        ${(symptom.symptoms || []).map(s => `<span class="symptom-tag">${symptomNames[s] || s || 'Симптом'}</span>`).join('')}
                                     </div>
-                                    <span style="padding: 4px 12px; background: ${getSeverityColor(symptom.severity)}; border-radius: var(--radius-full); font-size: 12px; font-weight: 500;">Тяжесть: ${symptom.severity}/10</span>
+                                    <span style="padding: 4px 12px; background: ${getSeverityColor(symptom.severity || 0)}; border-radius: var(--radius-full); font-size: 12px; font-weight: 500;">Тяжесть: ${symptom.severity || 0}/10</span>
                                 </div>
-                                <div style="margin: 8px 0;"><strong>Продолжительность:</strong> ${symptom.duration}</div>
+                                ${symptom.duration ? `<div style="margin: 8px 0;"><strong>Продолжительность:</strong> ${symptom.duration}</div>` : ''}
                                 ${symptom.notes ? `<div style="color: var(--color-text-secondary);">${symptom.notes}</div>` : ''}
                             </div>
                         </div>
@@ -1345,17 +1744,55 @@
         }
 
         function renderAnalytics(pet) {
-            const totalVisits = pet.medicalRecords.length;
-            const totalSymptoms = pet.symptoms.length;
-            const avgSeverity = pet.symptoms.length > 0 ? (pet.symptoms.reduce((sum, s) => sum + s.severity, 0) / pet.symptoms.length).toFixed(1) : 0;
+            if (!pet) return '<div class="empty-state"><p>Питомец не найден</p></div>';
+            
+            const medicalRecords = pet.medicalRecords || [];
+            const symptoms = pet.symptoms || [];
+            const weightHistory = pet.weightHistory || [];
+            const nutritionData = pet.nutritionData || { meals: [] };
+            
+            const totalVisits = medicalRecords.length;
+            const totalSymptoms = symptoms.length;
+            const avgSeverity = symptoms.length > 0 ? (symptoms.reduce((sum, s) => sum + (s.severity || 0), 0) / symptoms.length).toFixed(1) : 0;
+            
+            // Calculate weight change
+            let weightChange = '';
+            let weightTrend = '➡️';
+            if (weightHistory.length >= 2) {
+                const currentWeight = weightHistory[0]?.weight || pet.weight || 0;
+                const previousWeight = weightHistory[1]?.weight || currentWeight;
+                const change = currentWeight - previousWeight;
+                if (change > 0) {
+                    weightChange = `+${change.toFixed(1)} кг`;
+                    weightTrend = '📈';
+                } else if (change < 0) {
+                    weightChange = `${change.toFixed(1)} кг`;
+                    weightTrend = '📉';
+                } else {
+                    weightChange = '0 кг';
+                }
+            }
+            
+            // Calculate calories stats
+            const today = new Date().toISOString().split('T')[0];
+            let todayCalories = 0;
+            nutritionData.meals.forEach(meal => {
+                if (meal.date && meal.date.startsWith(today)) {
+                    todayCalories += meal.calories || 0;
+                }
+            });
+            const dailyGoal = nutritionData.dailyCalorieGoal || 0;
+            const caloriesPercent = dailyGoal > 0 ? Math.round((todayCalories / dailyGoal) * 100) : 0;
             
             return `
                 <div class="grid">
                     <div class="chart-container">
                         <div class="chart-title">📈 Динамика веса</div>
                         <div style="text-align: center; padding: 40px;">
-                            <div style="font-size: 48px; font-weight: bold; color: var(--color-primary);">${pet.weight} кг</div>
+                            <div style="font-size: 48px; font-weight: bold; color: var(--color-primary);">${pet.weight || 0} кг</div>
                             <div style="color: var(--color-text-secondary); margin-top: 8px;">Текущий вес</div>
+                            ${weightChange ? `<div style="margin-top: 8px; font-size: 18px; color: ${weightChange.startsWith('+') ? 'var(--pet-warning)' : weightChange.startsWith('-') ? 'var(--nutrition-green)' : 'var(--color-text-secondary)'};">${weightTrend} ${weightChange}</div>` : ''}
+                            ${weightHistory.length > 0 ? `<div style="margin-top: 8px; font-size: 12px; color: var(--color-text-secondary);">Записей: ${weightHistory.length}</div>` : ''}
                         </div>
                     </div>
                     
@@ -1373,6 +1810,29 @@
                             <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--color-bg-3); border-radius: var(--radius-base);">
                                 <span>Средняя тяжесть:</span>
                                 <strong>${avgSeverity}/10</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="chart-title">🍽️ Питание сегодня</div>
+                        <div style="padding: 20px;">
+                            <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--color-bg-1); border-radius: var(--radius-base); margin-bottom: 8px;">
+                                <span>Съедено калорий:</span>
+                                <strong>${todayCalories}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--color-bg-2); border-radius: var(--radius-base); margin-bottom: 8px;">
+                                <span>Цель:</span>
+                                <strong>${dailyGoal}</strong>
+                            </div>
+                            <div style="padding: 12px; background: var(--color-bg-3); border-radius: var(--radius-base);">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span>Прогресс:</span>
+                                    <strong>${caloriesPercent}%</strong>
+                                </div>
+                                <div style="height: 8px; background: var(--color-secondary); border-radius: var(--radius-full); overflow: hidden;">
+                                    <div style="width: ${Math.min(caloriesPercent, 100)}%; height: 100%; background: var(--nutrition-orange);"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -3018,6 +3478,7 @@
             
             pet.nutritionData.meals.unshift(newMeal);
             renderNutrition();
+            renderNutritionWeightScreen();
             renderQuickStats();
             closeModal('add-meal-modal');
             showToast('🍽️ Прием пищи добавлен!');
@@ -3038,10 +3499,568 @@
             };
             
             renderWeightTracker();
+            renderNutritionWeightScreen();
             renderQuickStats();
             closeModal('weight-goal-modal');
             showToast('🎯 Цель по весу установлена!');
             event.target.reset();
+        }
+
+        function addWeightEntry(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const petId = parseInt(formData.get('petId'));
+            const pet = pets.find(p => p.id === petId);
+            
+            if (!pet) {
+                showToast('❌ Питомец не найден');
+                return;
+            }
+            
+            if (!pet.weightHistory) {
+                pet.weightHistory = [];
+            }
+            
+            const newEntry = {
+                date: formData.get('date'),
+                weight: parseFloat(formData.get('weight')),
+                notes: formData.get('notes') || ''
+            };
+            
+            // Update current weight
+            pet.weight = newEntry.weight;
+            
+            // Add to history
+            pet.weightHistory.unshift(newEntry);
+            
+            // Sort by date
+            pet.weightHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            renderWeightTracker();
+            renderNutritionWeightScreen();
+            renderQuickStats();
+            closeModal('add-weight-modal');
+            showToast('⚖️ Вес записан!');
+            event.target.reset();
+        }
+
+        function showAddWeightModal() {
+            const select = document.getElementById('add-weight-pet-select');
+            select.innerHTML = pets.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+            document.getElementById('add-weight-modal').classList.add('active');
+        }
+
+        function renderNutritionWeightScreen() {
+            const petSelect = document.getElementById('nutrition-pet-select');
+            const selectedPetId = petSelect ? petSelect.value : 'all';
+            
+            // Update pet select
+            if (petSelect) {
+                petSelect.innerHTML = '<option value="all">Все питомцы</option>' + 
+                    pets.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+                if (selectedPetId !== 'all') {
+                    petSelect.value = selectedPetId;
+                }
+            }
+            
+            renderNutrition(selectedPetId);
+            renderWeightTracker(selectedPetId);
+            renderNutritionAnalytics(selectedPetId);
+        }
+
+        function switchNutritionTab(event, tabId) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            // Update tab states
+            const tabsContainer = document.querySelector('#screen-nutrition-weight .tabs');
+            if (tabsContainer) {
+                const tabs = tabsContainer.querySelectorAll('.tab');
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Find and activate the correct tab
+                tabs.forEach(t => {
+                    if ((tabId === 'nutrition-overview' && t.textContent.includes('Питание')) ||
+                        (tabId === 'weight-overview' && t.textContent.includes('Вес')) ||
+                        (tabId === 'analytics' && t.textContent.includes('Аналитика'))) {
+                        t.classList.add('active');
+                    }
+                });
+            }
+            
+            // Update tab content visibility
+            const contents = document.querySelectorAll('#screen-nutrition-weight .tab-content');
+            contents.forEach(c => {
+                c.classList.remove('active');
+                c.style.display = 'none';
+            });
+            
+            const targetContent = document.getElementById(tabId);
+            if (targetContent) {
+                targetContent.classList.add('active');
+                targetContent.style.display = 'block';
+            }
+            
+            // Render content when switching tabs
+            const petSelect = document.getElementById('nutrition-pet-select');
+            const selectedPetId = petSelect ? petSelect.value : 'all';
+            
+            // Render immediately
+            if (tabId === 'nutrition-overview') {
+                renderNutrition(selectedPetId);
+            } else if (tabId === 'weight-overview') {
+                renderWeightTracker(selectedPetId);
+            } else if (tabId === 'analytics') {
+                // Force render analytics
+                setTimeout(() => {
+                    renderNutritionAnalytics(selectedPetId);
+                }, 50);
+            }
+        }
+
+        function renderNutrition(selectedPetId = 'all') {
+            const content = document.getElementById('nutrition-content');
+            const selectedPets = selectedPetId === 'all' ? pets : pets.filter(p => p.id == selectedPetId);
+            
+            if (selectedPets.length === 0) {
+                content.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🍽️</div><p>Нет питомцев</p></div>';
+                return;
+            }
+            
+            // Calculate today's calories
+            const today = new Date().toISOString().split('T')[0];
+            let totalCalories = 0;
+            let totalGoal = 0;
+            const petCalories = {};
+            
+            selectedPets.forEach(pet => {
+                if (pet.nutritionData) {
+                    const goal = pet.nutritionData.dailyCalorieGoal || 0;
+                    totalGoal += goal;
+                    
+                    let consumed = 0;
+                    pet.nutritionData.meals.forEach(meal => {
+                        if (meal.date.startsWith(today)) {
+                            consumed += meal.calories || 0;
+                        }
+                    });
+                    
+                    totalCalories += consumed;
+                    petCalories[pet.id] = { consumed, goal, pet };
+                }
+            });
+            
+            const percent = totalGoal > 0 ? Math.round((totalCalories / totalGoal) * 100) : 0;
+            
+            // Get last 7 days of meals
+            const last7Days = [];
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                
+                let dayCalories = 0;
+                selectedPets.forEach(pet => {
+                    if (pet.nutritionData && pet.nutritionData.meals) {
+                        pet.nutritionData.meals.forEach(meal => {
+                            if (meal.date.startsWith(dateStr)) {
+                                dayCalories += meal.calories || 0;
+                            }
+                        });
+                    }
+                });
+                
+                last7Days.push({
+                    date: dateStr,
+                    calories: dayCalories,
+                    label: date.toLocaleDateString('ru', { weekday: 'short', day: 'numeric' })
+                });
+            }
+            
+            const maxCalories = Math.max(...last7Days.map(d => d.calories), totalGoal, 100);
+            
+            content.innerHTML = `
+                <!-- Today's Summary -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 style="margin-bottom: 16px;">📊 Сегодня</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 32px; font-weight: bold; color: var(--nutrition-orange);">${totalCalories}</div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary);">Съедено ккал</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 32px; font-weight: bold; color: var(--color-primary);">${totalGoal}</div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary);">Цель ккал</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 32px; font-weight: bold; color: ${percent >= 100 ? 'var(--nutrition-green)' : percent >= 80 ? 'var(--pet-warning)' : 'var(--color-text-secondary)'};">${percent}%</div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary);">Прогресс</div>
+                        </div>
+                    </div>
+                    <div style="background: var(--color-surface); border-radius: var(--radius-base); padding: 12px;">
+                        <div style="height: 12px; background: var(--color-secondary); border-radius: var(--radius-full); overflow: hidden;">
+                            <div style="width: ${Math.min(percent, 100)}%; height: 100%; background: ${percent >= 100 ? 'var(--nutrition-green)' : 'var(--nutrition-orange)'}; transition: width 0.3s;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Per Pet Breakdown -->
+                ${selectedPets.length > 1 ? `
+                    <div class="card" style="margin-bottom: 24px;">
+                        <h3 style="margin-bottom: 16px;">По питомцам</h3>
+                        ${Object.values(petCalories).map(({ consumed, goal, pet }) => {
+                            const petPercent = goal > 0 ? Math.round((consumed / goal) * 100) : 0;
+                            return `
+                                <div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--color-card-border);">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <strong>${pet.name}</strong>
+                                        <span>${consumed} / ${goal} ккал</span>
+                                    </div>
+                                    <div style="height: 8px; background: var(--color-secondary); border-radius: var(--radius-full); overflow: hidden;">
+                                        <div style="width: ${Math.min(petPercent, 100)}%; height: 100%; background: var(--nutrition-orange);"></div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                ` : ''}
+
+                <!-- 7 Days Chart -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 style="margin-bottom: 16px;">📈 Калории за неделю</h3>
+                    <div style="display: flex; align-items: flex-end; gap: 8px; height: 200px; padding: 20px 0;">
+                        ${last7Days.map(day => {
+                            const height = maxCalories > 0 ? (day.calories / maxCalories) * 100 : 0;
+                            const isToday = day.date === today;
+                            return `
+                                <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <div style="flex: 1; display: flex; align-items: flex-end; width: 100%;">
+                                        <div style="width: 100%; background: ${isToday ? 'var(--color-primary)' : 'var(--nutrition-orange)'}; border-radius: var(--radius-base) var(--radius-base) 0 0; height: ${height}%; min-height: ${day.calories > 0 ? '4px' : '0'}; transition: height 0.3s;"></div>
+                                    </div>
+                                    <div style="font-size: 11px; color: var(--color-text-secondary); text-align: center; transform: rotate(-45deg); transform-origin: center; white-space: nowrap;">${day.label}</div>
+                                    <div style="font-size: 10px; color: var(--color-text-secondary); text-align: center; margin-top: 4px;">${day.calories}</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+
+                <!-- Recent Meals -->
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h3>Последние приемы пищи</h3>
+                        <button class="btn btn-primary btn-sm" onclick="showAddMealModal()">+ Добавить</button>
+                    </div>
+                    ${renderRecentMeals(selectedPets)}
+                </div>
+            `;
+        }
+
+        function renderRecentMeals(selectedPets) {
+            const allMeals = [];
+            selectedPets.forEach(pet => {
+                if (pet.nutritionData && pet.nutritionData.meals) {
+                    pet.nutritionData.meals.slice(0, 10).forEach(meal => {
+                        allMeals.push({ ...meal, petName: pet.name, petId: pet.id });
+                    });
+                }
+            });
+            
+            allMeals.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            const mealTypeNames = {
+                breakfast: '🌅 Завтрак',
+                lunch: '☀️ Обед',
+                dinner: '🌙 Ужин',
+                snack: '🍪 Перекус',
+                treat: '🦴 Лакомство'
+            };
+            
+            if (allMeals.length === 0) {
+                return '<div class="empty-state"><div class="empty-state-icon">🍽️</div><p>Нет записей о питании</p></div>';
+            }
+            
+            return allMeals.slice(0, 10).map(meal => `
+                <div class="meal-entry">
+                    <div class="meal-header">
+                        <div>
+                            <strong>${mealTypeNames[meal.mealType] || meal.mealType}</strong>
+                            <div style="font-size: 12px; color: var(--color-text-secondary);">${meal.petName} • ${formatDateTime(meal.date)}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 18px; font-weight: bold; color: var(--nutrition-orange);">${meal.calories} ккал</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <strong>${meal.foodName}</strong> • ${meal.amount} ${meal.unit}
+                    </div>
+                    ${meal.notes ? `<div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">${meal.notes}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function renderWeightTracker(selectedPetId = 'all') {
+            const content = document.getElementById('weight-content');
+            const selectedPets = selectedPetId === 'all' ? pets : pets.filter(p => p.id == selectedPetId);
+            
+            if (selectedPets.length === 0) {
+                content.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚖️</div><p>Нет питомцев</p></div>';
+                return;
+            }
+            
+            if (selectedPets.length === 1) {
+                // Single pet view with detailed chart
+                const pet = selectedPets[0];
+                renderSinglePetWeight(pet, content);
+            } else {
+                // Multiple pets view
+                content.innerHTML = selectedPets.map(pet => renderPetWeightCard(pet)).join('');
+            }
+        }
+
+        function renderSinglePetWeight(pet, content) {
+            const hasGoal = pet.weightGoals && pet.weightGoals.targetWeight;
+            const currentWeight = pet.weightHistory && pet.weightHistory.length > 0 
+                ? pet.weightHistory[0].weight 
+                : pet.weight;
+            
+            let progress = 0;
+            if (hasGoal) {
+                const startWeight = pet.weightHistory && pet.weightHistory.length > 0 
+                    ? pet.weightHistory[pet.weightHistory.length - 1].weight 
+                    : currentWeight;
+                const diff = Math.abs(currentWeight - hasGoal);
+                const totalDiff = Math.abs(startWeight - hasGoal);
+                progress = totalDiff > 0 ? Math.round((1 - diff / totalDiff) * 100) : 0;
+            }
+            
+            // Prepare chart data
+            const chartData = (pet.weightHistory || []).slice(0, 30).reverse();
+            const weights = chartData.map(e => e.weight);
+            const minWeight = Math.min(...weights, currentWeight);
+            const maxWeight = Math.max(...weights, currentWeight);
+            const range = maxWeight - minWeight || 1;
+            
+            content.innerHTML = `
+                <div class="weight-goal-card" style="margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
+                        <div>
+                            <h3 style="margin-bottom: 8px;">${pet.name}</h3>
+                            <div style="font-size: 14px; color: var(--color-text-secondary);">${pet.breed}</div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="showWeightGoalModal()">🎯 Установить цель</button>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 36px; font-weight: bold; color: var(--color-primary);">${currentWeight.toFixed(1)}</div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary);">Текущий вес (кг)</div>
+                        </div>
+                        ${hasGoal ? `
+                            <div style="text-align: center;">
+                                <div style="font-size: 36px; font-weight: bold; color: var(--nutrition-green);">${pet.weightGoals.targetWeight}</div>
+                                <div style="font-size: 12px; color: var(--color-text-secondary);">Целевой вес (кг)</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 36px; font-weight: bold; color: var(--pet-warning);">${Math.max(0, progress)}%</div>
+                                <div style="font-size: 12px; color: var(--color-text-secondary);">Прогресс</div>
+                            </div>
+                        ` : '<div style="grid-column: span 2; text-align: center; color: var(--color-text-secondary); padding-top: 20px;">Установите цель для отслеживания прогресса</div>'}
+                    </div>
+                    ${hasGoal ? `
+                        <div style="background: var(--color-surface); border-radius: var(--radius-base); padding: 12px; margin-bottom: 16px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; color: var(--color-text-secondary);">
+                                <span>Прогресс к цели</span>
+                                <span>${Math.max(0, progress)}%</span>
+                            </div>
+                            <div style="height: 12px; background: var(--color-secondary); border-radius: var(--radius-full); overflow: hidden;">
+                                <div style="width: ${Math.max(0, Math.min(100, progress))}%; height: 100%; background: var(--nutrition-green); transition: width 0.3s;"></div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+
+                <!-- Weight Chart -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <div class="chart-title">📈 График изменения веса</div>
+                    ${chartData.length > 0 ? `
+                        <div style="padding: 20px;">
+                            <div style="position: relative; height: 250px; margin-bottom: 20px;">
+                                <svg style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+                                    ${hasGoal ? `
+                                        <line x1="0" y1="${((maxWeight - pet.weightGoals.targetWeight) / range) * 100}%" 
+                                              x2="100%" y2="${((maxWeight - pet.weightGoals.targetWeight) / range) * 100}%" 
+                                              stroke="var(--nutrition-green)" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+                                    ` : ''}
+                                    <polyline 
+                                        points="${chartData.map((entry, i) => {
+                                            const x = (i / (chartData.length - 1 || 1)) * 100;
+                                            const y = ((maxWeight - entry.weight) / range) * 100;
+                                            return `${x}%,${y}%`;
+                                        }).join(' ')}"
+                                        fill="none"
+                                        stroke="var(--color-primary)"
+                                        stroke-width="3"
+                                    />
+                                    ${chartData.map((entry, i) => {
+                                        const x = (i / (chartData.length - 1 || 1)) * 100;
+                                        const y = ((maxWeight - entry.weight) / range) * 100;
+                                        return `<circle cx="${x}%" cy="${y}%" r="4" fill="var(--color-primary)"/>`;
+                                    }).join('')}
+                                </svg>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--color-text-secondary);">
+                                <span>${formatDate(chartData[0].date)}</span>
+                                <span>${formatDate(chartData[chartData.length - 1].date)}</span>
+                            </div>
+                        </div>
+                    ` : '<div class="empty-state"><p>Нет данных для графика</p></div>'}
+                    <button class="btn btn-primary" style="width: 100%;" onclick="showAddWeightModal()">📝 Записать вес</button>
+                </div>
+
+                <!-- Weight History -->
+                <div class="card">
+                    <h3 style="margin-bottom: 16px;">История взвешиваний</h3>
+                    ${pet.weightHistory && pet.weightHistory.length > 0 ? `
+                        <div style="max-height: 400px; overflow-y: auto;">
+                            ${pet.weightHistory.map((entry, index) => `
+                                <div style="display: flex; justify-content: space-between; padding: 12px; background: ${index === 0 ? 'var(--color-bg-3)' : 'var(--color-bg-1)'}; border-radius: var(--radius-base); margin-bottom: 8px;">
+                                    <div>
+                                        <div style="font-weight: 500;">${formatDate(entry.date)}</div>
+                                        ${entry.notes ? `<div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">${entry.notes}</div>` : ''}
+                                    </div>
+                                    <div style="font-size: 20px; font-weight: bold; color: var(--color-primary);">${entry.weight} кг</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : '<div class="empty-state"><p>Нет записей о весе</p></div>'}
+                </div>
+            `;
+        }
+
+        function renderPetWeightCard(pet) {
+            const currentWeight = pet.weightHistory && pet.weightHistory.length > 0 
+                ? pet.weightHistory[0].weight 
+                : pet.weight;
+            const hasGoal = pet.weightGoals && pet.weightGoals.targetWeight;
+            
+            return `
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 12px;">${pet.name}</h3>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 28px; font-weight: bold; color: var(--color-primary);">${currentWeight.toFixed(1)}</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary);">Текущий вес</div>
+                        </div>
+                        ${hasGoal ? `
+                            <div style="text-align: center;">
+                                <div style="font-size: 28px; font-weight: bold; color: var(--nutrition-green);">${pet.weightGoals.targetWeight}</div>
+                                <div style="font-size: 11px; color: var(--color-text-secondary);">Цель</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 28px; font-weight: bold; color: var(--pet-warning);">${pet.weightGoals.goalType === 'lose' ? '↓' : pet.weightGoals.goalType === 'gain' ? '↑' : '→'}</div>
+                                <div style="font-size: 11px; color: var(--color-text-secondary);">Тренд</div>
+                            </div>
+                        ` : '<div style="grid-column: span 2; text-align: center; color: var(--color-text-secondary); font-size: 12px; padding-top: 10px;">Нет цели</div>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderNutritionAnalytics(selectedPetId = 'all') {
+            const content = document.getElementById('analytics-content');
+            if (!content) {
+                console.error('analytics-content element not found');
+                return;
+            }
+            
+            const selectedPets = selectedPetId === 'all' ? pets : pets.filter(p => p.id == selectedPetId);
+            
+            if (selectedPets.length === 0) {
+                content.innerHTML = '<div class="empty-state"><p>Нет данных для анализа</p></div>';
+                return;
+            }
+            
+            // Calculate statistics
+            let totalMeals = 0;
+            let totalCalories = 0;
+            let avgDailyCalories = 0;
+            let weightEntries = 0;
+            const last30Days = [];
+            
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                
+                let dayCalories = 0;
+                selectedPets.forEach(pet => {
+                    if (pet.nutritionData && pet.nutritionData.meals) {
+                        pet.nutritionData.meals.forEach(meal => {
+                            if (meal.date && typeof meal.date === 'string' && meal.date.startsWith(dateStr)) {
+                                dayCalories += meal.calories || 0;
+                                totalMeals++;
+                                totalCalories += meal.calories || 0;
+                            }
+                        });
+                    }
+                    if (pet.weightHistory) {
+                        pet.weightHistory.forEach(entry => {
+                            if (entry.date && entry.date === dateStr) {
+                                weightEntries++;
+                            }
+                        });
+                    }
+                });
+                
+                last30Days.push({ date: dateStr, calories: dayCalories });
+            }
+            
+            avgDailyCalories = last30Days.length > 0 
+                ? Math.round(last30Days.reduce((sum, d) => sum + d.calories, 0) / last30Days.length)
+                : 0;
+            
+            content.innerHTML = `
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 style="margin-bottom: 20px;">📊 Статистика за 30 дней</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+                        <div style="text-align: center; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base);">
+                            <div style="font-size: 32px; font-weight: bold; color: var(--nutrition-orange);">${totalMeals}</div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Всего приемов пищи</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base);">
+                            <div style="font-size: 32px; font-weight: bold; color: var(--color-primary);">${totalCalories}</div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Всего калорий</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base);">
+                            <div style="font-size: 32px; font-weight: bold; color: var(--nutrition-green);">${avgDailyCalories}</div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Среднее в день</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base);">
+                            <div style="font-size: 32px; font-weight: bold; color: var(--color-primary);">${weightEntries}</div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Записей веса</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: 20px;">📈 Калории за 30 дней</h3>
+                    <div style="display: flex; align-items: flex-end; gap: 2px; height: 200px; padding: 20px 0;">
+                        ${last30Days.map(day => {
+                            const maxCal = Math.max(...last30Days.map(d => d.calories), 1);
+                            const height = (day.calories / maxCal) * 100;
+                            return `
+                                <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                                    <div style="flex: 1; display: flex; align-items: flex-end; width: 100%;">
+                                        <div style="width: 100%; background: var(--nutrition-orange); border-radius: 2px 2px 0 0; height: ${height}%; min-height: ${day.calories > 0 ? '2px' : '0'};"></div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
         }
 
         function generatePDF() {
