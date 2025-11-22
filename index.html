@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetHealth - Цифровая медкарта питомца</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Authentication Screens -->
+    <div id="welcome-screen" class="screen active" style="display: block;">
+        <div style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center;">
+            <div style="font-size: 80px; margin-bottom: 20px;">🐾</div>
+            <h1 style="font-size: 36px; margin-bottom: 12px; color: var(--color-primary);">PetHealth</h1>
+            <p style="font-size: 18px; color: var(--color-text-secondary); margin-bottom: 40px; max-width: 400px;">Цифровая медкарта для вашего питомца</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 24px; margin-bottom: 48px; max-width: 400px;">
+                <div style="display: flex; align-items: center; gap: 16px; text-align: left;">
+                    <div style="font-size: 40px; flex-shrink: 0;">📋</div>
+                    <div>
+                        <div style="font-weight: 500; margin-bottom: 4px;">Вся медицинская история в одном месте</div>
+                        <div style="font-size: 14px; color: var(--color-text-secondary);">Храните все записи о здоровье</div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px; text-align: left;">
+                    <div style="font-size: 40px; flex-shrink: 0;">📅</div>
+                    <div>
+                        <div style="font-weight: 500; margin-bottom: 4px;">Напоминания о прививках и визитах</div>
+                        <div style="font-size: 14px; color: var(--color-text-secondary);">Не пропустите важные даты</div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px; text-align: left;">
+                    <div style="font-size: 40px; flex-shrink: 0;">📊</div>
+                    <div>
+                        <div style="font-weight: 500; margin-bottom: 4px;">Контроль здоровья и питания</div>
+                        <div style="font-size: 14px; color: var(--color-text-secondary);">Следите за весом и калориями</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" onclick="showEmailEntry()" style="width: 100%; max-width: 400px; padding: 16px; font-size: 18px; margin-bottom: 16px;">Начать</button>
+            <a href="#" onclick="showEmailEntry()" style="color: var(--color-primary); font-size: 14px;">Уже есть аккаунт? Войти</a>
+        </div>
+    </div>
+
+    <div id="email-entry-screen" class="screen">
+        <div style="min-height: 100vh; display: flex; flex-direction: column; padding: 20px; max-width: 500px; margin: 0 auto;">
+            <button class="btn btn-outline btn-sm" onclick="showWelcomeScreen()" style="align-self: flex-start; margin-bottom: 40px;">← Назад</button>
+            
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h2 style="font-size: 28px; margin-bottom: 12px;">Вход или регистрация</h2>
+                <p style="color: var(--color-text-secondary); margin-bottom: 32px;">Введите ваш email для входа</p>
+                
+                <form onsubmit="submitEmail(event)">
+                    <div class="form-group">
+                        <input type="email" id="email-input" class="form-control" placeholder="ваш@email.com" required autofocus style="font-size: 16px; padding: 16px;">
+                        <div id="email-validation" style="display: none; margin-top: 8px; font-size: 14px;"></div>
+                    </div>
+                    
+                    <button type="submit" id="email-submit-btn" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 16px; margin-bottom: 20px;">Продолжить</button>
+                    
+                    <p style="font-size: 12px; color: var(--color-text-secondary); text-align: center; line-height: 1.5;">
+                        Продолжая, вы соглашаетесь с условиями использования и политикой конфиденциальности
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="code-verification-screen" class="screen">
+        <div style="min-height: 100vh; display: flex; flex-direction: column; padding: 20px; max-width: 500px; margin: 0 auto;">
+            <button class="btn btn-outline btn-sm" onclick="showEmailEntry()" style="align-self: flex-start; margin-bottom: 40px;">← Назад</button>
+            
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h2 style="font-size: 28px; margin-bottom: 12px;">Проверьте email</h2>
+                <p style="color: var(--color-text-secondary); margin-bottom: 8px;" id="code-subtitle">Мы отправили 6-значный код на ваш email</p>
+                <a href="#" onclick="showEmailEntry()" style="color: var(--color-primary); font-size: 14px; margin-bottom: 32px;">Изменить email</a>
+                
+                <div id="code-inputs" style="display: flex; gap: 12px; justify-content: center; margin-bottom: 24px;">
+                    <input type="text" maxlength="1" class="code-input" data-index="0" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="text" maxlength="1" class="code-input" data-index="1" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="text" maxlength="1" class="code-input" data-index="2" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="text" maxlength="1" class="code-input" data-index="3" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="text" maxlength="1" class="code-input" data-index="4" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="text" maxlength="1" class="code-input" data-index="5" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                </div>
+                
+                <div id="code-error" style="display: none; color: var(--color-error); text-align: center; margin-bottom: 16px; font-size: 14px;"></div>
+                <div id="code-loading" style="display: none; text-align: center; margin-bottom: 16px;">
+                    <div class="loading-spinner" style="margin: 0 auto;"></div>
+                    <p style="margin-top: 12px; color: var(--color-text-secondary);">Проверяем код...</p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 32px;">
+                    <p style="color: var(--color-text-secondary); font-size: 14px; margin-bottom: 12px;">Не получили код?</p>
+                    <button id="resend-btn" class="btn btn-secondary" onclick="resendCode()" disabled>Отправить повторно через <span id="resend-timer">30</span>с</button>
+                </div>
+                
+                <div style="background: var(--color-bg-5); padding: 12px; border-radius: var(--radius-base); margin-top: 24px; font-size: 12px; text-align: center;">
+                    💡 Подсказка: введите любые 6 цифр (демо режим)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile-setup-screen" class="screen">
+        <div style="min-height: 100vh; display: flex; flex-direction: column; padding: 20px; max-width: 500px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <div style="background: var(--color-bg-1); padding: 8px 16px; border-radius: var(--radius-full); font-size: 14px; font-weight: 500;">Шаг 1 из 2</div>
+                <a href="#" onclick="skipProfileSetup()" style="color: var(--color-primary); font-size: 14px;">Пропустить</a>
+            </div>
+            
+            <h2 style="font-size: 28px; margin-bottom: 12px;">Создайте ваш профиль</h2>
+            <p style="color: var(--color-text-secondary); margin-bottom: 32px;">Расскажите немного о себе</p>
+            
+            <form onsubmit="submitProfile(event)">
+                <div style="text-align: center; margin-bottom: 32px;">
+                    <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--color-bg-3); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 48px;">👤</div>
+                    <button type="button" class="btn btn-secondary btn-sm">Добавить фото</button>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Ваше имя</label>
+                    <input type="text" id="profile-name" class="form-control" placeholder="Как вас зовут?" required style="font-size: 16px; padding: 12px;">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Телефон (необязательно)</label>
+                    <input type="tel" id="profile-phone" class="form-control" placeholder="+7 (___) ___-__-__" style="font-size: 16px; padding: 12px;">
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 16px; margin-top: 24px;">Далее</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="pet-setup-screen" class="screen">
+        <div style="min-height: 100vh; display: flex; flex-direction: column; padding: 20px; max-width: 500px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <div style="background: var(--color-bg-1); padding: 8px 16px; border-radius: var(--radius-full); font-size: 14px; font-weight: 500;">Шаг 2 из 2</div>
+                <a href="#" onclick="skipPetSetup()" style="color: var(--color-primary); font-size: 14px;">Пропустить</a>
+            </div>
+            
+            <h2 style="font-size: 28px; margin-bottom: 12px;">Добавьте вашего питомца</h2>
+            <p style="color: var(--color-text-secondary); margin-bottom: 32px;">Начнём с основной информации</p>
+            
+            <form onsubmit="submitFirstPet(event)">
+                <div style="text-align: center; margin-bottom: 32px;">
+                    <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--color-bg-3); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 48px;">🐾</div>
+                    <button type="button" class="btn btn-secondary btn-sm">Добавить фото</button>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Кличка питомца</label>
+                    <input type="text" id="pet-name" class="form-control" placeholder="Как зовут вашего питомца?" required style="font-size: 16px; padding: 12px;">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Вид животного</label>
+                    <select id="pet-species" class="form-control" required style="font-size: 16px; padding: 12px;">
+                        <option value="dog">Собака</option>
+                        <option value="cat">Кошка</option>
+                        <option value="bird">Птица</option>
+                        <option value="rabbit">Кролик</option>
+                        <option value="ferret">Хорёк</option>
+                        <option value="rodent">Грызун</option>
+                        <option value="reptile">Рептилия</option>
+                        <option value="other">Другое</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Порода (необязательно)</label>
+                    <input type="text" id="pet-breed" class="form-control" placeholder="Порода" style="font-size: 16px; padding: 12px;">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Дата рождения или возраст</label>
+                    <input type="date" id="pet-dob" class="form-control" required style="font-size: 16px; padding: 12px;">
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 16px; margin-top: 24px;">Добавить питомца</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="settings-screen" class="screen">
+        <div style="padding: 20px; max-width: 600px; margin: 0 auto;">
+            <button class="btn btn-outline btn-sm" onclick="showScreen('dashboard')" style="margin-bottom: 20px;">← Назад</button>
+            
+            <h2 style="font-size: 28px; margin-bottom: 32px;">Настройки</h2>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">Аккаунт</h3>
+                <div class="info-item" style="margin-bottom: 12px;">
+                    <span class="info-label">Email</span>
+                    <span id="settings-email">test@example.com</span>
+                </div>
+                <div class="info-item" style="margin-bottom: 12px;">
+                    <span class="info-label">Имя</span>
+                    <span id="settings-name">Пользователь</span>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">Настройки</h3>
+                <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--color-card-border);">
+                    <span>Уведомления</span>
+                    <button class="btn btn-secondary btn-sm" onclick="showNotificationSettings()">Настроить</button>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--color-card-border);">
+                    <span>Язык</span>
+                    <select class="form-control" style="width: 120px; padding: 6px;">
+                        <option>Русский</option>
+                        <option>English</option>
+                    </select>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 12px 0;">
+                    <span>Тема</span>
+                    <select class="form-control" style="width: 150px; padding: 6px;">
+                        <option>Светлая</option>
+                        <option>Тёмная</option>
+                        <option>Системная</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">Данные</h3>
+                <button class="btn btn-secondary" onclick="showExportModal()" style="width: 100%; margin-bottom: 12px; justify-content: flex-start;">📤 Экспорт всех данных</button>
+                <button class="btn btn-secondary" style="width: 100%; margin-bottom: 12px; justify-content: flex-start;" disabled>📥 Импорт данных <span style="font-size: 11px; margin-left: 8px;">(скоро)</span></button>
+                <button class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">🗑️ Очистить кэш</button>
+            </div>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">О приложении</h3>
+                <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--color-card-border);">
+                    <span>Версия</span>
+                    <span style="color: var(--color-text-secondary);">v4.0.0</span>
+                </div>
+                <div style="padding: 12px 0; border-bottom: 1px solid var(--color-card-border);">
+                    <a href="#" style="color: var(--color-primary);">Политика конфиденциальности</a>
+                </div>
+                <div style="padding: 12px 0; border-bottom: 1px solid var(--color-card-border);">
+                    <a href="#" style="color: var(--color-primary);">Условия использования</a>
+                </div>
+                <div style="padding: 12px 0;">
+                    <a href="#" style="color: var(--color-primary);">Поддержка</a>
+                </div>
+            </div>
+            
+            <div style="background: rgba(255, 107, 107, 0.05); border: 2px solid rgba(255, 107, 107, 0.3); border-radius: var(--radius-lg); padding: 20px;">
+                <h3 style="color: var(--pet-accent); margin-bottom: 16px;">⚠️ Опасная зона</h3>
+                <button class="btn btn-danger" onclick="showLogoutConfirm()" style="width: 100%; margin-bottom: 12px;">🚪 Выйти из аккаунта</button>
+                <button class="btn btn-danger" onclick="showDeleteAccountConfirm()" style="width: 100%;">❌ Удалить аккаунт</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-header" id="main-header" style="display: none;">
+        <div class="header-content">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>🐾 PetHealth</h1>
+                    <p class="subtitle">Суббота, 22 ноября 2025</p>
+                </div>
+                <div style="display: flex; gap: 16px; align-items: center;">
+                    <div style="position: relative; cursor: pointer;" onclick="showNotifications()">
+                        <span style="font-size: 24px;">🔔</span>
+                        <span id="notification-badge" class="notification-badge">4</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" onclick="showExportModal()">📤 Экспорт</button>
+                    <button class="btn btn-secondary btn-sm" onclick="showSettingsScreen()">⚙️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- HOME SCREEN -->
+        <div id="screen-home" class="screen">
+            <div style="margin-bottom: 24px;">
+                <h2 style="margin-bottom: 8px;">Добро пожаловать, <span id="user-name-home">Пользователь</span>!</h2>
+                <p style="color: var(--color-text-secondary);">Суббота, 22 ноября 2025</p>
+            </div>
+            
+            <div class="section-title">Обзор питомцев</div>
+            <div id="home-pets-overview" style="overflow-x: auto; margin-bottom: 24px;">
+                <div style="display: flex; gap: 16px; padding-bottom: 12px;"></div>
+            </div>
+            
+            <div class="section-title">Предстоящие события</div>
+            <div id="home-upcoming-events" style="margin-bottom: 24px;"></div>
+            
+            <div class="section-title">Быстрые действия</div>
+            <div class="quick-actions" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px;">
+                <button class="btn btn-primary" onclick="showAddRecordModal()" style="padding: 20px;">📝<br>Новая запись визита</button>
+                <button class="btn btn-primary" onclick="showScreen('screen-ai')" style="padding: 20px;">📸<br>Сканировать рецепт</button>
+                <button class="btn btn-primary" onclick="showAddSymptomModal()" style="padding: 20px;">🩺<br>Лог симптома</button>
+                <button class="btn btn-primary" onclick="showAddMealModal()" style="padding: 20px;">📅<br>Запланировать событие</button>
+            </div>
+            
+            <div class="section-title">Недавняя активность</div>
+            <div id="home-recent-activity"></div>
+        </div>
+        
+        <!-- PETS SCREEN -->
+        <div id="screen-pets" class="screen">
+            <div class="section-title">Мои питомцы</div>
+            <div id="pets-grid" class="grid"></div>
+            <button class="btn btn-primary" style="margin-top: 20px;" onclick="showAddPetModal()">+ Добавить питомца</button>
+        </div>
+
+        <!-- Pet Profile Screen -->
+        <div id="pet-profile" class="screen">
+            <button class="btn btn-outline btn-sm" onclick="showScreen('dashboard')" style="margin-bottom: 20px;">← Назад</button>
+            <div id="pet-profile-content"></div>
+        </div>
+
+        <!-- RECORDS SCREEN -->
+        <div id="screen-records" class="screen">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div class="section-title" style="margin-bottom: 0;">Записи</div>
+                <button class="btn btn-secondary btn-sm" onclick="showExportModal()">📤 Экспорт</button>
+            </div>
+            <div class="form-group" style="margin-bottom: 16px;">
+                <select class="form-control" id="records-pet-filter" onchange="filterRecords()">
+                    <option value="all">Все питомцы</option>
+                </select>
+            </div>
+            <div class="chip-group" style="margin-bottom: 20px;">
+                <span class="chip" style="cursor: pointer; background: var(--color-primary); color: white;" onclick="filterRecordsByType('all')">Все</span>
+                <span class="chip" style="cursor: pointer;" onclick="filterRecordsByType('visits')">Визиты</span>
+                <span class="chip" style="cursor: pointer;" onclick="filterRecordsByType('tests')">Анализы</span>
+                <span class="chip" style="cursor: pointer;" onclick="filterRecordsByType('vaccines')">Вакцины</span>
+                <span class="chip" style="cursor: pointer;" onclick="filterRecordsByType('medications')">Лекарства</span>
+                <span class="chip" style="cursor: pointer;" onclick="filterRecordsByType('symptoms')">Симптомы</span>
+            </div>
+            <div id="all-records-content"></div>
+        </div>
+
+        <!-- AI SCREEN -->
+        <div id="screen-ai" class="screen">
+            <div style="margin-bottom: 20px;">
+                <h2 style="margin-bottom: 8px;">AI-ассистент</h2>
+                <p style="color: var(--color-text-secondary); margin-bottom: 12px;">Умные инструменты для здоровья вашего питомца</p>
+                <div style="background: var(--color-bg-2); padding: 12px; border-radius: var(--radius-base); font-size: 13px;">
+                    ⚠️ AI помогает, но не заменяет ветеринара. При серьёзных симптомах обратитесь к специалисту.
+                </div>
+            </div>
+            
+            <!-- AI Visit Summary -->
+            <div class="card" style="margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                    <div style="font-size: 32px;">🎙️</div>
+                    <div>
+                        <h3 style="margin-bottom: 4px;">AI-Конспект визита</h3>
+                        <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">Загрузите заметки с визита, и AI структурирует информацию</p>
+                    </div>
+                </div>
+                <div id="ai-visit-summary-content">
+                    <div class="form-group">
+                        <label class="form-label">Вставьте или введите заметки врача</label>
+                        <textarea id="ai-notes-input" class="form-control" rows="6" placeholder="Например: Собака вялая 2 дня, не ест. Осмотр: температура 39.2, левое ухо красное с выделениями. Диагноз: отит. Назначен амоксициллин 500мг 2р/день 10 дней..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="processAIVisitNotes()" style="width: 100%;">✨ Создать структурированный конспект</button>
+                </div>
+            </div>
+            
+            <!-- AI Scanner -->
+            <div class="card" style="margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                    <div style="font-size: 32px;">📸</div>
+                    <div>
+                        <h3 style="margin-bottom: 4px;">AI-Сканер рецепта</h3>
+                        <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">Сфотографируйте рецепт, AI распознает лекарства и дозировки</p>
+                    </div>
+                </div>
+                <div class="scan-upload-area" onclick="triggerPrescriptionUpload()">
+                    <div style="font-size: 48px; margin-bottom: 12px;">📷</div>
+                    <p style="margin-bottom: 16px;">Нажмите для загрузки фото рецепта</p>
+                    <button class="btn btn-primary">📤 Загрузить фото рецепта</button>
+                    <input type="file" id="prescription-upload" accept="image/*" style="display: none;" onchange="handlePrescriptionUpload(event)">
+                </div>
+            </div>
+            
+            <!-- AI Symptom Checker -->
+            <div class="card">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                    <div style="font-size: 32px;">🩺</div>
+                    <div>
+                        <h3 style="margin-bottom: 4px;">AI-Чекер симптомов</h3>
+                        <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">Опишите симптомы, получите первичную оценку состояния</p>
+                    </div>
+                </div>
+                <div id="ai-symptom-checker-content">
+                    <div class="form-group">
+                        <label class="form-label">Питомец</label>
+                        <select class="form-control" id="ai-symptom-pet"></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Выберите симптомы</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item"><input type="checkbox" value="lethargy"> Вялость</label>
+                            <label class="checkbox-item"><input type="checkbox" value="loss_of_appetite"> Потеря аппетита</label>
+                            <label class="checkbox-item"><input type="checkbox" value="vomiting"> Рвота</label>
+                            <label class="checkbox-item"><input type="checkbox" value="diarrhea"> Диарея</label>
+                            <label class="checkbox-item"><input type="checkbox" value="cough"> Кашель</label>
+                            <label class="checkbox-item"><input type="checkbox" value="itching"> Зуд</label>
+                            <label class="checkbox-item"><input type="checkbox" value="limping"> Хромота</label>
+                            <label class="checkbox-item"><input type="checkbox" value="discharge"> Выделения</label>
+                            <label class="checkbox-item"><input type="checkbox" value="breathing"> Одышка</label>
+                            <label class="checkbox-item"><input type="checkbox" value="fever"> Температура</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Другие симптомы</label>
+                        <textarea id="ai-other-symptoms" class="form-control" rows="2" placeholder="Опишите другие симптомы"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Длительность симптомов</label>
+                        <select class="form-control" id="ai-symptom-duration">
+                            <option value="hours">Несколько часов</option>
+                            <option value="1day">1 день</option>
+                            <option value="2-3days">2-3 дня</option>
+                            <option value="week">Неделя</option>
+                            <option value="longer">Больше недели</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Тяжесть: <span id="ai-severity-value">5</span>/10</label>
+                        <input type="range" min="1" max="10" value="5" class="form-control" id="ai-severity-slider" oninput="document.getElementById('ai-severity-value').textContent = this.value" style="padding: 0;">
+                    </div>
+                    <button class="btn btn-primary" onclick="checkAISymptoms()" style="width: 100%;">🔍 Оценить состояние</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CALENDAR SCREEN -->
+        <div id="screen-calendar" class="screen">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div class="section-title" style="margin-bottom: 0;">Календарь здоровья</div>
+                <select class="form-control" id="calendar-pet-filter" onchange="filterCalendar()" style="width: auto; max-width: 200px;">
+                    <option value="all">Все питомцы</option>
+                </select>
+            </div>
+            
+            <div class="tabs" style="margin-bottom: 20px;">
+                <div class="tab active" onclick="switchCalendarView(event, 'month')">Месяц</div>
+                <div class="tab" onclick="switchCalendarView(event, 'week')">Неделя</div>
+                <div class="tab" onclick="switchCalendarView(event, 'list')">Список</div>
+            </div>
+            
+            <div id="calendar-month-view" class="tab-content active">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <button class="btn btn-outline btn-sm" onclick="previousMonth()">←</button>
+                    <h3 id="calendar-month-title" style="margin: 0;">Ноябрь 2025</h3>
+                    <button class="btn btn-outline btn-sm" onclick="nextMonth()">→</button>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="goToToday()" style="margin-bottom: 16px;">Сегодня</button>
+                <div id="calendar-grid-container"></div>
+            </div>
+            
+            <div id="calendar-week-view" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <button class="btn btn-outline btn-sm" onclick="previousWeek()">←</button>
+                    <h3 id="calendar-week-title" style="margin: 0;">Неделя</h3>
+                    <button class="btn btn-outline btn-sm" onclick="nextWeek()">→</button>
+                </div>
+                <div id="calendar-week-container"></div>
+            </div>
+            
+            <div id="calendar-list-view" class="tab-content">
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <select class="form-control" id="calendar-list-filter" onchange="filterCalendarList()">
+                        <option value="all">Все события</option>
+                        <option value="past">Прошедшие события</option>
+                        <option value="upcoming">Предстоящие события</option>
+                        <option value="appointment">Визиты</option>
+                        <option value="vaccination">Вакцинации</option>
+                        <option value="symptom">Симптомы</option>
+                        <option value="medication">Лекарства</option>
+                    </select>
+                </div>
+                <div id="calendar-list-container"></div>
+            </div>
+        </div>
+
+        <!-- MORE SCREEN -->
+        <div id="screen-more" class="screen">
+            <div class="section-title">Ещё</div>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">👤 Профиль</h3>
+                <div style="display: flex; align-items: center; gap: 16px; padding: 12px; background: var(--color-bg-1); border-radius: var(--radius-base);">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--color-bg-3); display: flex; align-items: center; justify-content: center; font-size: 32px;">👤</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold; margin-bottom: 4px;" id="more-user-name">Пользователь</div>
+                        <div style="font-size: 13px; color: var(--color-text-secondary);" id="more-user-email">user@example.com</div>
+                    </div>
+                    <button class="btn btn-outline btn-sm" onclick="editUserProfile()">✏️</button>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">🔔 Уведомления</h3>
+                <button class="btn btn-secondary" onclick="showNotificationSettings()" style="width: 100%; justify-content: flex-start;">⚙️ Настройки уведомлений</button>
+            </div>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">💾 Данные</h3>
+                <button class="btn btn-secondary" onclick="showExportModal()" style="width: 100%; justify-content: flex-start; margin-bottom: 12px;">📤 Экспорт всех данных</button>
+                <button class="btn btn-secondary" style="width: 100%; justify-content: flex-start; opacity: 0.5;" disabled>📥 Импорт данных <span style="font-size: 11px; margin-left: 8px;">(скоро)</span></button>
+            </div>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">⚙️ Приложение</h3>
+                <div style="padding: 12px 0; border-bottom: 1px solid var(--color-card-border); display: flex; justify-content: space-between;">
+                    <span>Язык</span>
+                    <select class="form-control" style="width: 120px; padding: 6px;">
+                        <option>Русский</option>
+                        <option>English</option>
+                    </select>
+                </div>
+                <div style="padding: 12px 0; border-bottom: 1px solid var(--color-card-border); display: flex; justify-content: space-between;">
+                    <span>Тема</span>
+                    <select class="form-control" style="width: 150px; padding: 6px;">
+                        <option>Светлая</option>
+                        <option>Тёмная</option>
+                        <option>Системная</option>
+                    </select>
+                </div>
+                <div style="padding: 12px 0; border-bottom: 1px solid var(--color-card-border);">
+                    <a href="#" style="color: var(--color-primary);">О приложении</a>
+                </div>
+                <div style="padding: 12px 0; color: var(--color-text-secondary); font-size: 13px;">
+                    Версия: 4.0
+                </div>
+            </div>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">❓ Помощь</h3>
+                <div style="padding: 12px 0; border-bottom: 1px solid var(--color-card-border);">
+                    <a href="#" style="color: var(--color-primary);">Часто задаваемые вопросы</a>
+                </div>
+                <div style="padding: 12px 0; border-bottom: 1px solid var(--color-card-border);">
+                    <a href="#" style="color: var(--color-primary);">Обратная связь</a>
+                </div>
+                <div style="padding: 12px 0;">
+                    <a href="#" style="color: var(--color-primary);">Поддержка</a>
+                </div>
+            </div>
+            
+            <div class="danger-zone">
+                <h3>⚠️ Аккаунт</h3>
+                <button class="btn btn-danger" onclick="showLogoutConfirm()" style="width: 100%; margin-bottom: 12px;">🚪 Выйти из аккаунта</button>
+                <button class="btn btn-danger" onclick="showDeleteAccountConfirm()" style="width: 100%;">❌ Удалить аккаунт</button>
+            </div>
+        </div>
+
+        <!-- Scanner Screen -->
+        <div id="scanner-screen" class="screen">
+            <button class="btn btn-outline btn-sm" onclick="showScreen('dashboard')" style="margin-bottom: 20px;">← Назад</button>
+            <div class="section-title">📷 AI Сканер документов</div>
+            <div id="scanner-content"></div>
+        </div>
+
+        <!-- Edit Pet Profile Screen -->
+        <div id="edit-pet-screen" class="screen">
+            <button class="btn btn-outline btn-sm" onclick="cancelEditPet()" style="margin-bottom: 20px;">← Назад</button>
+            <div class="section-title">Редактировать профиль</div>
+            <div id="edit-pet-content"></div>
+        </div>
+
+        <!-- Notifications Screen -->
+        <div id="notifications-screen" class="screen">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div class="section-title" style="margin-bottom: 0;">Уведомления</div>
+                <button class="btn btn-secondary btn-sm" onclick="showNotificationSettings()">⚙️ Настройки</button>
+            </div>
+            <div id="notifications-content"></div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="add-pet-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Добавить питомца</h2>
+                <button class="close-btn" onclick="closeModal('add-pet-modal')">&times;</button>
+            </div>
+            <form id="add-pet-form" onsubmit="addPet(event)">
+                <div class="form-group">
+                    <label class="form-label">Имя</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Вид</label>
+                    <select class="form-control" name="species" required>
+                        <option value="dog">Собака</option>
+                        <option value="cat">Кошка</option>
+                        <option value="bird">Птица</option>
+                        <option value="other">Другое</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Порода</label>
+                    <input type="text" class="form-control" name="breed" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Дата рождения</label>
+                    <input type="date" class="form-control" name="dateOfBirth" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Вес (кг)</label>
+                    <input type="number" step="0.1" class="form-control" name="weight" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="add-record-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Добавить медицинскую запись</h2>
+                <button class="close-btn" onclick="closeModal('add-record-modal')">&times;</button>
+            </div>
+            <form id="add-record-form" onsubmit="addMedicalRecord(event)">
+                <div class="form-group">
+                    <label class="form-label">Дата визита</label>
+                    <input type="date" class="form-control" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Клиника/Ветеринар</label>
+                    <input type="text" class="form-control" name="clinicName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Тип визита</label>
+                    <select class="form-control" name="visitType" required>
+                        <option value="routine_checkup">Плановый осмотр</option>
+                        <option value="vaccination">Вакцинация</option>
+                        <option value="surgery">Операция</option>
+                        <option value="emergency">Экстренный визит</option>
+                        <option value="dental">Стоматология</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Диагноз</label>
+                    <input type="text" class="form-control" name="diagnosis" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Заметки врача</label>
+                    <textarea class="form-control" name="notes"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="add-symptom-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Добавить симптом</h2>
+                <button class="close-btn" onclick="closeModal('add-symptom-modal')">&times;</button>
+            </div>
+            <form id="add-symptom-form" onsubmit="addSymptom(event)">
+                <div class="form-group">
+                    <label class="form-label">Питомец</label>
+                    <select class="form-control" name="petId" id="symptom-pet-select" required>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Дата</label>
+                    <input type="date" class="form-control" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Симптомы</label>
+                    <select class="form-control" name="symptoms" required>
+                        <option value="cough">Кашель</option>
+                        <option value="vomiting">Рвота</option>
+                        <option value="lethargy">Вялость</option>
+                        <option value="loss_of_appetite">Потеря аппетита</option>
+                        <option value="diarrhea">Диарея</option>
+                        <option value="head_shaking">Тряска головой</option>
+                        <option value="ear_discharge">Выделения из ушей</option>
+                        <option value="limping">Хромота</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Тяжесть (1-10)</label>
+                    <div class="severity-scale" id="severity-scale">
+                        <div class="severity-option" data-value="1">1</div>
+                        <div class="severity-option" data-value="2">2</div>
+                        <div class="severity-option" data-value="3">3</div>
+                        <div class="severity-option" data-value="4">4</div>
+                        <div class="severity-option" data-value="5">5</div>
+                        <div class="severity-option" data-value="6">6</div>
+                        <div class="severity-option" data-value="7">7</div>
+                        <div class="severity-option" data-value="8">8</div>
+                        <div class="severity-option" data-value="9">9</div>
+                        <div class="severity-option" data-value="10">10</div>
+                    </div>
+                    <input type="hidden" name="severity" id="severity-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Продолжительность</label>
+                    <input type="text" class="form-control" name="duration" placeholder="например: 2 дня" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Заметки</label>
+                    <textarea class="form-control" name="notes"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="qr-passport-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>QR-Паспорт питомца</h2>
+                <button class="close-btn" onclick="closeModal('qr-passport-modal')">&times;</button>
+            </div>
+            <div id="qr-passport-content"></div>
+        </div>
+    </div>
+
+    <div id="add-meal-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Добавить прием пищи</h2>
+                <button class="close-btn" onclick="closeModal('add-meal-modal')">&times;</button>
+            </div>
+            <form id="add-meal-form" onsubmit="addMeal(event)">
+                <div class="form-group">
+                    <label class="form-label">Питомец</label>
+                    <select class="form-control" name="petId" id="meal-pet-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Дата и время</label>
+                    <input type="datetime-local" class="form-control" name="datetime" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Название корма</label>
+                    <input type="text" class="form-control" name="foodName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Количество</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="number" step="0.1" class="form-control" name="amount" required style="flex: 2;">
+                        <select class="form-control" name="unit" required style="flex: 1;">
+                            <option value="g">г</option>
+                            <option value="kg">кг</option>
+                            <option value="cups">чашки</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Калории</label>
+                    <input type="number" class="form-control" name="calories" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Тип приема пищи</label>
+                    <select class="form-control" name="mealType" required>
+                        <option value="breakfast">Завтрак</option>
+                        <option value="lunch">Обед</option>
+                        <option value="dinner">Ужин</option>
+                        <option value="snack">Перекус</option>
+                        <option value="treat">Лакомство</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Заметки</label>
+                    <textarea class="form-control" name="notes"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="weight-goal-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Установить цель по весу</h2>
+                <button class="close-btn" onclick="closeModal('weight-goal-modal')">&times;</button>
+            </div>
+            <form id="weight-goal-form" onsubmit="setWeightGoal(event)">
+                <div class="form-group">
+                    <label class="form-label">Питомец</label>
+                    <select class="form-control" name="petId" id="weight-goal-pet-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Целевой вес (кг)</label>
+                    <input type="number" step="0.1" class="form-control" name="targetWeight" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Целевая дата</label>
+                    <input type="date" class="form-control" name="targetDate" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Тип цели</label>
+                    <select class="form-control" name="goalType" required>
+                        <option value="lose">Снижение веса</option>
+                        <option value="gain">Набор веса</option>
+                        <option value="maintain">Поддержание веса</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Недельная норма (кг)</label>
+                    <input type="number" step="0.1" class="form-control" name="weeklyRate" value="0.5" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Установить цель</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="export-modal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>Экспорт данных</h2>
+                <button class="close-btn" onclick="closeModal('export-modal')">&times;</button>
+            </div>
+            <div id="export-content"></div>
+        </div>
+    </div>
+
+    <div id="scan-document-modal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2>📷 Анализ документа</h2>
+                <button class="close-btn" onclick="closeModal('scan-document-modal')">&times;</button>
+            </div>
+            <div id="scan-document-content"></div>
+        </div>
+    </div>
+
+    <div id="calendar-date-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="calendar-modal-title">События</h2>
+                <button class="close-btn" onclick="closeModal('calendar-date-modal')">&times;</button>
+            </div>
+            <div id="calendar-modal-content"></div>
+        </div>
+    </div>
+
+    <div id="add-event-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Запланировать событие</h2>
+                <button class="close-btn" onclick="closeModal('add-event-modal')">&times;</button>
+            </div>
+            <form id="add-event-form" onsubmit="saveCalendarEvent(event)">
+                <div class="form-group">
+                    <label class="form-label">Питомец</label>
+                    <select class="form-control" name="petId" id="event-pet-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Тип события</label>
+                    <select class="form-control" name="eventType" id="event-type-select" required onchange="updateEventTypeFields()">
+                        <option value="vet_visit">🏥 Визит к ветеринару</option>
+                        <option value="vaccination">💉 Вакцинация</option>
+                        <option value="lab_test">🔬 Анализы</option>
+                        <option value="grooming">✂️ Груминг</option>
+                        <option value="procedure">🏥 Процедура</option>
+                        <option value="weight_check">⚖️ Взвешивание</option>
+                        <option value="medication_reminder">💊 Напоминание о лекарстве</option>
+                        <option value="other">📌 Другое</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Дата</label>
+                    <input type="date" class="form-control" name="eventDate" id="event-date-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Время</label>
+                    <input type="time" class="form-control" name="eventTime" id="event-time-input" required>
+                </div>
+                <div class="form-group" id="clinic-field" style="display: block;">
+                    <label class="form-label">Клиника</label>
+                    <input type="text" class="form-control" name="clinic" id="event-clinic-input" placeholder="Название клиники">
+                </div>
+                <div class="form-group" id="doctor-field" style="display: block;">
+                    <label class="form-label">Врач (необязательно)</label>
+                    <input type="text" class="form-control" name="doctor" id="event-doctor-input" placeholder="Имя врача">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Заметки</label>
+                    <textarea class="form-control" name="notes" rows="3" placeholder="Причина визита, что нужно спросить..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="reminderEnabled" id="reminder-enabled" onchange="toggleReminderOptions()"> Напомнить меня
+                    </label>
+                </div>
+                <div id="reminder-options" style="display: none; margin-left: 24px;">
+                    <div class="form-group">
+                        <label class="form-label">Когда напомнить</label>
+                        <select class="form-control" name="reminderTime">
+                            <option value="1_hour">За 1 час</option>
+                            <option value="3_hours">За 3 часа</option>
+                            <option value="1_day" selected>За 1 день</option>
+                            <option value="3_days">За 3 дня</option>
+                            <option value="1_week">За 1 неделю</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 12px; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('add-event-modal')">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="delete-pet-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚠️ Удалить питомца</h2>
+                <button class="close-btn" onclick="closeModal('delete-pet-modal')">&times;</button>
+            </div>
+            <div id="delete-pet-content"></div>
+        </div>
+    </div>
+
+    <div id="notification-settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Настройки уведомлений</h2>
+                <button class="close-btn" onclick="closeModal('notification-settings-modal')">&times;</button>
+            </div>
+            <div id="notification-settings-content"></div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav" id="main-nav" style="display: none;">
+        <a class="nav-item active" onclick="showScreen('screen-home')">
+            <div class="nav-icon">🏠</div>
+            <div>Главная</div>
+        </a>
+        <a class="nav-item" onclick="showScreen('screen-pets')">
+            <div class="nav-icon">🐾</div>
+            <div>Питомцы</div>
+        </a>
+        <a class="nav-item" onclick="showScreen('screen-records')">
+            <div class="nav-icon">📋</div>
+            <div>Записи</div>
+        </a>
+        <a class="nav-item" onclick="showScreen('screen-calendar')">
+            <div class="nav-icon">📅</div>
+            <div>Календарь</div>
+        </a>
+        <a class="nav-item" onclick="showScreen('screen-ai')">
+            <div class="nav-icon">🧠</div>
+            <div>AI</div>
+        </a>
+        <a class="nav-item" onclick="showScreen('screen-more')">
+            <div class="nav-icon">⚙️</div>
+            <div>Ещё</div>
+        </a>
+    </nav>
+
+    <button class="fab" id="fab-quick" onclick="showQuickActions()" title="Быстрые действия" style="display: none;">+</button>
+    <button class="fab" id="fab-scan" onclick="showScannerScreen()" title="Сканировать рецепт" style="bottom: 160px; background: #9C27B0; display: none;">
+        📷
+    </button>
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
