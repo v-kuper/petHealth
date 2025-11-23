@@ -292,7 +292,7 @@
 
             <div class="section-title">Быстрые действия</div>
             <div class="quick-actions" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px;">
-                <button class="btn btn-primary" onclick="showScreen('screen-nutrition-weight')" style="padding: 20px;">🍽️<br>Питание и вес</button>
+                <button class="btn btn-primary" onclick="showAddMealModal()" style="padding: 20px;">🍽️<br>Добавить прием пищи</button>
                 <button class="btn btn-primary" onclick="showAddSymptomModal()" style="padding: 20px;">🩺<br>Лог симптома</button>
                 <button class="btn btn-primary" onclick="showAddRecordModal()" style="padding: 20px;">📝<br>Новая запись</button>
                 <button class="btn btn-primary" onclick="showScreen('screen-ai')" style="padding: 20px;">📸<br>Сканировать рецепт</button>
@@ -497,6 +497,11 @@
                     </div>
                     <button class="btn btn-outline btn-sm" onclick="editUserProfile()">✏️</button>
                 </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">📋 Медицинские записи</h3>
+                <button class="btn btn-secondary" onclick="showScreen('screen-records')" style="width: 100%; justify-content: flex-start;">📋 Все записи</button>
             </div>
 
             <div class="card" style="margin-bottom: 20px;">
@@ -1018,9 +1023,9 @@
             <div class="nav-icon">📅</div>
             <div>Календарь</div>
         </a>
-        <a class="nav-item" onclick="showScreen('screen-records')">
-            <div class="nav-icon">📋</div>
-            <div>Записи</div>
+        <a class="nav-item" onclick="showScreen('screen-nutrition-weight')">
+            <div class="nav-icon">🍽️</div>
+            <div>Питание</div>
         </a>
         <a class="nav-item" onclick="showScreen('screen-ai')">
             <div class="nav-icon">🧠</div>

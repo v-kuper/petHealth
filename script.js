@@ -1588,18 +1588,19 @@
             const navMapping = {
                 'screen-home': 0,
                 'screen-pets': 1,
-                'screen-records': 2,
-                'screen-calendar': 3,
+                'screen-calendar': 2,
+                'screen-nutrition-weight': 3,
                 'screen-ai': 4,
-                'screen-more': 5,
+                'screen-more': -1, // Not in bottom nav
+                'screen-records': -1, // Moved to "Ещё" screen
                 'pet-profile': 1,
                 'edit-pet-screen': 1,
                 'scanner-screen': 4,
-                'settings-screen': 5,
+                'settings-screen': -1,
                 'notifications-screen': 0
             };
             
-            if (navMapping[screenId] !== undefined) {
+            if (navMapping[screenId] !== undefined && navMapping[screenId] >= 0) {
                 const navItems = document.querySelectorAll('.nav-item');
                 if (navItems[navMapping[screenId]]) {
                     navItems[navMapping[screenId]].classList.add('active');
