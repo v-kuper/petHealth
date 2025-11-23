@@ -4795,30 +4795,6 @@
                     </div>
                     
                     <div class="edit-section">
-                        <h3>Внешний вид</h3>
-                        <div class="form-group">
-                            <label class="form-label">Окрас и отметины</label>
-                            <input type="text" class="form-control" name="colorMarkings" value="${currentPet.colorMarkings || ''}" placeholder="Например: Золотистая шерсть с белой грудкой">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Отличительные особенности</label>
-                            <textarea class="form-control" name="distinctiveFeatures" rows="2" placeholder="Например: Шрам на левом ухе">${currentPet.distinctiveFeatures || ''}</textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="edit-section">
-                        <h3>Идентификация</h3>
-                        <div class="form-group">
-                            <label class="form-label">Номер микрочипа</label>
-                            <input type="text" class="form-control" name="microchipNumber" value="${currentPet.microchipNumber || ''}" placeholder="985112345678901">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Регистрационный номер</label>
-                            <input type="text" class="form-control" name="registrationNumber" value="${currentPet.registrationNumber || ''}" placeholder="RUS-DOG-2019-12345">
-                        </div>
-                    </div>
-                    
-                    <div class="edit-section">
                         <h3>Медицинский профиль</h3>
                         <div class="form-group">
                             <label class="form-label">Известные аллергии</label>
@@ -4843,48 +4819,6 @@
                                 `).join('')}
                             </div>
                             <input type="text" class="form-control" id="condition-input" placeholder="Добавить заболевание" style="margin-top: 8px;" onkeypress="addChipOnEnter(event, 'condition')">
-                        </div>
-                    </div>
-                    
-                    <div class="edit-section">
-                        <h3>Информация о владельце</h3>
-                        <div class="form-group">
-                            <label class="form-label">ФИО владельца</label>
-                            <input type="text" class="form-control" name="ownerName" value="${currentPet.ownerInfo?.name || ''}">
-                        </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                            <div class="form-group">
-                                <label class="form-label">Основной телефон</label>
-                                <input type="tel" class="form-control" name="ownerPhone" value="${currentPet.ownerInfo?.primaryPhone || ''}">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Дополнительный телефон</label>
-                                <input type="tel" class="form-control" name="ownerPhone2" value="${currentPet.ownerInfo?.secondaryPhone || ''}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" name="ownerEmail" value="${currentPet.ownerInfo?.email || ''}">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Адрес</label>
-                            <textarea class="form-control" name="ownerAddress" rows="2">${currentPet.ownerInfo?.address || ''}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Экстренный контакт</label>
-                            <input type="text" class="form-control" name="emergencyContact" value="${currentPet.ownerInfo?.emergencyContact || ''}" placeholder="Имя и телефон">
-                        </div>
-                    </div>
-                    
-                    <div class="edit-section">
-                        <h3>Страхование</h3>
-                        <div class="form-group">
-                            <label class="form-label">Страховая компания</label>
-                            <input type="text" class="form-control" name="insuranceProvider" value="${currentPet.insuranceInfo?.provider || ''}">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Номер полиса</label>
-                            <input type="text" class="form-control" name="insurancePolicy" value="${currentPet.insuranceInfo?.policyNumber || ''}">
                         </div>
                     </div>
                     
@@ -4974,29 +4908,11 @@
             currentPet.weight = parseFloat(formData.get('weight'));
             currentPet.gender = formData.get('gender');
             currentPet.neutered = formData.get('neutered') === 'true';
-            currentPet.colorMarkings = formData.get('colorMarkings');
-            currentPet.distinctiveFeatures = formData.get('distinctiveFeatures');
-            currentPet.microchipNumber = formData.get('microchipNumber');
-            currentPet.registrationNumber = formData.get('registrationNumber');
             currentPet.dietaryPreferences = formData.get('dietaryPreferences');
             
             // Calculate age
             const birthDate = new Date(currentPet.dateOfBirth);
             currentPet.age = new Date().getFullYear() - birthDate.getFullYear();
-            
-            // Update owner info
-            if (!currentPet.ownerInfo) currentPet.ownerInfo = {};
-            currentPet.ownerInfo.name = formData.get('ownerName');
-            currentPet.ownerInfo.primaryPhone = formData.get('ownerPhone');
-            currentPet.ownerInfo.secondaryPhone = formData.get('ownerPhone2');
-            currentPet.ownerInfo.email = formData.get('ownerEmail');
-            currentPet.ownerInfo.address = formData.get('ownerAddress');
-            currentPet.ownerInfo.emergencyContact = formData.get('emergencyContact');
-            
-            // Update insurance
-            if (!currentPet.insuranceInfo) currentPet.insuranceInfo = {};
-            currentPet.insuranceInfo.provider = formData.get('insuranceProvider');
-            currentPet.insuranceInfo.policyNumber = formData.get('insurancePolicy');
             
             // Update preferred vet
             if (!currentPet.preferredVet) currentPet.preferredVet = {};
