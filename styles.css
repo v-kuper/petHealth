@@ -1141,6 +1141,116 @@ textarea.form-control {
     font-size: var(--font-size-sm);
 }
 
+/* Pet Passport Cards */
+.pets-grid-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-20);
+    padding-bottom: 80px; /* Space for FAB button */
+}
+
+.pet-passport-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-20);
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: var(--shadow-sm);
+    flex: 1;
+    min-width: 320px;
+    max-width: 100%;
+}
+
+.pet-passport-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.pet-passport-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    margin-bottom: var(--space-20);
+    padding-bottom: var(--space-16);
+    border-bottom: 2px solid var(--color-card-border);
+}
+
+.pet-passport-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    flex-shrink: 0;
+    border: 2px solid var(--color-primary);
+}
+
+.pet-passport-title {
+    flex: 1;
+}
+
+.pet-passport-title h2 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 var(--space-4) 0;
+    color: var(--color-text);
+}
+
+.pet-passport-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.pet-passport-status {
+    display: flex;
+    align-items: center;
+    padding: var(--space-6) var(--space-12);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+}
+
+.pet-passport-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+}
+
+.pet-passport-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-8) 0;
+    border-bottom: 1px solid var(--color-bg-1);
+}
+
+.pet-passport-row:last-child {
+    border-bottom: none;
+}
+
+.pet-passport-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.pet-passport-value {
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    text-align: right;
+    font-weight: var(--font-weight-medium);
+}
+
+/* FAB for adding pet */
+#fab-add-pet {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .grid {
         grid-template-columns: 1fr;
@@ -1153,5 +1263,144 @@ textarea.form-control {
     .tabs {
         overflow-x: auto;
         flex-wrap: nowrap;
+    }
+    
+    /* Pet passport cards on mobile - compact version */
+    .pets-grid-container {
+        flex-direction: column;
+        gap: var(--space-12);
+        padding-bottom: 80px;
+    }
+    
+    .pet-passport-card {
+        min-width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: var(--space-16);
+        border-radius: var(--radius-base);
+    }
+    
+    .pet-passport-header {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-12);
+        margin-bottom: var(--space-12);
+        padding-bottom: var(--space-12);
+    }
+    
+    .pet-passport-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 32px;
+        border-width: 1px;
+    }
+    
+    .pet-passport-title h2 {
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--space-2);
+    }
+    
+    .pet-passport-subtitle {
+        font-size: var(--font-size-xs);
+    }
+    
+    .pet-passport-status {
+        padding: var(--space-4) var(--space-8);
+        font-size: var(--font-size-xs);
+        flex-shrink: 0;
+    }
+    
+    .pet-passport-status > div {
+        width: 6px !important;
+        height: 6px !important;
+        margin-right: 4px !important;
+    }
+    
+    .pet-passport-body {
+        gap: var(--space-6);
+    }
+    
+    .pet-passport-row {
+        padding: var(--space-6) 0;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .pet-passport-label {
+        font-size: var(--font-size-xs);
+    }
+    
+    .pet-passport-value {
+        font-size: var(--font-size-xs);
+        text-align: right;
+    }
+    
+    /* Hide desktop-only elements on mobile */
+    .desktop-only {
+        display: none !important;
+    }
+    
+    /* Compact calorie display on mobile */
+    .mobile-compact .pet-passport-label {
+        font-size: var(--font-size-xs);
+    }
+    
+    .mobile-compact .pet-passport-value {
+        font-size: var(--font-size-xs);
+    }
+    
+    /* Vaccine warning - compact on mobile */
+    .pet-vaccine-warning {
+        padding: var(--space-6) var(--space-10) !important;
+        margin-top: var(--space-6) !important;
+    }
+    
+    .pet-vaccine-warning .pet-passport-label,
+    .pet-vaccine-warning .pet-passport-value {
+        font-size: var(--font-size-xs);
+    }
+    
+    #fab-add-pet {
+        display: flex;
+        bottom: 90px;
+        right: 20px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Tablet styles */
+    .pets-grid-container {
+        flex-direction: row;
+        gap: var(--space-20);
+    }
+    
+    .pet-passport-card {
+        flex: 1;
+        min-width: calc(50% - var(--space-10));
+        max-width: calc(50% - var(--space-10));
+    }
+    
+    #fab-add-pet {
+        display: flex;
+        bottom: 90px;
+        right: 20px;
+    }
+}
+
+@media (min-width: 1025px) {
+    /* Desktop styles */
+    .pets-grid-container {
+        flex-direction: row;
+    }
+    
+    .pet-passport-card {
+        flex: 1;
+        min-width: 350px;
+        max-width: 450px;
+    }
+    
+    #fab-add-pet {
+        display: none; /* Hide FAB on desktop, use regular button */
     }
 }

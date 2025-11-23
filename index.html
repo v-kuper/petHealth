@@ -302,9 +302,11 @@
         <!-- PETS SCREEN -->
         <div id="screen-pets" class="screen">
             <div class="section-title">Мои питомцы</div>
-            <div id="pets-grid" class="grid"></div>
-            <button class="btn btn-primary" style="margin-top: 20px;" onclick="showAddPetModal()">+ Добавить питомца</button>
+            <div id="pets-grid" class="pets-grid-container"></div>
         </div>
+
+        <!-- Floating Action Button for adding pet -->
+        <button class="fab" id="fab-add-pet" onclick="showAddPetModal()" title="Добавить питомца" style="display: none;">+</button>
 
         <!-- Pet Profile Screen -->
         <div id="pet-profile" class="screen">
@@ -1012,13 +1014,13 @@
             <div class="nav-icon">🐾</div>
             <div>Питомцы</div>
         </a>
-        <a class="nav-item" onclick="showScreen('screen-records')">
-            <div class="nav-icon">📋</div>
-            <div>Записи</div>
-        </a>
         <a class="nav-item" onclick="showScreen('screen-calendar')">
             <div class="nav-icon">📅</div>
             <div>Календарь</div>
+        </a>
+        <a class="nav-item" onclick="showScreen('screen-records')">
+            <div class="nav-icon">📋</div>
+            <div>Записи</div>
         </a>
         <a class="nav-item" onclick="showScreen('screen-ai')">
             <div class="nav-icon">🧠</div>

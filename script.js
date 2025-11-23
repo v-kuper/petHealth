@@ -1606,8 +1606,21 @@
                 }
             }
             
+            // Manage FAB button visibility
+            const fabBtn = document.getElementById('fab-add-pet');
+            if (fabBtn) {
+                if (screenId === 'screen-pets') {
+                    // Show FAB on mobile/tablet, hide on desktop (handled by CSS)
+                    const isMobile = window.innerWidth <= 1024;
+                    fabBtn.style.display = isMobile ? 'flex' : 'none';
+                } else {
+                    fabBtn.style.display = 'none';
+                }
+            }
+            
             // Refresh content for specific screens
             if (screenId === 'screen-home') renderHomeScreen();
+            if (screenId === 'screen-pets') renderPets();
             if (screenId === 'screen-calendar') renderCalendar();
             if (screenId === 'screen-ai') renderAIScreen();
             if (screenId === 'screen-more') renderMoreScreen();
@@ -1637,32 +1650,114 @@
 
         function renderPets() {
             const grid = document.getElementById('pets-grid');
+            if (!grid) return;
+            
+            if (pets.length === 0) {
+                grid.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: var(--color-text-secondary);">
+                        <div style="font-size: 64px; margin-bottom: 16px;">🐾</div>
+                        <h3 style="margin-bottom: 8px;">Нет питомцев</h3>
+                        <p style="margin-bottom: 24px;">Добавьте первого питомца, чтобы начать</p>
+                        <button class="btn btn-primary" onclick="showAddPetModal()">+ Добавить питомца</button>
+                    </div>
+                `;
+                return;
+            }
+            
             grid.innerHTML = pets.map(pet => {
                 const emoji = pet.species === 'dog' ? '🐕' : pet.species === 'cat' ? '🐈' : '🐾';
                 const vaccinationStatus = pet.vaccinationStatus || [];
                 const medicalRecords = pet.medicalRecords || [];
                 const nextVaccine = vaccinationStatus.find(v => v.status === 'due_soon' || v.status === 'overdue');
-                const lastVisit = medicalRecords.length > 0 ? medicalRecords[0].date : 'Нет записей';
+                const lastVisit = medicalRecords.length > 0 ? medicalRecords[0].date : null;
                 
-                let statusBadge = '';
-                if (nextVaccine) {
-                    statusBadge = `<span class="status-badge warning">⚠️ Вакцина скоро</span>`;
-                } else {
-                    statusBadge = `<span class="status-badge success">✓ Здоров</span>`;
+                // Статус здоровья
+                const healthStatus = getHealthStatus(pet);
+                
+                // Пол
+                const gender = pet.gender === 'male' ? '♂ Мальчик' : pet.gender === 'female' ? '♀ Девочка' : '';
+                const neutered = pet.neutered ? ' • Стерилизован' : '';
+                
+                // Дата рождения
+                const dob = pet.dateOfBirth ? formatDate(pet.dateOfBirth) : 'Не указана';
+                
+                // Калории за сегодня
+                const today = new Date().toISOString().split('T')[0];
+                let todayCalories = 0;
+                let calorieGoal = 0;
+                if (pet.nutritionData) {
+                    calorieGoal = pet.nutritionData.dailyCalorieGoal || 0;
+                    if (pet.nutritionData.meals) {
+                        pet.nutritionData.meals.forEach(meal => {
+                            if (meal.date && meal.date.startsWith(today)) {
+                                todayCalories += meal.calories || 0;
+                            }
+                        });
+                    }
+                }
+                
+                // Цель по весу
+                let weightGoalInfo = '';
+                if (pet.weightGoals && pet.weightGoals.targetWeight) {
+                    const trend = pet.weightGoals.goalType === 'lose' ? '📉' : pet.weightGoals.goalType === 'gain' ? '📈' : '➡️';
+                    weightGoalInfo = ` / ${pet.weightGoals.targetWeight} кг ${trend}`;
                 }
                 
                 return `
-                    <div class="card pet-card" onclick="showPetProfile(${pet.id})">
-                        <div class="pet-avatar">${emoji}</div>
-                        <div class="pet-info">
-                            <div class="pet-name">${pet.name || 'Питомец'}</div>
-                            <div class="pet-details">${pet.breed || ''} • ${pet.age || 0} лет • ${pet.weight || 0} кг</div>
-                            <div class="pet-status">
-                                ${statusBadge}
+                    <div class="pet-passport-card" onclick="showPetProfile(${pet.id})">
+                        <div class="pet-passport-header">
+                            <div class="pet-passport-avatar">${emoji}</div>
+                            <div class="pet-passport-title">
+                                <h2>${pet.name || 'Питомец'}</h2>
+                                <div class="pet-passport-subtitle">${pet.breed || 'Порода не указана'}</div>
                             </div>
-                            <div style="margin-top: 12px; font-size: 12px; color: var(--color-text-secondary);">
-                                Последний визит: ${lastVisit === 'Нет записей' ? lastVisit : formatDate(lastVisit)}
+                            <div class="pet-passport-status" style="background: ${healthStatus.color === '#4CAF50' ? 'rgba(76, 175, 80, 0.1)' : 'rgba(255, 165, 0, 0.1)'}; border: 1px solid ${healthStatus.color};">
+                                <div style="width: 8px; height: 8px; border-radius: 50%; background: ${healthStatus.color}; margin-right: 6px;"></div>
+                                <span style="font-size: 12px; font-weight: 500;">${healthStatus.text}</span>
                             </div>
+                        </div>
+                        
+                        <div class="pet-passport-body">
+                            <div class="pet-passport-row">
+                                <div class="pet-passport-label">Возраст</div>
+                                <div class="pet-passport-value">${pet.age || 0} лет</div>
+                            </div>
+                            <div class="pet-passport-row desktop-only">
+                                <div class="pet-passport-label">Дата рождения</div>
+                                <div class="pet-passport-value">${dob}</div>
+                            </div>
+                            <div class="pet-passport-row">
+                                <div class="pet-passport-label">Вес</div>
+                                <div class="pet-passport-value">${pet.weight ? `${pet.weight.toFixed(1)} кг${weightGoalInfo}` : 'Не указан'}</div>
+                            </div>
+                            <div class="pet-passport-row desktop-only">
+                                <div class="pet-passport-label">Пол</div>
+                                <div class="pet-passport-value">${gender}${neutered}</div>
+                            </div>
+                            ${calorieGoal > 0 ? `
+                            <div class="pet-passport-row mobile-compact">
+                                <div class="pet-passport-label">Калории</div>
+                                <div class="pet-passport-value">${todayCalories}/${calorieGoal} ккал</div>
+                            </div>
+                            ` : ''}
+                            ${pet.microchipNumber ? `
+                            <div class="pet-passport-row desktop-only">
+                                <div class="pet-passport-label">Чип</div>
+                                <div class="pet-passport-value" style="font-size: 11px; font-family: monospace;">${pet.microchipNumber}</div>
+                            </div>
+                            ` : ''}
+                            ${lastVisit ? `
+                            <div class="pet-passport-row desktop-only">
+                                <div class="pet-passport-label">Последний визит</div>
+                                <div class="pet-passport-value">${formatDate(lastVisit)}</div>
+                            </div>
+                            ` : ''}
+                            ${nextVaccine ? `
+                            <div class="pet-passport-row pet-vaccine-warning" style="background: rgba(255, 165, 0, 0.05); border-left: 3px solid #FFA500; padding: 8px 12px; border-radius: var(--radius-sm); margin-top: 8px;">
+                                <div class="pet-passport-label">⚠️ Вакцинация</div>
+                                <div class="pet-passport-value" style="color: #FFA500; font-weight: 500;">${nextVaccine.name || 'Требуется'}</div>
+                            </div>
+                            ` : ''}
                         </div>
                     </div>
                 `;
