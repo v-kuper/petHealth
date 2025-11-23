@@ -1294,6 +1294,69 @@
                     eventsContainer.innerHTML = eventsHTML;
                 }
             }
+            
+            // 3. Daily status log - состояние питомца за день
+            const statusContainer = document.getElementById('home-daily-status');
+            if (statusContainer) {
+                const today = new Date().toISOString().split('T')[0];
+                const todayStatuses = [];
+                
+                // Собираем статусы за сегодня для всех питомцев
+                pets.forEach(pet => {
+                    if (pet.dailyStatusLogs) {
+                        const todayLog = pet.dailyStatusLogs.find(log => log.date === today);
+                        if (todayLog) {
+                            todayStatuses.push({ ...todayLog, petName: pet.name, petId: pet.id });
+                        }
+                    }
+                });
+                
+                let statusHTML = '';
+                
+                // Показываем существующие логи за сегодня
+                if (todayStatuses.length > 0) {
+                    statusHTML += '<div style="margin-bottom: 16px;">';
+                    todayStatuses.forEach(status => {
+                        const moodEmoji = {
+                            'excellent': '😄',
+                            'good': '🙂',
+                            'normal': '😐',
+                            'sad': '😔',
+                            'anxious': '😰',
+                            'tired': '😴'
+                        }[status.mood] || '😐';
+                        
+                        statusHTML += `
+                            <div class="card" style="margin-bottom: 12px; padding: 16px;">
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                                    <div>
+                                        <div style="font-weight: bold; margin-bottom: 4px;">${status.petName}</div>
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <div style="font-size: 24px;">${moodEmoji}</div>
+                                            <div style="font-size: 14px; color: var(--color-text-secondary);">${status.mood === 'excellent' ? 'Отлично' : status.mood === 'good' ? 'Хорошо' : status.mood === 'normal' ? 'Нормально' : status.mood === 'sad' ? 'Грустно' : status.mood === 'anxious' ? 'Тревожно' : 'Устал'}</div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="font-size: 24px; font-weight: bold; color: var(--color-primary);">${status.statusScore}/10</div>
+                                        <div style="font-size: 11px; color: var(--color-text-secondary);">Состояние</div>
+                                    </div>
+                                </div>
+                                ${status.comment ? `<div style="padding: 8px; background: var(--color-bg-1); border-radius: var(--radius-sm); font-size: 13px; color: var(--color-text-secondary);">${status.comment}</div>` : ''}
+                            </div>
+                        `;
+                    });
+                    statusHTML += '</div>';
+                }
+                
+                // Кнопка для добавления/редактирования лога
+                statusHTML += `
+                    <button class="btn btn-primary" onclick="showDailyStatusModal()" style="width: 100%;">
+                        ${todayStatuses.length > 0 ? '✏️ Изменить состояние' : '➕ Записать состояние'}
+                    </button>
+                `;
+                
+                statusContainer.innerHTML = statusHTML;
+            }
         }
         
         function getHealthStatus(pet) {
@@ -3390,6 +3453,93 @@
             event.target.reset();
             selectedSeverity = null;
             document.querySelectorAll('.severity-option').forEach(o => o.classList.remove('selected'));
+        }
+        
+        function showDailyStatusModal() {
+            const select = document.getElementById('daily-status-pet-select');
+            const dateInput = document.getElementById('daily-status-date');
+            
+            // Заполняем список питомцев
+            select.innerHTML = pets.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+            
+            // Устанавливаем сегодняшнюю дату по умолчанию
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.value = today;
+            
+            // Проверяем, есть ли уже лог на сегодня для первого питомца
+            if (pets.length > 0) {
+                const firstPet = pets[0];
+                if (firstPet.dailyStatusLogs) {
+                    const todayLog = firstPet.dailyStatusLogs.find(log => log.date === today);
+                    if (todayLog) {
+                        // Заполняем форму существующими данными
+                        select.value = firstPet.id;
+                        const slider = document.getElementById('daily-status-slider');
+                        const valueDisplay = document.getElementById('daily-status-value');
+                        const hiddenInput = document.getElementById('daily-status-score-input');
+                        
+                        slider.value = todayLog.statusScore;
+                        valueDisplay.textContent = todayLog.statusScore;
+                        hiddenInput.value = todayLog.statusScore;
+                        
+                        const moodSelect = document.querySelector('#daily-status-form select[name="mood"]');
+                        if (moodSelect) moodSelect.value = todayLog.mood;
+                        const commentTextarea = document.querySelector('#daily-status-form textarea[name="comment"]');
+                        if (commentTextarea) commentTextarea.value = todayLog.comment || '';
+                    }
+                }
+            }
+            
+            document.getElementById('daily-status-modal').classList.add('active');
+        }
+        
+        function saveDailyStatus(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const petId = parseInt(formData.get('petId'));
+            const pet = pets.find(p => p.id === petId);
+            
+            if (!pet) {
+                showToast('❌ Питомец не найден');
+                return;
+            }
+            
+            // Инициализируем массив логов, если его нет
+            if (!pet.dailyStatusLogs) {
+                pet.dailyStatusLogs = [];
+            }
+            
+            const date = formData.get('date');
+            const statusScore = parseInt(document.getElementById('daily-status-slider').value);
+            const mood = formData.get('mood');
+            const comment = formData.get('comment') || '';
+            
+            // Ищем существующий лог на эту дату
+            const existingLogIndex = pet.dailyStatusLogs.findIndex(log => log.date === date);
+            
+            const statusLog = {
+                date: date,
+                statusScore: statusScore,
+                mood: mood,
+                comment: comment,
+                timestamp: new Date().toISOString()
+            };
+            
+            if (existingLogIndex >= 0) {
+                // Обновляем существующий лог
+                pet.dailyStatusLogs[existingLogIndex] = statusLog;
+            } else {
+                // Добавляем новый лог
+                pet.dailyStatusLogs.unshift(statusLog);
+            }
+            
+            // Сортируем по дате (новые сверху)
+            pet.dailyStatusLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            renderHomeScreen();
+            closeModal('daily-status-modal');
+            showToast('✅ Состояние записано!');
+            event.target.reset();
         }
 
         function formatDate(dateString) {

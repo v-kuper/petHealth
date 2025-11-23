@@ -290,6 +290,9 @@
             </div>
             <div id="home-upcoming-events" style="margin-bottom: 24px;"></div>
 
+            <div class="section-title">Состояние питомца за день</div>
+            <div id="home-daily-status" style="margin-bottom: 24px;"></div>
+
             <div class="section-title">Быстрые действия</div>
             <div class="quick-actions" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px;">
                 <button class="btn btn-primary" onclick="showAddMealModal()" style="padding: 20px;">🍽️<br>Добавить прием пищи</button>
@@ -760,6 +763,51 @@
                     <textarea class="form-control" name="notes"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="daily-status-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Состояние питомца за день</h2>
+                <button class="close-btn" onclick="closeModal('daily-status-modal')">&times;</button>
+            </div>
+            <form id="daily-status-form" onsubmit="saveDailyStatus(event)">
+                <div class="form-group">
+                    <label class="form-label">Питомец</label>
+                    <select class="form-control" name="petId" id="daily-status-pet-select" required>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Дата</label>
+                    <input type="date" class="form-control" name="date" id="daily-status-date" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Состояние: <span id="daily-status-value">5</span>/10</label>
+                    <input type="range" min="1" max="10" value="5" class="form-control" id="daily-status-slider" oninput="document.getElementById('daily-status-value').textContent = this.value; document.getElementById('daily-status-score-input').value = this.value;" style="padding: 0;">
+                    <input type="hidden" name="statusScore" id="daily-status-score-input" value="5">
+                    <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--color-text-secondary); margin-top: 4px;">
+                        <span>1 - Плохо</span>
+                        <span>10 - Отлично</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Настроение</label>
+                    <select class="form-control" name="mood" required>
+                        <option value="excellent">😄 Отлично</option>
+                        <option value="good">🙂 Хорошо</option>
+                        <option value="normal" selected>😐 Нормально</option>
+                        <option value="sad">😔 Грустно</option>
+                        <option value="anxious">😰 Тревожно</option>
+                        <option value="tired">😴 Устал</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Комментарий</label>
+                    <textarea class="form-control" name="comment" rows="3" placeholder="Например: Активно играл, хорошо ел, веселый"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">💾 Сохранить</button>
             </form>
         </div>
     </div>
