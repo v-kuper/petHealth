@@ -1169,73 +1169,130 @@
         }
         
         function renderHomeScreen() {
-            // User name
-            if (currentUser) {
-                const nameEl = document.getElementById('user-name-home');
-                if (nameEl) nameEl.textContent = currentUser.name;
-            }
-            
-            // Pet overview cards
+            // 1. Pet overview cards - питомцы вверху (приоритет #1)
             const overviewContainer = document.querySelector('#home-pets-overview > div');
             if (overviewContainer) {
                 overviewContainer.innerHTML = pets.map(pet => {
                     const emoji = pet.species === 'dog' ? '🐕' : pet.species === 'cat' ? '🐈' : '🐾';
                     const healthStatus = getHealthStatus(pet);
                     const nextEvent = getNextEvent(pet);
+                    
+                    // Получаем информацию о калориях за сегодня
+                    const today = new Date().toISOString().split('T')[0];
+                    let todayCalories = 0;
+                    let calorieGoal = 0;
+                    if (pet.nutritionData) {
+                        calorieGoal = pet.nutritionData.dailyCalorieGoal || 0;
+                        if (pet.nutritionData.meals) {
+                            pet.nutritionData.meals.forEach(meal => {
+                                if (meal.date && meal.date.startsWith(today)) {
+                                    todayCalories += meal.calories || 0;
+                                }
+                            });
+                        }
+                    }
+                    const caloriesPercent = calorieGoal > 0 ? Math.round((todayCalories / calorieGoal) * 100) : 0;
+                    
+                    // Получаем информацию о весе и целях
+                    let weightInfo = '';
+                    if (pet.weight) {
+                        weightInfo = `${pet.weight.toFixed(1)} кг`;
+                        if (pet.weightGoals && pet.weightGoals.targetWeight) {
+                            const target = pet.weightGoals.targetWeight;
+                            const trend = pet.weightGoals.goalType === 'lose' ? '📉' : pet.weightGoals.goalType === 'gain' ? '📈' : '➡️';
+                            weightInfo += ` / ${target} кг ${trend}`;
+                        }
+                    }
+                    
                     return `
-                        <div class="card" style="min-width: 280px; cursor: pointer;" onclick="showPetProfile(${pet.id})">
-                            <div style="display: flex; gap: 16px; align-items: center;">
-                                <div class="pet-avatar" style="width: 64px; height: 64px; font-size: 32px;">${emoji}</div>
+                        <div class="card" style="min-width: 200px; cursor: pointer;" onclick="showPetProfile(${pet.id})">
+                            <div style="display: flex; gap: 12px; align-items: center;">
+                                <div class="pet-avatar" style="width: 48px; height: 48px; font-size: 24px;">${emoji}</div>
                                 <div style="flex: 1;">
-                                    <h3 style="margin-bottom: 4px;">${pet.name}</h3>
-                                    <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 8px;">${pet.breed} • ${pet.age} лет</div>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <div style="width: 8px; height: 8px; border-radius: 50%; background: ${healthStatus.color};"></div>
-                                        <span style="font-size: 12px;">${healthStatus.text}</span>
+                                    <h3 style="margin-bottom: 4px; font-size: 16px;">${pet.name}</h3>
+                                    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                                        <div style="width: 6px; height: 6px; border-radius: 50%; background: ${healthStatus.color};"></div>
+                                        <span style="font-size: 11px; color: var(--color-text-secondary);">${healthStatus.text}</span>
                                     </div>
+                                    ${weightInfo ? `<div style="font-size: 10px; color: var(--color-text-secondary); margin-bottom: 4px;">⚖️ ${weightInfo}</div>` : ''}
+                                    ${calorieGoal > 0 ? `<div style="font-size: 10px; color: var(--color-text-secondary);">🍽️ ${todayCalories}/${calorieGoal} ккал (${caloriesPercent}%)</div>` : ''}
                                 </div>
                             </div>
-                            ${nextEvent ? `<div style="margin-top: 12px; padding: 8px; background: var(--color-bg-2); border-radius: var(--radius-sm); font-size: 12px;">📅 ${nextEvent}</div>` : ''}
+                            ${nextEvent ? `<div style="margin-top: 8px; padding: 6px; background: var(--color-bg-2); border-radius: var(--radius-sm); font-size: 11px;">📅 ${nextEvent}</div>` : ''}
                         </div>
                     `;
                 }).join('');
             }
             
-            // Upcoming events
+            // 2. Events for today - события на сегодня (приоритет #2)
             const eventsContainer = document.getElementById('home-upcoming-events');
             if (eventsContainer) {
-                const allEvents = getAllUpcomingEvents().slice(0, 5);
-                eventsContainer.innerHTML = allEvents.length > 0 ? allEvents.map(event => `
-                    <div class="notification-item ${event.priority}-priority" style="margin-bottom: 12px;">
-                        <div style="display: flex; gap: 12px; align-items: center;">
-                            <div style="font-size: 24px;">${event.icon}</div>
-                            <div style="flex: 1;">
-                                <div style="font-weight: bold; margin-bottom: 4px;">${event.title}</div>
-                                <div style="font-size: 13px; color: var(--color-text-secondary);">${event.petName} • ${formatTimeUntil(event.dueDate)}</div>
-                            </div>
-                            <button class="btn btn-primary btn-sm" onclick="markNotificationDone(${event.id})">✓</button>
-                        </div>
-                    </div>
-                `).join('') : '<div style="padding: 20px; text-align: center; color: var(--color-text-secondary);">Нет предстоящих событий</div>';
-            }
-            
-            // Recent activity
-            const activityContainer = document.getElementById('home-recent-activity');
-            if (activityContainer) {
-                const recentActivities = getRecentActivities().slice(0, 5);
-                activityContainer.innerHTML = recentActivities.length > 0 ? `
-                    <div class="timeline">
-                        ${recentActivities.map(activity => `
-                            <div class="timeline-item">
-                                <div class="timeline-date">${formatDate(activity.date)} • ${activity.petName}</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">${activity.icon} ${activity.title}</div>
-                                    <div style="font-size: 13px; color: var(--color-text-secondary);">${activity.description}</div>
+                const allEvents = getAllUpcomingEvents();
+                const today = new Date().toISOString().split('T')[0];
+                
+                // Фильтруем события на сегодня
+                const todayEvents = allEvents.filter(event => {
+                    const eventDate = new Date(event.dueDate).toISOString().split('T')[0];
+                    return eventDate === today;
+                });
+                
+                const maxVisible = 3;
+                const visibleEvents = todayEvents.slice(0, maxVisible);
+                const hasMore = todayEvents.length > maxVisible;
+                const hiddenEvents = hasMore ? todayEvents.slice(maxVisible) : [];
+                
+                // Сохраняем состояние раскрытия списка
+                const hiddenDiv = document.getElementById('home-events-hidden');
+                const wasExpanded = hiddenDiv && hiddenDiv.style.display !== 'none';
+                
+                if (todayEvents.length === 0) {
+                    eventsContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--color-text-secondary);">Нет событий на сегодня</div>';
+                } else {
+                    let eventsHTML = '<div id="home-events-visible">';
+                    
+                    // Показываем первые 3 события
+                    eventsHTML += visibleEvents.map(event => `
+                        <div class="notification-item ${event.priority}-priority" style="margin-bottom: 12px;">
+                            <div style="display: flex; gap: 12px; align-items: center;">
+                                <div style="font-size: 24px;">${event.icon}</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: bold; margin-bottom: 4px;">${event.title}</div>
+                                    <div style="font-size: 13px; color: var(--color-text-secondary);">${event.petName} • ${formatTimeUntil(event.dueDate)}</div>
                                 </div>
+                                <button class="btn btn-primary btn-sm" onclick="markNotificationDone(${event.id}); renderHomeScreen();">✓</button>
                             </div>
-                        `).join('')}
-                    </div>
-                ` : '<div style="padding: 20px; text-align: center; color: var(--color-text-secondary);">Нет недавней активности</div>';
+                        </div>
+                    `).join('');
+                    
+                    eventsHTML += '</div>';
+                    
+                    // Скрытые события (раскрывающийся список)
+                    if (hasMore) {
+                        eventsHTML += `
+                            <div id="home-events-hidden" style="display: ${wasExpanded ? 'block' : 'none'};">
+                                ${hiddenEvents.map(event => `
+                                    <div class="notification-item ${event.priority}-priority" style="margin-bottom: 12px;">
+                                        <div style="display: flex; gap: 12px; align-items: center;">
+                                            <div style="font-size: 24px;">${event.icon}</div>
+                                            <div style="flex: 1;">
+                                                <div style="font-weight: bold; margin-bottom: 4px;">${event.title}</div>
+                                                <div style="font-size: 13px; color: var(--color-text-secondary);">${event.petName} • ${formatTimeUntil(event.dueDate)}</div>
+                                            </div>
+                                            <button class="btn btn-primary btn-sm" onclick="markNotificationDone(${event.id}); renderHomeScreen();">✓</button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div style="text-align: center; margin-top: 12px;">
+                                <button class="btn btn-secondary btn-sm" onclick="toggleHomeEvents()" id="home-events-toggle" style="width: 100%;">
+                                    ${wasExpanded ? `Скрыть (${hiddenEvents.length})` : `Показать ещё (${hiddenEvents.length})`}
+                                </button>
+                            </div>
+                        `;
+                    }
+                    
+                    eventsContainer.innerHTML = eventsHTML;
+                }
             }
         }
         
@@ -1378,6 +1435,81 @@
             if (pet.weightGoals.goalType === 'gain' && current > start) trend = '📈';
             
             return { percent, trend };
+        }
+        
+        function getActiveWeightGoals() {
+            const activeGoals = [];
+            
+            pets.forEach(pet => {
+                if (pet.weightGoals && pet.weightGoals.targetWeight && pet.weightHistory && pet.weightHistory.length > 0) {
+                    const current = pet.weight || 0;
+                    const target = pet.weightGoals.targetWeight;
+                    const start = pet.weightHistory[pet.weightHistory.length - 1]?.weight || current;
+                    
+                    // Рассчитываем прогресс в зависимости от типа цели
+                    let progress = 0;
+                    let trend = '➡️';
+                    
+                    if (pet.weightGoals.goalType === 'lose') {
+                        // Для снижения веса: прогресс = сколько потеряли от начального веса к цели
+                        const totalToLose = start - target;
+                        const currentLoss = start - current;
+                        progress = totalToLose > 0 ? Math.round((currentLoss / totalToLose) * 100) : 0;
+                        if (current < start) trend = '📉';
+                    } else if (pet.weightGoals.goalType === 'gain') {
+                        // Для набора веса: прогресс = сколько набрали от начального веса к цели
+                        const totalToGain = target - start;
+                        const currentGain = current - start;
+                        progress = totalToGain > 0 ? Math.round((currentGain / totalToGain) * 100) : 0;
+                        if (current > start) trend = '📈';
+                    } else if (pet.weightGoals.goalType === 'maintain') {
+                        // Для поддержания: показываем отклонение от цели
+                        const deviation = Math.abs(current - target);
+                        const maxDeviation = target * 0.1; // 10% отклонение считается нормальным
+                        progress = maxDeviation > 0 ? Math.max(0, 100 - Math.round((deviation / maxDeviation) * 100)) : 100;
+                        if (Math.abs(current - target) < 0.1) trend = '✅';
+                    }
+                    
+                    // Ограничиваем прогресс от 0 до 100
+                    progress = Math.max(0, Math.min(100, progress));
+                    
+                    activeGoals.push({
+                        petName: pet.name,
+                        currentWeight: current.toFixed(1),
+                        targetWeight: target.toFixed(1),
+                        progress: progress,
+                        trend: trend,
+                        goalType: pet.weightGoals.goalType
+                    });
+                }
+            });
+            
+            return activeGoals;
+        }
+        
+        function toggleHomeEvents() {
+            const hiddenDiv = document.getElementById('home-events-hidden');
+            const toggleBtn = document.getElementById('home-events-toggle');
+            
+            if (hiddenDiv && toggleBtn) {
+                const isHidden = hiddenDiv.style.display === 'none';
+                hiddenDiv.style.display = isHidden ? 'block' : 'none';
+                
+                // Получаем события на сегодня для правильного подсчета
+                const allEvents = getAllUpcomingEvents();
+                const today = new Date().toISOString().split('T')[0];
+                const todayEvents = allEvents.filter(event => {
+                    const eventDate = new Date(event.dueDate).toISOString().split('T')[0];
+                    return eventDate === today;
+                });
+                const hiddenCount = todayEvents.length - 3;
+                
+                if (isHidden) {
+                    toggleBtn.textContent = `Скрыть (${hiddenCount})`;
+                } else {
+                    toggleBtn.textContent = `Показать ещё (${hiddenCount})`;
+                }
+            }
         }
 
         function showSettingsScreen() {
