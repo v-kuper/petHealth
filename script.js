@@ -3989,6 +3989,9 @@
                 amount: parseFloat(formData.get('amount')),
                 unit: formData.get('unit'),
                 calories: parseInt(formData.get('calories')),
+                protein: formData.get('protein') ? parseFloat(formData.get('protein')) : null,
+                fat: formData.get('fat') ? parseFloat(formData.get('fat')) : null,
+                carbs: formData.get('carbs') ? parseFloat(formData.get('carbs')) : null,
                 mealType: formData.get('mealType'),
                 notes: formData.get('notes')
             };
@@ -4146,9 +4149,12 @@
                 return;
             }
             
-            // Calculate today's calories
+            // Calculate today's calories and macros
             const today = new Date().toISOString().split('T')[0];
             let totalCalories = 0;
+            let totalProtein = 0;
+            let totalFat = 0;
+            let totalCarbs = 0;
             let totalGoal = 0;
             const petCalories = {};
             
@@ -4158,14 +4164,24 @@
                     totalGoal += goal;
                     
                     let consumed = 0;
+                    let protein = 0;
+                    let fat = 0;
+                    let carbs = 0;
+                    
                     pet.nutritionData.meals.forEach(meal => {
                         if (meal.date.startsWith(today)) {
                             consumed += meal.calories || 0;
+                            protein += meal.protein || 0;
+                            fat += meal.fat || 0;
+                            carbs += meal.carbs || 0;
                         }
                     });
                     
                     totalCalories += consumed;
-                    petCalories[pet.id] = { consumed, goal, pet };
+                    totalProtein += protein;
+                    totalFat += fat;
+                    totalCarbs += carbs;
+                    petCalories[pet.id] = { consumed, goal, pet, protein, fat, carbs };
                 }
             });
             
@@ -4202,18 +4218,27 @@
                 <!-- Today's Summary -->
                 <div class="card" style="margin-bottom: 24px;">
                     <h3 style="margin-bottom: 16px;">📊 Сегодня</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px; margin-bottom: 20px;">
                         <div style="text-align: center;">
-                            <div style="font-size: 32px; font-weight: bold; color: var(--nutrition-orange);">${totalCalories}</div>
-                            <div style="font-size: 12px; color: var(--color-text-secondary);">Съедено ккал</div>
+                            <div style="font-size: 28px; font-weight: bold; color: var(--nutrition-orange);">${totalCalories}</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary);">Ккал</div>
+                            <div style="font-size: 10px; color: var(--color-text-secondary); margin-top: 2px;">из ${totalGoal}</div>
                         </div>
                         <div style="text-align: center;">
-                            <div style="font-size: 32px; font-weight: bold; color: var(--color-primary);">${totalGoal}</div>
-                            <div style="font-size: 12px; color: var(--color-text-secondary);">Цель ккал</div>
+                            <div style="font-size: 28px; font-weight: bold; color: var(--color-primary);">${totalProtein.toFixed(1)}</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary);">Белки (г)</div>
                         </div>
                         <div style="text-align: center;">
-                            <div style="font-size: 32px; font-weight: bold; color: ${percent >= 100 ? 'var(--nutrition-green)' : percent >= 80 ? 'var(--pet-warning)' : 'var(--color-text-secondary)'};">${percent}%</div>
-                            <div style="font-size: 12px; color: var(--color-text-secondary);">Прогресс</div>
+                            <div style="font-size: 28px; font-weight: bold; color: var(--pet-warning);">${totalFat.toFixed(1)}</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary);">Жиры (г)</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 28px; font-weight: bold; color: var(--nutrition-green);">${totalCarbs.toFixed(1)}</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary);">Углеводы (г)</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 28px; font-weight: bold; color: ${percent >= 100 ? 'var(--nutrition-green)' : percent >= 80 ? 'var(--pet-warning)' : 'var(--color-text-secondary)'};">${percent}%</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary);">Прогресс</div>
                         </div>
                     </div>
                     <div style="background: var(--color-surface); border-radius: var(--radius-base); padding: 12px;">
@@ -4227,14 +4252,22 @@
                 ${selectedPets.length > 1 ? `
                     <div class="card" style="margin-bottom: 24px;">
                         <h3 style="margin-bottom: 16px;">По питомцам</h3>
-                        ${Object.values(petCalories).map(({ consumed, goal, pet }) => {
+                        ${Object.values(petCalories).map(({ consumed, goal, pet, protein, fat, carbs }) => {
                             const petPercent = goal > 0 ? Math.round((consumed / goal) * 100) : 0;
+                            const hasMacros = (protein && protein > 0) || (fat && fat > 0) || (carbs && carbs > 0);
                             return `
                                 <div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--color-card-border);">
                                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                                         <strong>${pet.name}</strong>
                                         <span>${consumed} / ${goal} ккал</span>
                                     </div>
+                                    ${hasMacros ? `
+                                    <div style="display: flex; gap: 12px; margin-bottom: 8px; font-size: 11px; color: var(--color-text-secondary);">
+                                        ${protein && protein > 0 ? `<div><span style="color: var(--color-primary);">Б:</span> ${protein.toFixed(1)}г</div>` : ''}
+                                        ${fat && fat > 0 ? `<div><span style="color: var(--pet-warning);">Ж:</span> ${fat.toFixed(1)}г</div>` : ''}
+                                        ${carbs && carbs > 0 ? `<div><span style="color: var(--nutrition-green);">У:</span> ${carbs.toFixed(1)}г</div>` : ''}
+                                    </div>
+                                    ` : ''}
                                     <div style="height: 8px; background: var(--color-secondary); border-radius: var(--radius-full); overflow: hidden;">
                                         <div style="width: ${Math.min(petPercent, 100)}%; height: 100%; background: var(--nutrition-orange);"></div>
                                     </div>
@@ -4299,7 +4332,9 @@
                 return '<div class="empty-state"><div class="empty-state-icon">🍽️</div><p>Нет записей о питании</p></div>';
             }
             
-            return allMeals.slice(0, 10).map(meal => `
+            return allMeals.slice(0, 10).map(meal => {
+                const hasMacros = meal.protein !== null && meal.protein !== undefined || meal.fat !== null && meal.fat !== undefined || meal.carbs !== null && meal.carbs !== undefined;
+                return `
                 <div class="meal-entry">
                     <div class="meal-header">
                         <div>
@@ -4313,9 +4348,17 @@
                     <div style="margin-top: 8px;">
                         <strong>${meal.foodName}</strong> • ${meal.amount} ${meal.unit}
                     </div>
+                    ${hasMacros ? `
+                    <div style="display: flex; gap: 12px; margin-top: 8px; padding: 8px; background: var(--color-bg-1); border-radius: var(--radius-sm); font-size: 11px;">
+                        ${meal.protein !== null && meal.protein !== undefined ? `<div><span style="color: var(--color-primary); font-weight: 500;">Б:</span> ${meal.protein.toFixed(1)}г</div>` : ''}
+                        ${meal.fat !== null && meal.fat !== undefined ? `<div><span style="color: var(--pet-warning); font-weight: 500;">Ж:</span> ${meal.fat.toFixed(1)}г</div>` : ''}
+                        ${meal.carbs !== null && meal.carbs !== undefined ? `<div><span style="color: var(--nutrition-green); font-weight: 500;">У:</span> ${meal.carbs.toFixed(1)}г</div>` : ''}
+                    </div>
+                    ` : ''}
                     ${meal.notes ? `<div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">${meal.notes}</div>` : ''}
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
         function renderWeightTracker(selectedPetId = 'all') {
