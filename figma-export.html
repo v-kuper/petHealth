@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetHealth - Figma Export (Onboarding & Auth)</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Figma Export Overrides */
+        body {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 60px !important;
+            background-color: #E5E5E5 !important;
+            padding: 60px !important;
+            align-items: flex-start !important;
+            justify-content: center !important;
+            height: auto !important;
+            overflow: auto !important;
+        }
+
+        .screen {
+            display: block !important;
+            position: relative !important;
+            width: 375px !important;
+            height: 812px !important;
+            background: var(--color-background) !important;
+            border: none !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+            border-radius: 40px !important;
+            overflow: hidden !important;
+            /* Hide scrollbars for cleaner export */
+            margin: 0 !important;
+            flex-shrink: 0 !important;
+            transform: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* Add labels above screens */
+        .screen::before {
+            content: attr(id);
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-family: sans-serif;
+            font-size: 10px;
+            color: rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 1000;
+            pointer-events: none;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .container {
+            display: contents !important;
+        }
+
+        /* Hide modals */
+        .modal {
+            display: none !important;
+        }
+
+        /* Hide app header and nav for these screens as they are full screen flows */
+        .app-header,
+        .bottom-nav {
+            display: none !important;
+        }
+
+        /* Hide the toast */
+        #toast {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Authentication Screens -->
+    <div id="welcome-screen" class="screen active" style="display: block;">
+        <div
+            style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center;">
+            <div style="font-size: 80px; margin-bottom: 20px;">🐾</div>
+            <h1 style="font-size: 36px; margin-bottom: 12px; color: var(--color-primary);">PetHealth</h1>
+            <p style="font-size: 18px; color: var(--color-text-secondary); margin-bottom: 40px; max-width: 400px;">
+                Цифровая медкарта для вашего питомца</p>
+
+            <div style="display: flex; flex-direction: column; gap: 24px; margin-bottom: 48px; max-width: 400px;">
+                <div style="display: flex; align-items: center; gap: 16px; text-align: left;">
+                    <div style="font-size: 40px; flex-shrink: 0;">📋</div>
+                    <div>
+                        <div style="font-weight: 500; margin-bottom: 4px;">Вся медицинская история в одном месте</div>
+                        <div style="font-size: 14px; color: var(--color-text-secondary);">Храните все записи о здоровье
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px; text-align: left;">
+                    <div style="font-size: 40px; flex-shrink: 0;">📅</div>
+                    <div>
+                        <div style="font-weight: 500; margin-bottom: 4px;">Напоминания о прививках и визитах</div>
+                        <div style="font-size: 14px; color: var(--color-text-secondary);">Не пропустите важные даты
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px; text-align: left;">
+                    <div style="font-size: 40px; flex-shrink: 0;">📊</div>
+                    <div>
+                        <div style="font-weight: 500; margin-bottom: 4px;">Контроль здоровья и питания</div>
+                        <div style="font-size: 14px; color: var(--color-text-secondary);">Следите за весом и калориями
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="showEmailEntry()"
+                style="width: 100%; max-width: 400px; padding: 16px; font-size: 18px; margin-bottom: 16px;">Начать</button>
+            <a href="#" onclick="showEmailEntry()" style="color: var(--color-primary); font-size: 14px;">Уже есть
+                аккаунт? Войти</a>
+        </div>
+    </div>
+
+    <div id="email-entry-screen" class="screen">
+        <div
+            style="min-height: 100vh; display: flex; flex-direction: column; padding: 20px; max-width: 500px; margin: 0 auto;">
+            <button class="btn btn-outline btn-sm" onclick="showWelcomeScreen()"
+                style="align-self: flex-start; margin-bottom: 40px;">← Назад</button>
+
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h2 style="font-size: 28px; margin-bottom: 12px;">Вход или регистрация</h2>
+                <p style="color: var(--color-text-secondary); margin-bottom: 32px;">Введите ваш email для входа</p>
+
+                <form onsubmit="submitEmail(event)">
+                    <div class="form-group">
+                        <input type="email" id="email-input" class="form-control" placeholder="ваш@email.com" required
+                            autofocus style="font-size: 16px; padding: 16px;">
+                        <div id="email-validation" style="display: none; margin-top: 8px; font-size: 14px;"></div>
+                    </div>
+
+                    <button type="submit" id="email-submit-btn" class="btn btn-primary"
+                        style="width: 100%; padding: 16px; font-size: 16px; margin-bottom: 20px;">Продолжить</button>
+
+                    <p
+                        style="font-size: 12px; color: var(--color-text-secondary); text-align: center; line-height: 1.5;">
+                        Продолжая, вы соглашаетесь с условиями использования и политикой конфиденциальности
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="code-verification-screen" class="screen">
+        <div
+            style="min-height: 100vh; display: flex; flex-direction: column; padding: 20px; max-width: 500px; margin: 0 auto;">
+            <button class="btn btn-outline btn-sm" onclick="showEmailEntry()"
+                style="align-self: flex-start; margin-bottom: 40px;">← Назад</button>
+
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h2 style="font-size: 28px; margin-bottom: 12px;">Проверьте email</h2>
+                <p style="color: var(--color-text-secondary); margin-bottom: 8px;" id="code-subtitle">Мы отправили
+                    6-значный код на ваш email</p>
+                <a href="#" onclick="showEmailEntry()"
+                    style="color: var(--color-primary); font-size: 14px; margin-bottom: 32px;">Изменить email</a>
+
+                <div id="code-inputs" style="display: flex; gap: 12px; justify-content: center; margin-bottom: 24px;">
+                    <input type="number" maxlength="1" class="code-input" data-index="0"
+                        style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="number" maxlength="1" class="code-input" data-index="1"
+                        style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="number" maxlength="1" class="code-input" data-index="2"
+                        style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="number" maxlength="1" class="code-input" data-index="3"
+                        style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="number" maxlength="1" class="code-input" data-index="4"
+                        style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="number" maxlength="1" class="code-input" data-index="5"
+                        style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                </div>
+
+                <div id="code-error"
+                    style="display: none; color: var(--color-error); text-align: center; margin-bottom: 16px; font-size: 14px;">
+                </div>
+                <div id="code-loading" style="display: none; text-align: center; margin-bottom: 16px;">
+                    <div class="loading-spinner" style="margin: 0 auto;"></div>
+                    <p style="margin-top: 12px; color: var(--color-text-secondary);">Проверяем код...</p>
+                </div>
+
+                <div style="text-align: center; margin-top: 32px;">
+                    <p style="color: var(--color-text-secondary); font-size: 14px; margin-bottom: 12px;">Не получили
+                        код?</p>
+                    <button id="resend-btn" class="btn btn-secondary" onclick="resendCode()" disabled>Отправить повторно
+                        через <span id="resend-timer">30</span>с</button>
+                </div>
+
+                <div
+                    style="background: var(--color-bg-5); padding: 12px; border-radius: var(--radius-base); margin-top: 24px; font-size: 12px; text-align: center;">
+                    💡 Подсказка: введите любые 6 цифр (демо режим)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile-setup-screen" class="screen">
+        <div
+            style="min-height: 100vh; display: flex; flex-direction: column; padding: 20px; max-width: 500px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <div
+                    style="background: var(--color-bg-1); padding: 8px 16px; border-radius: var(--radius-full); font-size: 14px; font-weight: 500;">
+                    Шаг 1 из 2</div>
+                <a href="#" onclick="skipProfileSetup()"
+                    style="color: var(--color-primary); font-size: 14px;">Пропустить</a>
+            </div>
+
+            <h2 style="font-size: 28px; margin-bottom: 12px;">Создайте ваш профиль</h2>
+            <p style="color: var(--color-text-secondary); margin-bottom: 32px;">Расскажите немного о себе</p>
+
+            <form onsubmit="submitProfile(event)">
+                <div style="text-align: center; margin-bottom: 32px;">
+                    <div
+                        style="width: 100px; height: 100px; border-radius: 50%; background: var(--color-bg-3); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                        👤</div>
+                    <button type="button" class="btn btn-secondary btn-sm">Добавить фото</button>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Ваше имя</label>
+                    <input type="text" id="profile-name" class="form-control" placeholder="Как вас зовут?" required
+                        style="font-size: 16px; padding: 12px;">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Телефон (необязательно)</label>
+                    <input type="tel" id="profile-phone" class="form-control" placeholder="+7 (___) ___-__-__"
+                        style="font-size: 16px; padding: 12px;">
+                </div>
+
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 16px; font-size: 16px; margin-top: 24px;">Далее</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="pet-setup-screen" class="screen">
+        <div
+            style="min-height: 100vh; display: flex; flex-direction: column; padding: 20px; max-width: 500px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <div
+                    style="background: var(--color-bg-1); padding: 8px 16px; border-radius: var(--radius-full); font-size: 14px; font-weight: 500;">
+                    Шаг 2 из 2</div>
+                <a href="#" onclick="skipPetSetup()"
+                    style="color: var(--color-primary); font-size: 14px;">Пропустить</a>
+            </div>
+
+            <h2 style="font-size: 28px; margin-bottom: 12px;">Добавьте вашего питомца</h2>
+            <p style="color: var(--color-text-secondary); margin-bottom: 32px;">Начнём с основной информации</p>
+
+            <form onsubmit="submitFirstPet(event)">
+                <div style="text-align: center; margin-bottom: 32px;">
+                    <div
+                        style="width: 100px; height: 100px; border-radius: 50%; background: var(--color-bg-3); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                        🐾</div>
+                    <button type="button" class="btn btn-secondary btn-sm">Добавить фото</button>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Кличка питомца</label>
+                    <input type="text" id="pet-name" class="form-control" placeholder="Как зовут вашего питомца?"
+                        required style="font-size: 16px; padding: 12px;">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Вид животного</label>
+                    <select id="pet-species" class="form-control" required style="font-size: 16px; padding: 12px;">
+                        <option value="dog">Собака</option>
+                        <option value="cat">Кошка</option>
+                        <option value="bird">Птица</option>
+                        <option value="rabbit">Кролик</option>
+                        <option value="ferret">Хорёк</option>
+                        <option value="rodent">Грызун</option>
+                        <option value="reptile">Рептилия</option>
+                        <option value="other">Другое</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Порода (необязательно)</label>
+                    <input type="text" id="pet-breed" class="form-control" placeholder="Порода"
+                        style="font-size: 16px; padding: 12px;">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Дата рождения или возраст</label>
+                    <input type="date" id="pet-dob" class="form-control" required
+                        style="font-size: 16px; padding: 12px;">
+                </div>
+
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 16px; font-size: 16px; margin-top: 24px;">Добавить питомца</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Custom Export Logic
+        window.addEventListener('load', function () {
+            console.log("Starting Figma Export Mode (Onboarding Only)...");
+
+            // 1. Ensure all screens are visible
+            document.querySelectorAll('.screen').forEach(s => {
+                s.style.display = 'block';
+                s.classList.add('active');
+            });
+
+            console.log("Export Ready!");
+        });
+    </script>
+</body>
+
+</html>
