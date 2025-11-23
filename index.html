@@ -13,7 +13,7 @@
             <div style="font-size: 80px; margin-bottom: 20px;">🐾</div>
             <h1 style="font-size: 36px; margin-bottom: 12px; color: var(--color-primary);">PetHealth</h1>
             <p style="font-size: 18px; color: var(--color-text-secondary); margin-bottom: 40px; max-width: 400px;">Цифровая медкарта для вашего питомца</p>
-            
+
             <div style="display: flex; flex-direction: column; gap: 24px; margin-bottom: 48px; max-width: 400px;">
                 <div style="display: flex; align-items: center; gap: 16px; text-align: left;">
                     <div style="font-size: 40px; flex-shrink: 0;">📋</div>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <button class="btn btn-primary" onclick="showEmailEntry()" style="width: 100%; max-width: 400px; padding: 16px; font-size: 18px; margin-bottom: 16px;">Начать</button>
             <a href="#" onclick="showEmailEntry()" style="color: var(--color-primary); font-size: 14px;">Уже есть аккаунт? Войти</a>
         </div>
@@ -46,19 +46,19 @@
     <div id="email-entry-screen" class="screen">
         <div style="min-height: 100vh; display: flex; flex-direction: column; padding: 20px; max-width: 500px; margin: 0 auto;">
             <button class="btn btn-outline btn-sm" onclick="showWelcomeScreen()" style="align-self: flex-start; margin-bottom: 40px;">← Назад</button>
-            
+
             <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
                 <h2 style="font-size: 28px; margin-bottom: 12px;">Вход или регистрация</h2>
                 <p style="color: var(--color-text-secondary); margin-bottom: 32px;">Введите ваш email для входа</p>
-                
+
                 <form onsubmit="submitEmail(event)">
                     <div class="form-group">
                         <input type="email" id="email-input" class="form-control" placeholder="ваш@email.com" required autofocus style="font-size: 16px; padding: 16px;">
                         <div id="email-validation" style="display: none; margin-top: 8px; font-size: 14px;"></div>
                     </div>
-                    
+
                     <button type="submit" id="email-submit-btn" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 16px; margin-bottom: 20px;">Продолжить</button>
-                    
+
                     <p style="font-size: 12px; color: var(--color-text-secondary); text-align: center; line-height: 1.5;">
                         Продолжая, вы соглашаетесь с условиями использования и политикой конфиденциальности
                     </p>
@@ -70,32 +70,32 @@
     <div id="code-verification-screen" class="screen">
         <div style="min-height: 100vh; display: flex; flex-direction: column; padding: 20px; max-width: 500px; margin: 0 auto;">
             <button class="btn btn-outline btn-sm" onclick="showEmailEntry()" style="align-self: flex-start; margin-bottom: 40px;">← Назад</button>
-            
+
             <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
                 <h2 style="font-size: 28px; margin-bottom: 12px;">Проверьте email</h2>
                 <p style="color: var(--color-text-secondary); margin-bottom: 8px;" id="code-subtitle">Мы отправили 6-значный код на ваш email</p>
                 <a href="#" onclick="showEmailEntry()" style="color: var(--color-primary); font-size: 14px; margin-bottom: 32px;">Изменить email</a>
-                
+
                 <div id="code-inputs" style="display: flex; gap: 12px; justify-content: center; margin-bottom: 24px;">
-                    <input type="text" maxlength="1" class="code-input" data-index="0" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
-                    <input type="text" maxlength="1" class="code-input" data-index="1" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
-                    <input type="text" maxlength="1" class="code-input" data-index="2" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
-                    <input type="text" maxlength="1" class="code-input" data-index="3" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
-                    <input type="text" maxlength="1" class="code-input" data-index="4" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
-                    <input type="text" maxlength="1" class="code-input" data-index="5" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="number" maxlength="1" class="code-input" data-index="0" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="number" maxlength="1" class="code-input" data-index="1" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="number" maxlength="1" class="code-input" data-index="2" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="number" maxlength="1" class="code-input" data-index="3" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="number" maxlength="1" class="code-input" data-index="4" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
+                    <input type="number" maxlength="1" class="code-input" data-index="5" style="width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid var(--color-border); border-radius: var(--radius-base);">
                 </div>
-                
+
                 <div id="code-error" style="display: none; color: var(--color-error); text-align: center; margin-bottom: 16px; font-size: 14px;"></div>
                 <div id="code-loading" style="display: none; text-align: center; margin-bottom: 16px;">
                     <div class="loading-spinner" style="margin: 0 auto;"></div>
                     <p style="margin-top: 12px; color: var(--color-text-secondary);">Проверяем код...</p>
                 </div>
-                
+
                 <div style="text-align: center; margin-top: 32px;">
                     <p style="color: var(--color-text-secondary); font-size: 14px; margin-bottom: 12px;">Не получили код?</p>
                     <button id="resend-btn" class="btn btn-secondary" onclick="resendCode()" disabled>Отправить повторно через <span id="resend-timer">30</span>с</button>
                 </div>
-                
+
                 <div style="background: var(--color-bg-5); padding: 12px; border-radius: var(--radius-base); margin-top: 24px; font-size: 12px; text-align: center;">
                     💡 Подсказка: введите любые 6 цифр (демо режим)
                 </div>
@@ -109,26 +109,26 @@
                 <div style="background: var(--color-bg-1); padding: 8px 16px; border-radius: var(--radius-full); font-size: 14px; font-weight: 500;">Шаг 1 из 2</div>
                 <a href="#" onclick="skipProfileSetup()" style="color: var(--color-primary); font-size: 14px;">Пропустить</a>
             </div>
-            
+
             <h2 style="font-size: 28px; margin-bottom: 12px;">Создайте ваш профиль</h2>
             <p style="color: var(--color-text-secondary); margin-bottom: 32px;">Расскажите немного о себе</p>
-            
+
             <form onsubmit="submitProfile(event)">
                 <div style="text-align: center; margin-bottom: 32px;">
                     <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--color-bg-3); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 48px;">👤</div>
                     <button type="button" class="btn btn-secondary btn-sm">Добавить фото</button>
                 </div>
-                
+
                 <div class="form-group">
                     <label class="form-label">Ваше имя</label>
                     <input type="text" id="profile-name" class="form-control" placeholder="Как вас зовут?" required style="font-size: 16px; padding: 12px;">
                 </div>
-                
+
                 <div class="form-group">
                     <label class="form-label">Телефон (необязательно)</label>
                     <input type="tel" id="profile-phone" class="form-control" placeholder="+7 (___) ___-__-__" style="font-size: 16px; padding: 12px;">
                 </div>
-                
+
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 16px; margin-top: 24px;">Далее</button>
             </form>
         </div>
@@ -140,21 +140,21 @@
                 <div style="background: var(--color-bg-1); padding: 8px 16px; border-radius: var(--radius-full); font-size: 14px; font-weight: 500;">Шаг 2 из 2</div>
                 <a href="#" onclick="skipPetSetup()" style="color: var(--color-primary); font-size: 14px;">Пропустить</a>
             </div>
-            
+
             <h2 style="font-size: 28px; margin-bottom: 12px;">Добавьте вашего питомца</h2>
             <p style="color: var(--color-text-secondary); margin-bottom: 32px;">Начнём с основной информации</p>
-            
+
             <form onsubmit="submitFirstPet(event)">
                 <div style="text-align: center; margin-bottom: 32px;">
                     <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--color-bg-3); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 48px;">🐾</div>
                     <button type="button" class="btn btn-secondary btn-sm">Добавить фото</button>
                 </div>
-                
+
                 <div class="form-group">
                     <label class="form-label">Кличка питомца</label>
                     <input type="text" id="pet-name" class="form-control" placeholder="Как зовут вашего питомца?" required style="font-size: 16px; padding: 12px;">
                 </div>
-                
+
                 <div class="form-group">
                     <label class="form-label">Вид животного</label>
                     <select id="pet-species" class="form-control" required style="font-size: 16px; padding: 12px;">
@@ -168,17 +168,17 @@
                         <option value="other">Другое</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label class="form-label">Порода (необязательно)</label>
                     <input type="text" id="pet-breed" class="form-control" placeholder="Порода" style="font-size: 16px; padding: 12px;">
                 </div>
-                
+
                 <div class="form-group">
                     <label class="form-label">Дата рождения или возраст</label>
                     <input type="date" id="pet-dob" class="form-control" required style="font-size: 16px; padding: 12px;">
                 </div>
-                
+
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 16px; margin-top: 24px;">Добавить питомца</button>
             </form>
         </div>
@@ -187,9 +187,9 @@
     <div id="settings-screen" class="screen">
         <div style="padding: 20px; max-width: 600px; margin: 0 auto;">
             <button class="btn btn-outline btn-sm" onclick="showScreen('dashboard')" style="margin-bottom: 20px;">← Назад</button>
-            
+
             <h2 style="font-size: 28px; margin-bottom: 32px;">Настройки</h2>
-            
+
             <div class="card" style="margin-bottom: 20px;">
                 <h3 style="margin-bottom: 16px;">Аккаунт</h3>
                 <div class="info-item" style="margin-bottom: 12px;">
@@ -201,7 +201,7 @@
                     <span id="settings-name">Пользователь</span>
                 </div>
             </div>
-            
+
             <div class="card" style="margin-bottom: 20px;">
                 <h3 style="margin-bottom: 16px;">Настройки</h3>
                 <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--color-card-border);">
@@ -224,14 +224,14 @@
                     </select>
                 </div>
             </div>
-            
+
             <div class="card" style="margin-bottom: 20px;">
                 <h3 style="margin-bottom: 16px;">Данные</h3>
                 <button class="btn btn-secondary" onclick="showExportModal()" style="width: 100%; margin-bottom: 12px; justify-content: flex-start;">📤 Экспорт всех данных</button>
                 <button class="btn btn-secondary" style="width: 100%; margin-bottom: 12px; justify-content: flex-start;" disabled>📥 Импорт данных <span style="font-size: 11px; margin-left: 8px;">(скоро)</span></button>
                 <button class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">🗑️ Очистить кэш</button>
             </div>
-            
+
             <div class="card" style="margin-bottom: 20px;">
                 <h3 style="margin-bottom: 16px;">О приложении</h3>
                 <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--color-card-border);">
@@ -248,7 +248,7 @@
                     <a href="#" style="color: var(--color-primary);">Поддержка</a>
                 </div>
             </div>
-            
+
             <div style="background: rgba(255, 107, 107, 0.05); border: 2px solid rgba(255, 107, 107, 0.3); border-radius: var(--radius-lg); padding: 20px;">
                 <h3 style="color: var(--pet-accent); margin-bottom: 16px;">⚠️ Опасная зона</h3>
                 <button class="btn btn-danger" onclick="showLogoutConfirm()" style="width: 100%; margin-bottom: 12px;">🚪 Выйти из аккаунта</button>
@@ -283,15 +283,15 @@
                 <h2 style="margin-bottom: 8px;">Добро пожаловать, <span id="user-name-home">Пользователь</span>!</h2>
                 <p style="color: var(--color-text-secondary);">Суббота, 22 ноября 2025</p>
             </div>
-            
+
             <div class="section-title">Обзор питомцев</div>
             <div id="home-pets-overview" style="overflow-x: auto; margin-bottom: 24px;">
                 <div style="display: flex; gap: 16px; padding-bottom: 12px;"></div>
             </div>
-            
+
             <div class="section-title">Предстоящие события</div>
             <div id="home-upcoming-events" style="margin-bottom: 24px;"></div>
-            
+
             <div class="section-title">Быстрые действия</div>
             <div class="quick-actions" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px;">
                 <button class="btn btn-primary" onclick="showAddRecordModal()" style="padding: 20px;">📝<br>Новая запись визита</button>
@@ -299,11 +299,11 @@
                 <button class="btn btn-primary" onclick="showAddSymptomModal()" style="padding: 20px;">🩺<br>Лог симптома</button>
                 <button class="btn btn-primary" onclick="showScreen('screen-nutrition-weight')" style="padding: 20px;">🍽️<br>Питание и вес</button>
             </div>
-            
+
             <div class="section-title">Недавняя активность</div>
             <div id="home-recent-activity"></div>
         </div>
-        
+
         <!-- PETS SCREEN -->
         <div id="screen-pets" class="screen">
             <div class="section-title">Мои питомцы</div>
@@ -348,7 +348,7 @@
                     ⚠️ AI помогает, но не заменяет ветеринара. При серьёзных симптомах обратитесь к специалисту.
                 </div>
             </div>
-            
+
             <!-- AI Visit Summary -->
             <div class="card" style="margin-bottom: 20px;">
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
@@ -366,7 +366,7 @@
                     <button class="btn btn-primary" onclick="processAIVisitNotes()" style="width: 100%;">✨ Создать структурированный конспект</button>
                 </div>
             </div>
-            
+
             <!-- AI Scanner -->
             <div class="card" style="margin-bottom: 20px;">
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
@@ -383,7 +383,7 @@
                     <input type="file" id="prescription-upload" accept="image/*" style="display: none;" onchange="handlePrescriptionUpload(event)">
                 </div>
             </div>
-            
+
             <!-- AI Symptom Checker -->
             <div class="card">
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
@@ -444,13 +444,13 @@
                     <option value="all">Все питомцы</option>
                 </select>
             </div>
-            
+
             <div class="tabs" style="margin-bottom: 20px;">
                 <div class="tab active" onclick="switchCalendarView(event, 'month')">Месяц</div>
                 <div class="tab" onclick="switchCalendarView(event, 'week')">Неделя</div>
                 <div class="tab" onclick="switchCalendarView(event, 'list')">Список</div>
             </div>
-            
+
             <div id="calendar-month-view" class="tab-content active">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <button class="btn btn-outline btn-sm" onclick="previousMonth()">←</button>
@@ -460,7 +460,7 @@
                 <button class="btn btn-secondary btn-sm" onclick="goToToday()" style="margin-bottom: 16px;">Сегодня</button>
                 <div id="calendar-grid-container"></div>
             </div>
-            
+
             <div id="calendar-week-view" class="tab-content">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <button class="btn btn-outline btn-sm" onclick="previousWeek()">←</button>
@@ -469,7 +469,7 @@
                 </div>
                 <div id="calendar-week-container"></div>
             </div>
-            
+
             <div id="calendar-list-view" class="tab-content">
                 <div class="form-group" style="margin-bottom: 16px;">
                     <select class="form-control" id="calendar-list-filter" onchange="filterCalendarList()">
@@ -489,7 +489,7 @@
         <!-- MORE SCREEN -->
         <div id="screen-more" class="screen">
             <div class="section-title">Ещё</div>
-            
+
             <div class="card" style="margin-bottom: 20px;">
                 <h3 style="margin-bottom: 16px;">👤 Профиль</h3>
                 <div style="display: flex; align-items: center; gap: 16px; padding: 12px; background: var(--color-bg-1); border-radius: var(--radius-base);">
@@ -501,18 +501,18 @@
                     <button class="btn btn-outline btn-sm" onclick="editUserProfile()">✏️</button>
                 </div>
             </div>
-            
+
             <div class="card" style="margin-bottom: 20px;">
                 <h3 style="margin-bottom: 16px;">🔔 Уведомления</h3>
                 <button class="btn btn-secondary" onclick="showNotificationSettings()" style="width: 100%; justify-content: flex-start;">⚙️ Настройки уведомлений</button>
             </div>
-            
+
             <div class="card" style="margin-bottom: 20px;">
                 <h3 style="margin-bottom: 16px;">💾 Данные</h3>
                 <button class="btn btn-secondary" onclick="showExportModal()" style="width: 100%; justify-content: flex-start; margin-bottom: 12px;">📤 Экспорт всех данных</button>
                 <button class="btn btn-secondary" style="width: 100%; justify-content: flex-start; opacity: 0.5;" disabled>📥 Импорт данных <span style="font-size: 11px; margin-left: 8px;">(скоро)</span></button>
             </div>
-            
+
             <div class="card" style="margin-bottom: 20px;">
                 <h3 style="margin-bottom: 16px;">⚙️ Приложение</h3>
                 <div style="padding: 12px 0; border-bottom: 1px solid var(--color-card-border); display: flex; justify-content: space-between;">
@@ -540,7 +540,7 @@
                     Версия: 4.0
                 </div>
             </div>
-            
+
             <div class="card" style="margin-bottom: 20px;">
                 <h3 style="margin-bottom: 16px;">❓ Помощь</h3>
                 <div style="padding: 12px 0; border-bottom: 1px solid var(--color-card-border);">
@@ -558,7 +558,7 @@
                     <a href="#" style="color: var(--color-primary);">Поддержка</a>
                 </div>
             </div>
-            
+
             <div class="danger-zone">
                 <h3>⚠️ Аккаунт</h3>
                 <button class="btn btn-danger" onclick="showLogoutConfirm()" style="width: 100%; margin-bottom: 12px;">🚪 Выйти из аккаунта</button>
@@ -1035,10 +1035,10 @@
         </a>
     </nav>
 
-    <button class="fab" id="fab-quick" onclick="showQuickActions()" title="Быстрые действия" style="display: none;">+</button>
-    <button class="fab" id="fab-scan" onclick="showScannerScreen()" title="Сканировать рецепт" style="bottom: 160px; background: #9C27B0; display: none;">
-        📷
-    </button>
+<!--    <button class="fab" id="fab-quick" onclick="showQuickActions()" title="Быстрые действия" style="display: none;">+</button>-->
+<!--    <button class="fab" id="fab-scan" onclick="showScannerScreen()" title="Сканировать рецепт" style="bottom: 160px; background: #9C27B0; display: none;">-->
+<!--        📷-->
+<!--    </button>-->
     <div id="toast" class="toast"></div>
 
     <script src="script.js"></script>
