@@ -1709,9 +1709,16 @@
         }
         
         function showAIRecommendationsHistory() {
+            // Remove existing modal if present
+            const existingModal = document.getElementById('ai-recommendations-history-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
             const modal = document.createElement('div');
             modal.className = 'modal';
             modal.id = 'ai-recommendations-history-modal';
+            modal.style.display = 'flex';
             modal.innerHTML = `
                 <div class="modal-content" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
                     <div class="modal-header">
@@ -2454,9 +2461,16 @@
             const values = test.values || {};
             const allIndicators = Object.keys(values);
             
+            // Remove existing modal if present
+            const existingModal = document.getElementById('test-result-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
             const modal = document.createElement('div');
             modal.className = 'modal';
             modal.id = 'test-result-modal';
+            modal.style.display = 'flex';
             modal.innerHTML = `
                 <div class="modal-content" style="max-width: 600px;">
                     <div class="modal-header">
@@ -4006,7 +4020,16 @@
         }
 
         function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                // Check if modal was created dynamically (has style.display)
+                if (modal.style.display === 'flex') {
+                    modal.style.display = 'none';
+                    modal.remove(); // Remove from DOM if dynamically created
+                } else {
+                    modal.classList.remove('active');
+                }
+            }
         }
 
         function addPet(event) {
