@@ -4288,9 +4288,15 @@
                 }
             }
             
+            // Render all tabs content
             renderNutrition(selectedPetId);
             renderWeightTracker(selectedPetId);
-            renderNutritionAnalytics(selectedPetId);
+            
+            // Render analytics only if analytics tab is active
+            const analyticsTab = document.getElementById('analytics');
+            if (analyticsTab && analyticsTab.classList.contains('active')) {
+                renderNutritionAnalytics(selectedPetId);
+            }
         }
 
         function switchNutritionTab(event, tabId) {
@@ -4319,30 +4325,33 @@
             const contents = document.querySelectorAll('#screen-nutrition-weight .tab-content');
             contents.forEach(c => {
                 c.classList.remove('active');
-                c.style.display = 'none';
             });
             
             const targetContent = document.getElementById(tabId);
             if (targetContent) {
                 targetContent.classList.add('active');
-                targetContent.style.display = 'block';
             }
             
             // Render content when switching tabs
             const petSelect = document.getElementById('nutrition-pet-select');
             const selectedPetId = petSelect ? petSelect.value : 'all';
             
-            // Render immediately
-            if (tabId === 'nutrition-overview') {
-                renderNutrition(selectedPetId);
-            } else if (tabId === 'weight-overview') {
-                renderWeightTracker(selectedPetId);
-            } else if (tabId === 'analytics') {
-                // Force render analytics
-                setTimeout(() => {
-                    renderNutritionAnalytics(selectedPetId);
-                }, 50);
-            }
+            // Render immediately with a small delay to ensure DOM is ready
+            setTimeout(() => {
+                if (tabId === 'nutrition-overview') {
+                    renderNutrition(selectedPetId);
+                } else if (tabId === 'weight-overview') {
+                    renderWeightTracker(selectedPetId);
+                } else if (tabId === 'analytics') {
+                    // Render analytics - ensure element is visible
+                    const analyticsContent = document.getElementById('analytics-content');
+                    if (analyticsContent) {
+                        renderNutritionAnalytics(selectedPetId);
+                    } else {
+                        console.error('analytics-content not found when switching to analytics tab');
+                    }
+                }
+            }, 10);
         }
 
         function renderNutrition(selectedPetId = 'all') {
@@ -4737,94 +4746,341 @@
             const content = document.getElementById('analytics-content');
             if (!content) {
                 console.error('analytics-content element not found');
+                // Try to find it again after a short delay
+                setTimeout(() => {
+                    const retryContent = document.getElementById('analytics-content');
+                    if (retryContent) {
+                        renderNutritionAnalytics(selectedPetId);
+                    }
+                }, 100);
                 return;
             }
             
             const selectedPets = selectedPetId === 'all' ? pets : pets.filter(p => p.id == selectedPetId);
             
             if (selectedPets.length === 0) {
-                content.innerHTML = '<div class="empty-state"><p>Нет данных для анализа</p></div>';
+                content.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📊</div><p>Нет данных для анализа</p></div>';
                 return;
             }
             
             // Calculate statistics
             let totalMeals = 0;
             let totalCalories = 0;
+            let totalProtein = 0;
+            let totalFat = 0;
+            let totalCarbs = 0;
             let avgDailyCalories = 0;
             let weightEntries = 0;
             const last30Days = [];
+            const mealTypes = { breakfast: 0, lunch: 0, dinner: 0, snack: 0, treat: 0 };
+            const foodFrequency = {};
+            const weightData = [];
+            const today = new Date().toISOString().split('T')[0];
             
+            // Get all meals from last 30 days
             for (let i = 29; i >= 0; i--) {
                 const date = new Date();
                 date.setDate(date.getDate() - i);
                 const dateStr = date.toISOString().split('T')[0];
                 
                 let dayCalories = 0;
+                let dayProtein = 0;
+                let dayFat = 0;
+                let dayCarbs = 0;
+                
                 selectedPets.forEach(pet => {
                     if (pet.nutritionData && pet.nutritionData.meals) {
                         pet.nutritionData.meals.forEach(meal => {
                             if (meal.date && typeof meal.date === 'string' && meal.date.startsWith(dateStr)) {
                                 dayCalories += meal.calories || 0;
+                                dayProtein += meal.proteins || 0;
+                                dayFat += meal.fats || 0;
+                                dayCarbs += meal.carbohydrates || 0;
                                 totalMeals++;
                                 totalCalories += meal.calories || 0;
+                                totalProtein += meal.proteins || 0;
+                                totalFat += meal.fats || 0;
+                                totalCarbs += meal.carbohydrates || 0;
+                                
+                                // Count meal types
+                                if (meal.mealType && mealTypes.hasOwnProperty(meal.mealType)) {
+                                    mealTypes[meal.mealType]++;
+                                }
+                                
+                                // Count food frequency
+                                if (meal.foodName) {
+                                    foodFrequency[meal.foodName] = (foodFrequency[meal.foodName] || 0) + 1;
+                                }
                             }
                         });
                     }
+                    
+                    // Collect weight data
                     if (pet.weightHistory) {
                         pet.weightHistory.forEach(entry => {
                             if (entry.date && entry.date === dateStr) {
                                 weightEntries++;
+                                weightData.push({
+                                    date: dateStr,
+                                    weight: entry.weight,
+                                    petName: pet.name
+                                });
                             }
                         });
                     }
                 });
                 
-                last30Days.push({ date: dateStr, calories: dayCalories });
+                last30Days.push({ 
+                    date: dateStr, 
+                    calories: dayCalories,
+                    protein: dayProtein,
+                    fat: dayFat,
+                    carbs: dayCarbs
+                });
             }
             
             avgDailyCalories = last30Days.length > 0 
                 ? Math.round(last30Days.reduce((sum, d) => sum + d.calories, 0) / last30Days.length)
                 : 0;
             
+            const avgDailyProtein = last30Days.length > 0 
+                ? (last30Days.reduce((sum, d) => sum + d.protein, 0) / last30Days.length).toFixed(1)
+                : 0;
+            
+            const avgDailyFat = last30Days.length > 0 
+                ? (last30Days.reduce((sum, d) => sum + d.fat, 0) / last30Days.length).toFixed(1)
+                : 0;
+            
+            const avgDailyCarbs = last30Days.length > 0 
+                ? (last30Days.reduce((sum, d) => sum + d.carbs, 0) / last30Days.length).toFixed(1)
+                : 0;
+            
+            // Get top foods
+            const topFoods = Object.entries(foodFrequency)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+            
+            // Calculate weight trend
+            let weightTrend = '';
+            let weightChange = 0;
+            if (weightData.length >= 2) {
+                const sortedWeights = weightData.sort((a, b) => new Date(a.date) - new Date(b.date));
+                const firstWeight = sortedWeights[0].weight;
+                const lastWeight = sortedWeights[sortedWeights.length - 1].weight;
+                weightChange = lastWeight - firstWeight;
+                weightTrend = weightChange > 0 ? '📈' : weightChange < 0 ? '📉' : '➡️';
+            }
+            
+            // Calculate goal progress
+            let totalGoal = 0;
+            let totalConsumed = 0;
+            selectedPets.forEach(pet => {
+                if (pet.nutritionData && pet.nutritionData.dailyCalorieGoal) {
+                    totalGoal += pet.nutritionData.dailyCalorieGoal;
+                }
+                const todayMeals = (pet.nutritionData && pet.nutritionData.meals) ? 
+                    pet.nutritionData.meals.filter(m => m.date && m.date.startsWith(today)) : [];
+                todayMeals.forEach(meal => {
+                    totalConsumed += meal.calories || 0;
+                });
+            });
+            const goalProgress = totalGoal > 0 ? Math.round((totalConsumed / totalGoal) * 100) : 0;
+            
+            const maxCal = Math.max(...last30Days.map(d => d.calories), 1);
+            const maxWeight = weightData.length > 0 ? Math.max(...weightData.map(w => w.weight)) : 0;
+            const minWeight = weightData.length > 0 ? Math.min(...weightData.map(w => w.weight)) : 0;
+            const weightRange = maxWeight - minWeight;
+            
             content.innerHTML = `
+                <!-- Summary Stats -->
                 <div class="card" style="margin-bottom: 24px;">
-                    <h3 style="margin-bottom: 20px;">📊 Статистика за 30 дней</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
-                        <div style="text-align: center; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base);">
-                            <div style="font-size: 32px; font-weight: bold; color: var(--nutrition-orange);">${totalMeals}</div>
-                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Всего приемов пищи</div>
+                    <h3 style="margin-bottom: 20px;">📊 Общая статистика (30 дней)</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
+                        <div style="text-align: center; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base); border-left: 3px solid var(--nutrition-orange);">
+                            <div style="font-size: 28px; font-weight: bold; color: var(--nutrition-orange);">${totalMeals}</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 4px;">Приемов пищи</div>
                         </div>
-                        <div style="text-align: center; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base);">
-                            <div style="font-size: 32px; font-weight: bold; color: var(--color-primary);">${totalCalories}</div>
-                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Всего калорий</div>
+                        <div style="text-align: center; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base); border-left: 3px solid var(--color-primary);">
+                            <div style="font-size: 28px; font-weight: bold; color: var(--color-primary);">${totalCalories.toLocaleString()}</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 4px;">Всего ккал</div>
                         </div>
-                        <div style="text-align: center; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base);">
-                            <div style="font-size: 32px; font-weight: bold; color: var(--nutrition-green);">${avgDailyCalories}</div>
-                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Среднее в день</div>
+                        <div style="text-align: center; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base); border-left: 3px solid var(--nutrition-green);">
+                            <div style="font-size: 28px; font-weight: bold; color: var(--nutrition-green);">${avgDailyCalories}</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 4px;">Среднее/день</div>
                         </div>
-                        <div style="text-align: center; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base);">
-                            <div style="font-size: 32px; font-weight: bold; color: var(--color-primary);">${weightEntries}</div>
-                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Записей веса</div>
+                        <div style="text-align: center; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base); border-left: 3px solid var(--pet-warning);">
+                            <div style="font-size: 28px; font-weight: bold; color: var(--pet-warning);">${weightEntries}</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 4px;">Записей веса</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
+                <!-- BZHU Stats -->
+                ${(totalProtein > 0 || totalFat > 0 || totalCarbs > 0) ? `
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 style="margin-bottom: 20px;">🥗 Средние показатели БЖУ (в день)</h3>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                        <div style="text-align: center; padding: 16px; background: linear-gradient(135deg, var(--color-primary)15, var(--color-primary)05); border-radius: var(--radius-base); border: 1px solid var(--color-primary)30;">
+                            <div style="font-size: 24px; font-weight: bold; color: var(--color-primary);">${avgDailyProtein}г</div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Белки</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: linear-gradient(135deg, var(--pet-warning)15, var(--pet-warning)05); border-radius: var(--radius-base); border: 1px solid var(--pet-warning)30;">
+                            <div style="font-size: 24px; font-weight: bold; color: var(--pet-warning);">${avgDailyFat}г</div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Жиры</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: linear-gradient(135deg, var(--nutrition-green)15, var(--nutrition-green)05); border-radius: var(--radius-base); border: 1px solid var(--nutrition-green)30;">
+                            <div style="font-size: 24px; font-weight: bold; color: var(--nutrition-green);">${avgDailyCarbs}г</div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Углеводы</div>
+                        </div>
+                    </div>
+                </div>
+                ` : ''}
+
+                <!-- Goal Progress -->
+                ${totalGoal > 0 ? `
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 style="margin-bottom: 16px;">🎯 Прогресс по целям (сегодня)</h3>
+                    <div style="padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-base);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Калории</span>
+                            <strong>${totalConsumed} / ${totalGoal} ккал</strong>
+                        </div>
+                        <div style="height: 12px; background: var(--color-secondary); border-radius: var(--radius-full); overflow: hidden;">
+                            <div style="width: ${Math.min(goalProgress, 100)}%; height: 100%; background: ${goalProgress >= 100 ? 'var(--nutrition-green)' : 'var(--nutrition-orange)'}; transition: width 0.3s;"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 8px; font-size: 14px; font-weight: bold; color: ${goalProgress >= 100 ? 'var(--nutrition-green)' : 'var(--color-primary)'};">
+                            ${goalProgress}%
+                        </div>
+                    </div>
+                </div>
+                ` : ''}
+
+                <!-- Calories Chart -->
+                <div class="card" style="margin-bottom: 24px;">
                     <h3 style="margin-bottom: 20px;">📈 Калории за 30 дней</h3>
-                    <div style="display: flex; align-items: flex-end; gap: 2px; height: 200px; padding: 20px 0;">
-                        ${last30Days.map(day => {
-                            const maxCal = Math.max(...last30Days.map(d => d.calories), 1);
-                            const height = (day.calories / maxCal) * 100;
+                    <div style="display: flex; align-items: flex-end; gap: 3px; height: 200px; padding: 20px 0; border-bottom: 1px solid var(--color-card-border);">
+                        ${last30Days.map((day, idx) => {
+                            const height = maxCal > 0 ? (day.calories / maxCal) * 100 : 0;
+                            const isToday = day.date === today;
+                            const date = new Date(day.date);
+                            const dayLabel = date.getDate();
+                            const isWeekend = date.getDay() === 0 || date.getDay() === 6;
                             return `
-                                <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                                <div style="flex: 1; display: flex; flex-direction: column; align-items: center; position: relative;">
                                     <div style="flex: 1; display: flex; align-items: flex-end; width: 100%;">
-                                        <div style="width: 100%; background: var(--nutrition-orange); border-radius: 2px 2px 0 0; height: ${height}%; min-height: ${day.calories > 0 ? '2px' : '0'};"></div>
+                                        <div style="width: 100%; background: ${isToday ? 'var(--color-primary)' : isWeekend ? 'var(--nutrition-orange)' : 'var(--nutrition-orange)'}; border-radius: 3px 3px 0 0; height: ${height}%; min-height: ${day.calories > 0 ? '3px' : '0'}; opacity: ${isToday ? '1' : '0.7'}; transition: all 0.3s;" title="${day.date}: ${day.calories} ккал"></div>
+                                    </div>
+                                    ${idx % 5 === 0 ? `<div style="font-size: 9px; color: var(--color-text-secondary); margin-top: 4px; transform: rotate(-45deg); transform-origin: center;">${dayLabel}</div>` : ''}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 11px; color: var(--color-text-secondary);">
+                        <span>${last30Days[0]?.date ? formatDate(last30Days[0].date) : ''}</span>
+                        <span>${last30Days[last30Days.length - 1]?.date ? formatDate(last30Days[last30Days.length - 1].date) : ''}</span>
+                    </div>
+                </div>
+
+                <!-- Weight Trend -->
+                ${weightData.length > 0 ? `
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 style="margin-bottom: 20px;">⚖️ Динамика веса</h3>
+                    <div style="display: flex; align-items: flex-end; gap: 3px; height: 150px; padding: 20px 0; border-bottom: 1px solid var(--color-card-border); position: relative;">
+                        ${weightData.sort((a, b) => new Date(a.date) - new Date(b.date)).map((entry, idx, arr) => {
+                            const height = weightRange > 0 ? ((entry.weight - minWeight) / weightRange) * 100 : 50;
+                            const prevEntry = arr[idx - 1];
+                            const isIncreasing = prevEntry && entry.weight > prevEntry.weight;
+                            return `
+                                <div style="flex: 1; display: flex; flex-direction: column; align-items: center; position: relative;">
+                                    <div style="flex: 1; display: flex; align-items: flex-end; width: 100%;">
+                                        <div style="width: 100%; background: ${isIncreasing ? 'var(--pet-warning)' : 'var(--nutrition-green)'}; border-radius: 3px 3px 0 0; height: ${height}%; min-height: 3px; opacity: 0.8;" title="${formatDate(entry.date)}: ${entry.weight} кг"></div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 12px;">
+                        <div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary);">Изменение за период</div>
+                            <div style="font-size: 18px; font-weight: bold; color: ${weightChange > 0 ? 'var(--pet-warning)' : weightChange < 0 ? 'var(--nutrition-green)' : 'var(--color-text-secondary)'};">
+                                ${weightTrend} ${weightChange > 0 ? '+' : ''}${weightChange.toFixed(1)} кг
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 12px; color: var(--color-text-secondary);">Диапазон</div>
+                            <div style="font-size: 14px; font-weight: bold;">${minWeight.toFixed(1)} - ${maxWeight.toFixed(1)} кг</div>
+                        </div>
+                    </div>
+                </div>
+                ` : ''}
+
+                <!-- Meal Types Distribution -->
+                ${Object.values(mealTypes).some(v => v > 0) ? `
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 style="margin-bottom: 20px;">🍽️ Распределение по типам приема пищи</h3>
+                    <div style="display: grid; gap: 12px;">
+                        ${Object.entries(mealTypes).map(([type, count]) => {
+                            if (count === 0) return '';
+                            const totalMealTypes = Object.values(mealTypes).reduce((sum, v) => sum + v, 0);
+                            const percent = totalMealTypes > 0 ? Math.round((count / totalMealTypes) * 100) : 0;
+                            const typeNames = {
+                                breakfast: 'Завтрак',
+                                lunch: 'Обед',
+                                dinner: 'Ужин',
+                                snack: 'Перекус',
+                                treat: 'Лакомство'
+                            };
+                            const emojis = {
+                                breakfast: '🌅',
+                                lunch: '☀️',
+                                dinner: '🌙',
+                                snack: '🍎',
+                                treat: '🍖'
+                            };
+                            return `
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                                        <span style="font-size: 13px;">${emojis[type] || ''} ${typeNames[type] || type}</span>
+                                        <span style="font-size: 13px; font-weight: bold;">${count} (${percent}%)</span>
+                                    </div>
+                                    <div style="height: 8px; background: var(--color-secondary); border-radius: var(--radius-full); overflow: hidden;">
+                                        <div style="width: ${percent}%; height: 100%; background: var(--nutrition-orange);"></div>
                                     </div>
                                 </div>
                             `;
                         }).join('')}
                     </div>
                 </div>
+                ` : ''}
+
+                <!-- Top Foods -->
+                ${topFoods.length > 0 ? `
+                <div class="card">
+                    <h3 style="margin-bottom: 20px;">🏆 Самые популярные корма</h3>
+                    <div style="display: grid; gap: 12px;">
+                        ${topFoods.map(([food, count], idx) => {
+                            const maxCount = topFoods[0][1];
+                            const percent = maxCount > 0 ? Math.round((count / maxCount) * 100) : 0;
+                            return `
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 32px; height: 32px; border-radius: var(--radius-full); background: var(--color-bg-2); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; color: var(--color-primary);">
+                                        ${idx + 1}
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: 500; margin-bottom: 4px;">${food}</div>
+                                        <div style="height: 6px; background: var(--color-secondary); border-radius: var(--radius-full); overflow: hidden;">
+                                            <div style="width: ${percent}%; height: 100%; background: var(--nutrition-orange);"></div>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 14px; font-weight: bold; color: var(--color-primary);">
+                                        ${count}x
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+                ` : ''}
             `;
         }
 
