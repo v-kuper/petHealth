@@ -344,94 +344,138 @@
             <div style="margin-bottom: 20px;">
                 <h2 style="margin-bottom: 8px;">AI-ассистент</h2>
                 <p style="color: var(--color-text-secondary); margin-bottom: 12px;">Умные инструменты для здоровья вашего питомца</p>
-                <div style="background: var(--color-bg-2); padding: 12px; border-radius: var(--radius-base); font-size: 13px;">
-                    ⚠️ AI помогает, но не заменяет ветеринара. При серьёзных симптомах обратитесь к специалисту.
+                <div style="background: var(--color-bg-2); padding: 10px 12px; border-radius: var(--radius-base); font-size: 12px; display: flex; align-items: center; gap: 8px;">
+                    <span>⚠️</span>
+                    <span>AI помогает, но не заменяет ветеринара. При серьёзных симптомах обратитесь к специалисту.</span>
                 </div>
             </div>
 
-            <!-- AI Visit Summary -->
-            <div class="card" style="margin-bottom: 20px;">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                    <div style="font-size: 32px;">🎙️</div>
-                    <div>
-                        <h3 style="margin-bottom: 4px;">AI-Конспект визита</h3>
-                        <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">Загрузите заметки с визита, и AI структурирует информацию</p>
+            <!-- AI Tools List -->
+            <div id="ai-tools-list" style="display: grid; gap: 12px;">
+                <!-- AI Visit Summary -->
+                <div class="card ai-tool-card" data-tool="visit-summary">
+                    <div class="ai-tool-header" onclick="toggleAITool('visit-summary', event)" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                            <div style="font-size: 28px; width: 40px; text-align: center;">🎙️</div>
+                            <div style="flex: 1;">
+                                <h3 style="margin: 0; font-size: 16px; margin-bottom: 4px;">AI-Конспект визита</h3>
+                                <p style="font-size: 12px; color: var(--color-text-secondary); margin: 0;">Структурируйте заметки с визита к ветеринару</p>
+                            </div>
+                        </div>
+                        <div class="ai-tool-arrow" style="font-size: 20px; color: var(--color-text-secondary); transition: transform 0.3s;">›</div>
                     </div>
-                </div>
-                <div id="ai-visit-summary-content">
-                    <div class="form-group">
-                        <label class="form-label">Вставьте или введите заметки врача</label>
-                        <textarea id="ai-notes-input" class="form-control" rows="6" placeholder="Например: Собака вялая 2 дня, не ест. Осмотр: температура 39.2, левое ухо красное с выделениями. Диагноз: отит. Назначен амоксициллин 500мг 2р/день 10 дней..."></textarea>
-                    </div>
-                    <button class="btn btn-primary" onclick="processAIVisitNotes()" style="width: 100%;">✨ Создать структурированный конспект</button>
-                </div>
-            </div>
-
-            <!-- AI Scanner -->
-            <div class="card" style="margin-bottom: 20px;">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                    <div style="font-size: 32px;">📸</div>
-                    <div>
-                        <h3 style="margin-bottom: 4px;">AI-Сканер рецепта</h3>
-                        <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">Сфотографируйте рецепт, AI распознает лекарства и дозировки</p>
-                    </div>
-                </div>
-                <div class="scan-upload-area" onclick="triggerPrescriptionUpload()">
-                    <div style="font-size: 48px; margin-bottom: 12px;">📷</div>
-                    <p style="margin-bottom: 16px;">Нажмите для загрузки фото рецепта</p>
-                    <button class="btn btn-primary">📤 Загрузить фото рецепта</button>
-                    <input type="file" id="prescription-upload" accept="image/*" style="display: none;" onchange="handlePrescriptionUpload(event)">
-                </div>
-            </div>
-
-            <!-- AI Symptom Checker -->
-            <div class="card">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                    <div style="font-size: 32px;">🩺</div>
-                    <div>
-                        <h3 style="margin-bottom: 4px;">AI-Чекер симптомов</h3>
-                        <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">Опишите симптомы, получите первичную оценку состояния</p>
-                    </div>
-                </div>
-                <div id="ai-symptom-checker-content">
-                    <div class="form-group">
-                        <label class="form-label">Питомец</label>
-                        <select class="form-control" id="ai-symptom-pet"></select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Выберите симптомы</label>
-                        <div class="checkbox-group">
-                            <label class="checkbox-item"><input type="checkbox" value="lethargy"> Вялость</label>
-                            <label class="checkbox-item"><input type="checkbox" value="loss_of_appetite"> Потеря аппетита</label>
-                            <label class="checkbox-item"><input type="checkbox" value="vomiting"> Рвота</label>
-                            <label class="checkbox-item"><input type="checkbox" value="diarrhea"> Диарея</label>
-                            <label class="checkbox-item"><input type="checkbox" value="cough"> Кашель</label>
-                            <label class="checkbox-item"><input type="checkbox" value="itching"> Зуд</label>
-                            <label class="checkbox-item"><input type="checkbox" value="limping"> Хромота</label>
-                            <label class="checkbox-item"><input type="checkbox" value="discharge"> Выделения</label>
-                            <label class="checkbox-item"><input type="checkbox" value="breathing"> Одышка</label>
-                            <label class="checkbox-item"><input type="checkbox" value="fever"> Температура</label>
+                    <div class="ai-tool-content" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-card-border);" onclick="event.stopPropagation();">
+                        <div id="ai-visit-summary-content">
+                            <div class="form-group">
+                                <label class="form-label">Вставьте или введите заметки врача</label>
+                                <textarea id="ai-notes-input" class="form-control" rows="4" placeholder="Например: Собака вялая 2 дня, не ест. Осмотр: температура 39.2, левое ухо красное с выделениями. Диагноз: отит. Назначен амоксициллин 500мг 2р/день 10 дней..."></textarea>
+                            </div>
+                            <button class="btn btn-primary" onclick="processAIVisitNotes(); event.stopPropagation();" style="width: 100%;">✨ Создать структурированный конспект</button>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Другие симптомы</label>
-                        <textarea id="ai-other-symptoms" class="form-control" rows="2" placeholder="Опишите другие симптомы"></textarea>
+                </div>
+
+                <!-- AI Scanner -->
+                <div class="card ai-tool-card" data-tool="scanner">
+                    <div class="ai-tool-header" onclick="toggleAITool('scanner', event)" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                            <div style="font-size: 28px; width: 40px; text-align: center;">📸</div>
+                            <div style="flex: 1;">
+                                <h3 style="margin: 0; font-size: 16px; margin-bottom: 4px;">AI-Сканер документов</h3>
+                                <p style="font-size: 12px; color: var(--color-text-secondary); margin: 0;">Распознайте рецепты и результаты анализов</p>
+                            </div>
+                        </div>
+                        <div class="ai-tool-arrow" style="font-size: 20px; color: var(--color-text-secondary); transition: transform 0.3s;">›</div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Длительность симптомов</label>
-                        <select class="form-control" id="ai-symptom-duration">
-                            <option value="hours">Несколько часов</option>
-                            <option value="1day">1 день</option>
-                            <option value="2-3days">2-3 дня</option>
-                            <option value="week">Неделя</option>
-                            <option value="longer">Больше недели</option>
-                        </select>
+                    <div class="ai-tool-content" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-card-border);" onclick="event.stopPropagation();">
+                        <div class="form-group">
+                            <label class="form-label">Питомец</label>
+                            <select class="form-control" id="ai-scanner-pet-select">
+                                ${pets.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Тип документа *</label>
+                            <select class="form-control" id="ai-scanner-doc-type" required>
+                                <option value="">Выберите тип документа</option>
+                                <option value="prescription">💊 Рецепт</option>
+                                <option value="test_result">🧪 Результаты анализов</option>
+                                <option value="vaccination">💉 Вакцинация</option>
+                                <option value="recommendation">📝 Рекомендации</option>
+                                <option value="other">📄 Другое</option>
+                            </select>
+                            <small style="color: var(--color-text-secondary); font-size: 11px; margin-top: 4px; display: block;">
+                                Выбор типа документа поможет AI точнее распознать информацию
+                            </small>
+                        </div>
+                        <div class="scan-upload-area" onclick="triggerPrescriptionUpload(); event.stopPropagation();" style="padding: 20px; text-align: center; border: 2px dashed var(--color-border); border-radius: var(--radius-base); background: var(--color-bg-1); cursor: pointer;">
+                            <div style="font-size: 40px; margin-bottom: 8px;">📷</div>
+                            <p style="margin-bottom: 12px; font-size: 13px; color: var(--color-text-secondary);">Нажмите для загрузки фото</p>
+                            <button class="btn btn-primary btn-sm" type="button">📤 Загрузить фото</button>
+                            <input type="file" id="prescription-upload" accept="image/*" style="display: none;" onchange="handlePrescriptionUpload(event)">
+                        </div>
+                        <div style="margin-top: 12px; font-size: 12px; color: var(--color-text-secondary); text-align: center;">
+                            Поддерживаются: рецепты, результаты анализов, рекомендации
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Тяжесть: <span id="ai-severity-value">5</span>/10</label>
-                        <input type="range" min="1" max="10" value="5" class="form-control" id="ai-severity-slider" oninput="document.getElementById('ai-severity-value').textContent = this.value" style="padding: 0;">
+                </div>
+
+                <!-- AI Symptom Checker -->
+                <div class="card ai-tool-card" data-tool="symptom-checker">
+                    <div class="ai-tool-header" onclick="toggleAITool('symptom-checker', event)" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                            <div style="font-size: 28px; width: 40px; text-align: center;">🩺</div>
+                            <div style="flex: 1;">
+                                <h3 style="margin: 0; font-size: 16px; margin-bottom: 4px;">AI-Чекер симптомов</h3>
+                                <p style="font-size: 12px; color: var(--color-text-secondary); margin: 0;">Получите первичную оценку состояния питомца</p>
+                            </div>
+                        </div>
+                        <div class="ai-tool-arrow" style="font-size: 20px; color: var(--color-text-secondary); transition: transform 0.3s;">›</div>
                     </div>
-                    <button class="btn btn-primary" onclick="checkAISymptoms()" style="width: 100%;">🔍 Оценить состояние</button>
+                    <div class="ai-tool-content" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-card-border);" onclick="event.stopPropagation();">
+                        <div id="ai-symptom-checker-content">
+                            <div class="form-group">
+                                <label class="form-label">Питомец</label>
+                                <select class="form-control" id="ai-symptom-pet"></select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Выберите симптомы</label>
+                                <div class="checkbox-group" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+                                    <label class="checkbox-item"><input type="checkbox" value="lethargy"> Вялость</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="loss_of_appetite"> Потеря аппетита</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="vomiting"> Рвота</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="diarrhea"> Диарея</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="cough"> Кашель</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="itching"> Зуд</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="limping"> Хромота</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="discharge"> Выделения</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="breathing"> Одышка</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="fever"> Температура</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Другие симптомы</label>
+                                <textarea id="ai-other-symptoms" class="form-control" rows="2" placeholder="Опишите другие симптомы"></textarea>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                <div class="form-group">
+                                    <label class="form-label">Длительность</label>
+                                    <select class="form-control" id="ai-symptom-duration">
+                                        <option value="hours">Несколько часов</option>
+                                        <option value="1day">1 день</option>
+                                        <option value="2-3days">2-3 дня</option>
+                                        <option value="week">Неделя</option>
+                                        <option value="longer">Больше недели</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Тяжесть: <span id="ai-severity-value">5</span>/10</label>
+                                    <input type="range" min="1" max="10" value="5" class="form-control" id="ai-severity-slider" oninput="document.getElementById('ai-severity-value').textContent = this.value" style="padding: 0;">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="checkAISymptoms(); event.stopPropagation();" style="width: 100%;">🔍 Оценить состояние</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

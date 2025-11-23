@@ -3149,6 +3149,58 @@
             if (petSelect) {
                 petSelect.innerHTML = pets.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
             }
+            
+            // Fill pet select for scanner
+            const scannerPetSelect = document.getElementById('ai-scanner-pet-select');
+            if (scannerPetSelect) {
+                scannerPetSelect.innerHTML = pets.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+            }
+            
+            // Reset all tool cards to collapsed state
+            document.querySelectorAll('.ai-tool-card').forEach(card => {
+                const content = card.querySelector('.ai-tool-content');
+                const arrow = card.querySelector('.ai-tool-arrow');
+                if (content) content.style.display = 'none';
+                if (arrow) arrow.style.transform = 'rotate(0deg)';
+            });
+        }
+        
+        function toggleAITool(toolId, event) {
+            // Prevent event propagation if called from inside the card
+            if (event) {
+                event.stopPropagation();
+            }
+            
+            const card = document.querySelector(`[data-tool="${toolId}"]`);
+            if (!card) return;
+            
+            const content = card.querySelector('.ai-tool-content');
+            const arrow = card.querySelector('.ai-tool-arrow');
+            const isExpanded = content.style.display !== 'none';
+            
+            // Close all other tools
+            document.querySelectorAll('.ai-tool-card').forEach(otherCard => {
+                if (otherCard !== card) {
+                    const otherContent = otherCard.querySelector('.ai-tool-content');
+                    const otherArrow = otherCard.querySelector('.ai-tool-arrow');
+                    if (otherContent) otherContent.style.display = 'none';
+                    if (otherArrow) otherArrow.style.transform = 'rotate(0deg)';
+                }
+            });
+            
+            // Toggle current tool
+            if (isExpanded) {
+                content.style.display = 'none';
+                if (arrow) arrow.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.display = 'block';
+                if (arrow) arrow.style.transform = 'rotate(90deg)';
+                
+                // Scroll to card if needed
+                setTimeout(() => {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
         }
         
         function processAIVisitNotes() {
@@ -3236,12 +3288,22 @@
         
         function handlePrescriptionUpload(event) {
             const file = event.target.files[0];
-            if (file) {
-                showToast('⏳ AI распознает рецепт...');
-                setTimeout(() => {
-                    loadExampleDoc('prescription');
-                }, 1500);
+            if (!file) return;
+            
+            const docType = document.getElementById('ai-scanner-doc-type')?.value;
+            if (!docType) {
+                showToast('❌ Пожалуйста, выберите тип документа');
+                event.target.value = ''; // Reset file input
+                return;
             }
+            
+            const petSelect = document.getElementById('ai-scanner-pet-select');
+            const petId = petSelect ? parseInt(petSelect.value) : (currentPet ? currentPet.id : null);
+            
+            showToast('⏳ AI распознает документ...');
+            setTimeout(() => {
+                loadExampleDoc(docType, petId);
+            }, 1500);
         }
         
         function checkAISymptoms() {
@@ -3331,7 +3393,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Выберите симптомы</label>
-                    <div class="checkbox-group">
+                    <div class="checkbox-group" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
                         <label class="checkbox-item"><input type="checkbox" value="lethargy"> Вялость</label>
                         <label class="checkbox-item"><input type="checkbox" value="loss_of_appetite"> Потеря аппетита</label>
                         <label class="checkbox-item"><input type="checkbox" value="vomiting"> Рвота</label>
@@ -3348,19 +3410,21 @@
                     <label class="form-label">Другие симптомы</label>
                     <textarea id="ai-other-symptoms" class="form-control" rows="2" placeholder="Опишите другие симптомы"></textarea>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Длительность симптомов</label>
-                    <select class="form-control" id="ai-symptom-duration">
-                        <option value="hours">Несколько часов</option>
-                        <option value="1day">1 день</option>
-                        <option value="2-3days">2-3 дня</option>
-                        <option value="week">Неделя</option>
-                        <option value="longer">Больше недели</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Тяжесть: <span id="ai-severity-value">5</span>/10</label>
-                    <input type="range" min="1" max="10" value="5" class="form-control" id="ai-severity-slider" oninput="document.getElementById('ai-severity-value').textContent = this.value" style="padding: 0;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div class="form-group">
+                        <label class="form-label">Длительность</label>
+                        <select class="form-control" id="ai-symptom-duration">
+                            <option value="hours">Несколько часов</option>
+                            <option value="1day">1 день</option>
+                            <option value="2-3days">2-3 дня</option>
+                            <option value="week">Неделя</option>
+                            <option value="longer">Больше недели</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Тяжесть: <span id="ai-severity-value">5</span>/10</label>
+                        <input type="range" min="1" max="10" value="5" class="form-control" id="ai-severity-slider" oninput="document.getElementById('ai-severity-value').textContent = this.value" style="padding: 0;">
+                    </div>
                 </div>
                 <button class="btn btn-primary" onclick="checkAISymptoms()" style="width: 100%;">🔍 Оценить состояние</button>
             `;
@@ -5189,15 +5253,40 @@
             const content = document.getElementById('scanner-content');
             const petDocs = scannedDocuments.filter(d => !currentPet || d.petId === currentPet.id);
             
+            // Get pet select options
+            const petSelectOptions = currentPet 
+                ? `<option value="${currentPet.id}" selected>${currentPet.name}</option>`
+                : '<option value="all">Все питомцы</option>' + pets.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+            
             content.innerHTML = `
                 <div class="card" style="margin-bottom: 20px;">
-                    <div class="scan-upload-area" onclick="triggerFileUpload()">
+                    <h3 style="margin-bottom: 16px;">📷 Сканировать документ</h3>
+                    <div class="form-group">
+                        <label class="form-label">Питомец</label>
+                        <select class="form-control" id="scanner-pet-select">
+                            ${petSelectOptions}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Тип документа *</label>
+                        <select class="form-control" id="scanner-doc-type" required>
+                            <option value="">Выберите тип документа</option>
+                            <option value="prescription">💊 Рецепт</option>
+                            <option value="test_result">🧪 Результаты анализов</option>
+                            <option value="vaccination">💉 Вакцинация</option>
+                            <option value="recommendation">📝 Рекомендации</option>
+                            <option value="other">📄 Другое</option>
+                        </select>
+                        <small style="color: var(--color-text-secondary); font-size: 11px; margin-top: 4px; display: block;">
+                            Выбор типа документа поможет AI точнее распознать информацию
+                        </small>
+                    </div>
+                    <div class="scan-upload-area" onclick="triggerFileUpload()" style="padding: 20px; text-align: center; border: 2px dashed var(--color-border); border-radius: var(--radius-base); background: var(--color-bg-1); cursor: pointer;">
                         <div style="font-size: 48px; margin-bottom: 12px;">📷</div>
-                        <h3 style="margin-bottom: 8px;">Сканировать документ</h3>
                         <p style="color: var(--color-text-secondary); margin-bottom: 16px;">
-                            Загрузите фото рецепта, результатов анализов или рекомендаций врача
+                            Загрузите фото документа
                         </p>
-                        <button class="btn btn-primary">📤 Выбрать файл</button>
+                        <button class="btn btn-primary" type="button">📤 Выбрать файл</button>
                         <input type="file" id="doc-upload" accept="image/*,.pdf" style="display: none;" onchange="handleDocUpload(event)">
                     </div>
                 </div>
@@ -5214,12 +5303,27 @@
                 ${petDocs.length > 0 ? `
                     <div class="card">
                         <h3 style="margin-bottom: 16px;">📋 История сканирований</h3>
-                        ${petDocs.map(doc => `
+                        ${petDocs.map(doc => {
+                            const typeNames = {
+                                prescription: '💊 Рецепт',
+                                test_result: '🧪 Результаты анализов',
+                                vaccination: '💉 Вакцинация',
+                                recommendation: '📝 Рекомендации',
+                                other: '📄 Документ'
+                            };
+                            const typeEmojis = {
+                                prescription: '💊',
+                                test_result: '🧪',
+                                vaccination: '💉',
+                                recommendation: '📝',
+                                other: '📄'
+                            };
+                            return `
                             <div class="scanned-doc-card">
-                                <div class="doc-thumbnail">${doc.type === 'prescription' ? '💊' : doc.type === 'test_result' ? '🧪' : '📄'}</div>
+                                <div class="doc-thumbnail">${typeEmojis[doc.type] || '📄'}</div>
                                 <div style="flex: 1;">
                                     <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                                        <strong>${doc.type === 'prescription' ? 'Рецепт' : doc.type === 'test_result' ? 'Результаты анализов' : 'Документ'}</strong>
+                                        <strong>${typeNames[doc.type] || 'Документ'}</strong>
                                         <span class="confidence-badge confidence-${doc.confidence >= 85 ? 'high' : doc.confidence >= 60 ? 'medium' : 'low'}">
                                             ${doc.confidence >= 85 ? '✓' : doc.confidence >= 60 ? '⚠️' : '❌'} ${doc.confidence}%
                                         </span>
@@ -5230,7 +5334,8 @@
                                 </div>
                                 <button class="btn btn-outline btn-sm" onclick="viewScannedDoc(${doc.id})">Просмотр</button>
                             </div>
-                        `).join('')}
+                        `;
+                        }).join('')}
                     </div>
                 ` : ''}
             `;
@@ -5242,16 +5347,65 @@
 
         function handleDocUpload(event) {
             const file = event.target.files[0];
-            if (file) {
-                showToast('📷 Файл загружен, анализ...');
-                setTimeout(() => {
-                    loadExampleDoc('prescription');
-                }, 1000);
+            if (!file) return;
+            
+            const docType = document.getElementById('scanner-doc-type')?.value;
+            if (!docType) {
+                showToast('❌ Пожалуйста, выберите тип документа');
+                event.target.value = ''; // Reset file input
+                return;
             }
+            
+            const petSelect = document.getElementById('scanner-pet-select');
+            const petId = petSelect ? (petSelect.value === 'all' ? null : parseInt(petSelect.value)) : (currentPet ? currentPet.id : null);
+            
+            showToast('📷 Файл загружен, AI анализирует...');
+            
+            // Simulate AI processing
+            setTimeout(() => {
+                // Load example based on document type
+                loadExampleDoc(docType, petId);
+            }, 1000);
         }
 
-        function loadExampleDoc(type) {
-            const doc = scannedDocuments.find(d => d.type === type) || scannedDocuments[0];
+        function loadExampleDoc(type, petId = null) {
+            // Find document by type, or use first available
+            let doc = scannedDocuments.find(d => d.type === type);
+            if (!doc && scannedDocuments.length > 0) {
+                doc = scannedDocuments[0];
+            }
+            
+            // If no document found, create a mock one
+            if (!doc) {
+                doc = {
+                    id: scannedDocuments.length + 1,
+                    petId: petId || (currentPet ? currentPet.id : 1),
+                    date: new Date().toISOString().split('T')[0],
+                    type: type,
+                    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150' viewBox='0 0 200 150'%3E%3Crect fill='%23f5f5f5' width='200' height='150'/%3E%3Ctext x='100' y='75' font-family='Arial' font-size='14' fill='%23333' text-anchor='middle'%3EDocument%3C/text%3E%3C/svg%3E",
+                    aiProcessed: true,
+                    confidence: 85,
+                    extractedData: {
+                        visitDate: new Date().toISOString().split('T')[0],
+                        clinicName: "Ветеринарная клиника",
+                        doctorName: "Врач",
+                        medications: type === 'prescription' ? [
+                            { name: "Препарат", dosage: "дозировка", frequency: "частота", duration: "длительность" }
+                        ] : [],
+                        recommendations: type === 'recommendation' ? "Рекомендации врача" : "",
+                        testValues: type === 'test_result' ? {
+                            glucose: { value: 5.2, unit: "mmol/L", normal: "3.9-6.1", status: "normal" },
+                            creatinine: { value: 95, unit: "μmol/L", normal: "44-133", status: "normal" }
+                        } : undefined
+                    }
+                };
+            }
+            
+            // Update petId if provided
+            if (petId) {
+                doc.petId = petId;
+            }
+            
             showScanAnalysisModal(doc);
         }
 
