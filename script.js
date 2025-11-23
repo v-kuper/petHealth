@@ -19,6 +19,7 @@
                 registrationNumber: "RUS-DOG-2019-12345",
                 gender: "male",
                 neutered: true,
+                bloodGroup: "DEA 1.1+",
                 colorMarkings: "Golden coat with white chest patch",
                 distinctiveFeatures: "Small scar on left ear from previous surgery",
                 ownerInfo: {
@@ -261,6 +262,40 @@
                     { vaccine: "DHPP", lastDate: "2025-07-12", nextDue: "2026-07-12", status: "current" },
                     { vaccine: "Bordetella", lastDate: "2025-03-20", nextDue: "2025-11-27", status: "due_soon" }
                 ],
+                testResults: [
+                    {
+                        id: 1,
+                        date: "2025-11-10",
+                        clinicName: "Happy Paws Clinic",
+                        type: "biochemistry",
+                        notes: "Плановый биохимический анализ",
+                        values: {
+                            glucose: { value: 5.2, unit: "mmol/L", normal: "3.9-6.1", status: "normal" },
+                            creatinine: { value: 95, unit: "μmol/L", normal: "44-133", status: "normal" },
+                            urea: { value: 6.5, unit: "mmol/L", normal: "3.5-8.9", status: "normal" },
+                            alt: { value: 42, unit: "U/L", normal: "10-100", status: "normal" },
+                            ast: { value: 38, unit: "U/L", normal: "10-50", status: "normal" },
+                            totalProtein: { value: 68, unit: "g/L", normal: "54-78", status: "normal" },
+                            albumin: { value: 35, unit: "g/L", normal: "25-40", status: "normal" }
+                        }
+                    },
+                    {
+                        id: 2,
+                        date: "2025-08-15",
+                        clinicName: "Happy Paws Clinic",
+                        type: "biochemistry",
+                        notes: "Контрольный анализ после лечения",
+                        values: {
+                            glucose: { value: 5.8, unit: "mmol/L", normal: "3.9-6.1", status: "normal" },
+                            creatinine: { value: 110, unit: "μmol/L", normal: "44-133", status: "normal" },
+                            urea: { value: 7.2, unit: "mmol/L", normal: "3.5-8.9", status: "normal" },
+                            alt: { value: 55, unit: "U/L", normal: "10-100", status: "normal" },
+                            ast: { value: 45, unit: "U/L", normal: "10-50", status: "normal" },
+                            totalProtein: { value: 70, unit: "g/L", normal: "54-78", status: "normal" },
+                            albumin: { value: 38, unit: "g/L", normal: "25-40", status: "normal" }
+                        }
+                    }
+                ],
                 medicalRecords: [
                     {
                         id: 1,
@@ -269,7 +304,8 @@
                         visitType: "routine_checkup",
                         diagnosis: "Здоров",
                         notes: "Регулярный осмотр. Сердце и лёгкие в норме. Вес стабильный. Рекомендовано продолжить диету для снижения веса.",
-                        medications: []
+                        medications: [],
+                        testResultId: 1
                     },
                     {
                         id: 2,
@@ -441,6 +477,7 @@
                 registrationNumber: "RUS-CAT-2021-67890",
                 gender: "female",
                 neutered: true,
+                bloodGroup: "A",
                 colorMarkings: "Seal point with blue eyes",
                 distinctiveFeatures: "Distinctive blue eyes, vocal personality",
                 ownerInfo: {
@@ -514,6 +551,7 @@
                     { vaccine: "Rabies", lastDate: "2024-08-10", nextDue: "2025-08-10", status: "current" },
                     { vaccine: "FVRCP", lastDate: "2024-07-20", nextDue: "2025-07-20", status: "current" }
                 ],
+                testResults: [],
                 medicalRecords: [
                     {
                         id: 1,
@@ -1053,6 +1091,7 @@
                 weight: species === 'dog' ? 15 : species === 'cat' ? 4 : 2,
                 dateOfBirth: dob,
                 vaccinationStatus: [],
+                testResults: [],
                 medicalRecords: [],
                 symptoms: [],
                 medications: [],
@@ -1848,6 +1887,7 @@
                                     <h2 style="margin-bottom: 8px;">${currentPet.name || 'Питомец'}</h2>
                                     <div style="color: var(--color-text-secondary); margin-bottom: 8px;">
                                         ${currentPet.breed || ''} • ${currentPet.age || 0} лет • ${currentPet.weight || 0} кг
+                                        ${currentPet.bloodGroup ? ` • 🩸 ${currentPet.bloodGroup}` : ''}
                                     </div>
                                 </div>
                                 <button class="btn btn-outline btn-sm" onclick="showEditPetScreen(${currentPet.id})" title="Редактировать профиль">✏️</button>
@@ -1955,6 +1995,13 @@
                     </div>
                     
                     <div class="card">
+                        <h3 style="margin-bottom: 16px;">🩸 Последние анализы</h3>
+                        ${pet.testResults && pet.testResults.length > 0 ? `
+                            ${renderLatestTestResults(pet.testResults.slice(0, 1))}
+                        ` : '<p style="color: var(--color-text-secondary);">Нет данных об анализах</p>'}
+                    </div>
+                    
+                    <div class="card">
                         <h3 style="margin-bottom: 16px;">⚠️ Аллергии и состояния</h3>
                         ${allergies.length > 0 ? `
                             <div style="margin-bottom: 16px;">
@@ -1992,37 +2039,194 @@
             `;
         }
 
+        function renderLatestTestResults(testResults) {
+            if (!testResults || testResults.length === 0) return '';
+            
+            const latest = testResults[0];
+            const values = latest.values || {};
+            const keyIndicators = ['glucose', 'creatinine', 'urea', 'alt'];
+            
+            return `
+                <div style="padding: 12px; background: var(--color-bg-1); border-radius: var(--radius-base); margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div>
+                            <strong>${latest.date ? formatDate(latest.date) : 'Дата не указана'}</strong>
+                            <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 2px;">${latest.clinicName || 'Клиника не указана'}</div>
+                        </div>
+                        <button class="btn btn-outline btn-sm" onclick="showTestResultDetails(${latest.id})">Подробнее</button>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+                        ${keyIndicators.map(key => {
+                            const indicator = values[key];
+                            if (!indicator) return '';
+                            const statusColor = indicator.status === 'normal' ? 'var(--pet-success)' : indicator.status === 'high' ? 'var(--pet-warning)' : 'var(--pet-danger)';
+                            return `
+                                <div style="padding: 8px; background: var(--color-bg-2); border-radius: var(--radius-sm);">
+                                    <div style="font-size: 11px; color: var(--color-text-secondary); margin-bottom: 2px;">${getIndicatorName(key)}</div>
+                                    <div style="font-size: 14px; font-weight: bold; color: ${statusColor};">
+                                        ${indicator.value} ${indicator.unit || ''}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getIndicatorName(key) {
+            const names = {
+                glucose: 'Глюкоза',
+                creatinine: 'Креатинин',
+                urea: 'Мочевина',
+                alt: 'АЛТ',
+                ast: 'АСТ',
+                totalProtein: 'Общий белок',
+                albumin: 'Альбумин'
+            };
+            return names[key] || key;
+        }
+
+        function showTestResultDetails(testId) {
+            const pet = currentPet;
+            if (!pet || !pet.testResults) return;
+            
+            const test = pet.testResults.find(t => t.id === testId);
+            if (!test) return;
+            
+            const values = test.values || {};
+            const allIndicators = Object.keys(values);
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'test-result-modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 600px;">
+                    <div class="modal-header">
+                        <h2>📊 Результаты анализов</h2>
+                        <button class="close-btn" onclick="closeModal('test-result-modal')">&times;</button>
+                    </div>
+                    <div style="padding: 20px;">
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <strong>Дата:</strong>
+                                <span>${test.date ? formatDate(test.date) : 'Не указана'}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <strong>Клиника:</strong>
+                                <span>${test.clinicName || 'Не указана'}</span>
+                            </div>
+                            ${test.notes ? `<div style="margin-top: 12px; padding: 12px; background: var(--color-bg-1); border-radius: var(--radius-base);">
+                                <strong>Примечания:</strong>
+                                <div style="margin-top: 4px; color: var(--color-text-secondary);">${test.notes}</div>
+                            </div>` : ''}
+                        </div>
+                        
+                        <h3 style="margin-bottom: 16px;">Показатели</h3>
+                        <div style="display: grid; gap: 8px;">
+                            ${allIndicators.map(key => {
+                                const indicator = values[key];
+                                if (!indicator) return '';
+                                const statusColor = indicator.status === 'normal' ? 'var(--pet-success)' : indicator.status === 'high' ? 'var(--pet-warning)' : 'var(--pet-danger)';
+                                const statusText = indicator.status === 'normal' ? '✓ Норма' : indicator.status === 'high' ? '⚠ Повышен' : indicator.status === 'low' ? '⚠ Понижен' : '';
+                                return `
+                                    <div style="padding: 12px; background: var(--color-bg-1); border-radius: var(--radius-base); border-left: 3px solid ${statusColor};">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                            <strong>${getIndicatorName(key)}</strong>
+                                            <span style="font-size: 12px; color: ${statusColor}; font-weight: 500;">${statusText}</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; font-size: 14px; color: var(--color-text-secondary);">
+                                            <span>${indicator.value} ${indicator.unit || ''}</span>
+                                            <span>Норма: ${indicator.normal || 'Не указано'}</span>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.style.display = 'flex';
+        }
+
         function renderHealthTimeline(pet) {
             if (!pet) return '<div class="empty-state"><div class="empty-state-icon">📋</div><p>Питомец не найден</p></div>';
             
             const medicalRecords = pet.medicalRecords || [];
-            if (medicalRecords.length === 0) {
+            const testResults = pet.testResults || [];
+            
+            // Combine and sort by date
+            const allEvents = [
+                ...medicalRecords.map(r => ({ ...r, type: 'record' })),
+                ...testResults.map(t => ({ ...t, type: 'test' }))
+            ].sort((a, b) => {
+                const dateA = new Date(a.date || 0);
+                const dateB = new Date(b.date || 0);
+                return dateB - dateA;
+            });
+            
+            if (allEvents.length === 0) {
                 return '<div class="empty-state"><div class="empty-state-icon">📋</div><p>Нет медицинских записей</p></div>';
             }
             
             return `
                 <div class="timeline">
-                    ${medicalRecords.map(record => `
-                        <div class="timeline-item">
-                            <div class="timeline-date">${record.date ? formatDate(record.date) : 'Дата не указана'}</div>
-                            <div class="timeline-content">
-                                <div class="timeline-title">${visitTypeNames[record.visitType] || record.visitType || 'Визит'} - ${record.clinicName || 'Клиника не указана'}</div>
-                                <div style="margin: 8px 0;"><strong>Диагноз:</strong> ${record.diagnosis || 'Не указан'}</div>
-                                ${record.notes ? `<div style="margin: 8px 0; color: var(--color-text-secondary);">${record.notes}</div>` : ''}
-                                ${record.medications && record.medications.length > 0 ? `
-                                    <div style="margin-top: 12px;">
-                                        <strong>Назначенные препараты:</strong>
-                                        ${record.medications.map(m => `
-                                            <div style="padding: 8px; background: var(--color-bg-3); border-radius: var(--radius-sm); margin-top: 8px;">
-                                                <strong>${m.name || 'Препарат'}</strong> - ${m.dosage || ''}<br>
-                                                <small>${m.frequency || ''} в течение ${m.duration || ''}</small>
+                    ${allEvents.map(event => {
+                        if (event.type === 'test') {
+                            return `
+                                <div class="timeline-item" onclick="showTestResultDetails(${event.id})" style="cursor: pointer;">
+                                    <div class="timeline-date">${event.date ? formatDate(event.date) : 'Дата не указана'}</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title" style="display: flex; align-items: center; gap: 8px;">
+                                            🩸 Биохимический анализ - ${event.clinicName || 'Клиника не указана'}
+                                        </div>
+                                        ${event.notes ? `<div style="margin: 8px 0; color: var(--color-text-secondary);">${event.notes}</div>` : ''}
+                                        ${event.values ? `
+                                            <div style="margin-top: 12px; padding: 12px; background: var(--color-bg-1); border-radius: var(--radius-base);">
+                                                <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 8px;">Основные показатели:</div>
+                                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                                                    ${Object.keys(event.values).slice(0, 6).map(key => {
+                                                        const indicator = event.values[key];
+                                                        const statusColor = indicator.status === 'normal' ? 'var(--pet-success)' : indicator.status === 'high' ? 'var(--pet-warning)' : 'var(--pet-danger)';
+                                                        return `
+                                                            <div style="text-align: center; padding: 6px; background: var(--color-bg-2); border-radius: var(--radius-sm);">
+                                                                <div style="font-size: 10px; color: var(--color-text-secondary);">${getIndicatorName(key)}</div>
+                                                                <div style="font-size: 12px; font-weight: bold; color: ${statusColor};">${indicator.value}</div>
+                                                            </div>
+                                                        `;
+                                                    }).join('')}
+                                                </div>
+                                                <div style="margin-top: 8px; text-align: center; font-size: 11px; color: var(--color-primary);">Нажмите для подробностей →</div>
                                             </div>
-                                        `).join('')}
+                                        ` : ''}
                                     </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    `).join('')}
+                                </div>
+                            `;
+                        } else {
+                            return `
+                                <div class="timeline-item">
+                                    <div class="timeline-date">${event.date ? formatDate(event.date) : 'Дата не указана'}</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">${visitTypeNames[event.visitType] || event.visitType || 'Визит'} - ${event.clinicName || 'Клиника не указана'}</div>
+                                        <div style="margin: 8px 0;"><strong>Диагноз:</strong> ${event.diagnosis || 'Не указан'}</div>
+                                        ${event.notes ? `<div style="margin: 8px 0; color: var(--color-text-secondary);">${event.notes}</div>` : ''}
+                                        ${event.medications && event.medications.length > 0 ? `
+                                            <div style="margin-top: 12px;">
+                                                <strong>Назначенные препараты:</strong>
+                                                ${event.medications.map(m => `
+                                                    <div style="padding: 8px; background: var(--color-bg-3); border-radius: var(--radius-sm); margin-top: 8px;">
+                                                        <strong>${m.name || 'Препарат'}</strong> - ${m.dosage || ''}<br>
+                                                        <small>${m.frequency || ''} в течение ${m.duration || ''}</small>
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    }).join('')}
                 </div>
             `;
         }
@@ -3399,6 +3603,7 @@
                 weight: parseFloat(formData.get('weight')),
                 dateOfBirth: dateOfBirth,
                 vaccinationStatus: [],
+                testResults: [],
                 medicalRecords: [],
                 symptoms: [],
                 medications: [],
@@ -4889,6 +5094,28 @@
             const pet = pets.find(p => p.id === doc.petId);
             if (!pet) return;
             
+            // Check if document contains test results
+            if (doc.type === 'test_results' && doc.extractedData.testValues) {
+                // Create test result
+                if (!pet.testResults) pet.testResults = [];
+                const newTestResult = {
+                    id: pet.testResults.length + 1,
+                    date: doc.extractedData.visitDate || doc.date,
+                    clinicName: doc.extractedData.clinicName || 'Не указана',
+                    type: 'biochemistry',
+                    notes: doc.extractedData.recommendations || doc.extractedData.notes || '',
+                    values: doc.extractedData.testValues
+                };
+                
+                pet.testResults.unshift(newTestResult);
+                closeModal('scan-document-modal');
+                showToast('✅ Результаты анализов успешно добавлены!');
+                if (currentPet && currentPet.id === pet.id) {
+                    showPetProfile(pet.id);
+                }
+                return;
+            }
+            
             // Create medical record
             const newRecord = {
                 id: pet.medicalRecords.length + 1,
@@ -4985,6 +5212,30 @@
                         <div class="form-group">
                             <label class="form-label">Текущий вес (кг) *</label>
                             <input type="number" step="0.1" class="form-control" name="weight" value="${currentPet.weight}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Группа крови</label>
+                            <select class="form-control" name="bloodGroup">
+                                <option value="">Не указана</option>
+                                ${currentPet.species === 'dog' ? `
+                                    <option value="DEA 1.1+" ${currentPet.bloodGroup === 'DEA 1.1+' ? 'selected' : ''}>DEA 1.1+</option>
+                                    <option value="DEA 1.1-" ${currentPet.bloodGroup === 'DEA 1.1-' ? 'selected' : ''}>DEA 1.1-</option>
+                                    <option value="DEA 1.2+" ${currentPet.bloodGroup === 'DEA 1.2+' ? 'selected' : ''}>DEA 1.2+</option>
+                                    <option value="DEA 1.2-" ${currentPet.bloodGroup === 'DEA 1.2-' ? 'selected' : ''}>DEA 1.2-</option>
+                                    <option value="DEA 3+" ${currentPet.bloodGroup === 'DEA 3+' ? 'selected' : ''}>DEA 3+</option>
+                                    <option value="DEA 3-" ${currentPet.bloodGroup === 'DEA 3-' ? 'selected' : ''}>DEA 3-</option>
+                                    <option value="DEA 4+" ${currentPet.bloodGroup === 'DEA 4+' ? 'selected' : ''}>DEA 4+</option>
+                                    <option value="DEA 4-" ${currentPet.bloodGroup === 'DEA 4-' ? 'selected' : ''}>DEA 4-</option>
+                                    <option value="DEA 5+" ${currentPet.bloodGroup === 'DEA 5+' ? 'selected' : ''}>DEA 5+</option>
+                                    <option value="DEA 5-" ${currentPet.bloodGroup === 'DEA 5-' ? 'selected' : ''}>DEA 5-</option>
+                                    <option value="DEA 7+" ${currentPet.bloodGroup === 'DEA 7+' ? 'selected' : ''}>DEA 7+</option>
+                                    <option value="DEA 7-" ${currentPet.bloodGroup === 'DEA 7-' ? 'selected' : ''}>DEA 7-</option>
+                                ` : `
+                                    <option value="A" ${currentPet.bloodGroup === 'A' ? 'selected' : ''}>A</option>
+                                    <option value="B" ${currentPet.bloodGroup === 'B' ? 'selected' : ''}>B</option>
+                                    <option value="AB" ${currentPet.bloodGroup === 'AB' ? 'selected' : ''}>AB</option>
+                                `}
+                            </select>
                         </div>
                     </div>
                     
@@ -5102,6 +5353,7 @@
             currentPet.weight = parseFloat(formData.get('weight'));
             currentPet.gender = formData.get('gender');
             currentPet.neutered = formData.get('neutered') === 'true';
+            currentPet.bloodGroup = formData.get('bloodGroup') || '';
             currentPet.dietaryPreferences = formData.get('dietaryPreferences');
             
             // Calculate age
