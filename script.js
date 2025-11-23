@@ -698,6 +698,29 @@
             ]
         };
         
+        let aiRecommendations = [
+            {
+                id: 1,
+                date: "2025-11-22",
+                petId: 1,
+                summary: "Общее состояние хорошее",
+                status: "positive",
+                details: {
+                    healthScore: 8,
+                    nutrition: "Питание сбалансированное, калории в норме",
+                    weight: "Вес стабильный, прогресс к цели",
+                    activity: "Достаточная активность",
+                    medical: "Все вакцинации актуальны",
+                    concerns: [],
+                    recommendations: [
+                        "Продолжайте текущий режим питания",
+                        "Рекомендуется плановый осмотр через месяц",
+                        "Следите за регулярностью кормления"
+                    ]
+                }
+            }
+        ];
+
         let scannedDocuments = [
             {
                 id: 1,
@@ -1396,12 +1419,346 @@
                 
                 statusContainer.innerHTML = statusHTML;
             }
+            
+            // 4. AI Recommendations - рекомендации ИИ (приоритет #4)
+            const recommendationsContainer = document.getElementById('home-ai-recommendations');
+            if (recommendationsContainer) {
+                renderAIRecommendations(recommendationsContainer);
+            }
         }
         
         function getHealthStatus(pet) {
             const dueSoon = pet.vaccinationStatus?.find(v => v.status === 'due_soon');
             if (dueSoon) return { color: '#FFA500', text: 'Требуется внимание' };
             return { color: '#4CAF50', text: 'Здоров' };
+        }
+        
+        function renderAIRecommendations(container) {
+            // Check if we need to generate new recommendations (once per week)
+            const lastRecommendation = aiRecommendations.length > 0 
+                ? aiRecommendations.sort((a, b) => new Date(b.date) - new Date(a.date))[0]
+                : null;
+            
+            const today = new Date().toISOString().split('T')[0];
+            const daysSinceLastRec = lastRecommendation 
+                ? Math.floor((new Date(today) - new Date(lastRecommendation.date)) / (1000 * 60 * 60 * 24))
+                : 999;
+            
+            // Generate new recommendation if it's been 7+ days
+            if (daysSinceLastRec >= 7 || !lastRecommendation) {
+                generateAIRecommendation();
+            }
+            
+            // Get latest recommendation
+            const latest = aiRecommendations.length > 0 
+                ? aiRecommendations.sort((a, b) => new Date(b.date) - new Date(a.date))[0]
+                : null;
+            
+            if (!latest) {
+                container.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--color-text-secondary);">Рекомендации появятся после накопления данных</div>';
+                return;
+            }
+            
+            const pet = pets.find(p => p.id === latest.petId);
+            const petName = pet ? pet.name : 'Питомец';
+            const statusEmoji = latest.status === 'positive' ? '✅' : latest.status === 'warning' ? '⚠️' : '🔴';
+            const statusColor = latest.status === 'positive' ? 'var(--pet-success)' : latest.status === 'warning' ? 'var(--pet-warning)' : 'var(--pet-danger)';
+            
+            container.innerHTML = `
+                <div class="card ai-recommendation-card" onclick="toggleAIRecommendationDetails()" style="cursor: pointer;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <span style="font-size: 24px;">${statusEmoji}</span>
+                                <div>
+                                    <h3 style="margin: 0; font-size: 16px;">Состояние ${petName}</h3>
+                                    <div style="font-size: 12px; color: var(--color-text-secondary);">${formatDate(latest.date)}</div>
+                                </div>
+                            </div>
+                            <div style="padding: 12px; background: var(--color-bg-1); border-radius: var(--radius-base); margin-bottom: 8px;">
+                                <p style="margin: 0; font-size: 14px; color: var(--color-text);">${latest.summary}</p>
+                            </div>
+                            ${latest.details ? `
+                                <div style="display: flex; gap: 12px; font-size: 12px; color: var(--color-text-secondary);">
+                                    <span>🏥 Оценка: ${latest.details.healthScore}/10</span>
+                                    ${latest.details.recommendations && latest.details.recommendations.length > 0 
+                                        ? `<span>💡 ${latest.details.recommendations.length} рекомендаций</span>` 
+                                        : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="ai-recommendation-arrow" style="font-size: 20px; color: var(--color-text-secondary); transition: transform 0.3s; margin-left: 12px;">›</div>
+                    </div>
+                    <div class="ai-recommendation-details" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-card-border);" onclick="event.stopPropagation();">
+                        ${latest.details ? `
+                            <div style="margin-bottom: 16px;">
+                                <h4 style="margin-bottom: 12px; font-size: 14px;">📊 Анализ состояния</h4>
+                                <div style="display: grid; gap: 8px;">
+                                    ${latest.details.nutrition ? `
+                                        <div style="padding: 10px; background: var(--color-bg-1); border-radius: var(--radius-sm);">
+                                            <strong style="font-size: 12px;">🍽️ Питание:</strong>
+                                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">${latest.details.nutrition}</div>
+                                        </div>
+                                    ` : ''}
+                                    ${latest.details.weight ? `
+                                        <div style="padding: 10px; background: var(--color-bg-1); border-radius: var(--radius-sm);">
+                                            <strong style="font-size: 12px;">⚖️ Вес:</strong>
+                                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">${latest.details.weight}</div>
+                                        </div>
+                                    ` : ''}
+                                    ${latest.details.activity ? `
+                                        <div style="padding: 10px; background: var(--color-bg-1); border-radius: var(--radius-sm);">
+                                            <strong style="font-size: 12px;">🏃 Активность:</strong>
+                                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">${latest.details.activity}</div>
+                                        </div>
+                                    ` : ''}
+                                    ${latest.details.medical ? `
+                                        <div style="padding: 10px; background: var(--color-bg-1); border-radius: var(--radius-sm);">
+                                            <strong style="font-size: 12px;">🩺 Медицина:</strong>
+                                            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">${latest.details.medical}</div>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                            ${latest.details.recommendations && latest.details.recommendations.length > 0 ? `
+                                <div style="margin-bottom: 16px;">
+                                    <h4 style="margin-bottom: 12px; font-size: 14px;">💡 Рекомендации</h4>
+                                    <ul style="padding-left: 20px; margin: 0;">
+                                        ${latest.details.recommendations.map(rec => `
+                                            <li style="margin-bottom: 8px; font-size: 13px; color: var(--color-text-secondary);">${rec}</li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                            ` : ''}
+                            ${latest.details.concerns && latest.details.concerns.length > 0 ? `
+                                <div style="padding: 12px; background: var(--color-bg-4); border-radius: var(--radius-base); border-left: 3px solid var(--pet-warning);">
+                                    <h4 style="margin-bottom: 8px; font-size: 14px; color: var(--pet-warning);">⚠️ Требует внимания</h4>
+                                    <ul style="padding-left: 20px; margin: 0;">
+                                        ${latest.details.concerns.map(concern => `
+                                            <li style="margin-bottom: 4px; font-size: 12px;">${concern}</li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                            ` : ''}
+                        ` : ''}
+                        <div style="margin-top: 16px; text-align: center;">
+                            <button class="btn btn-outline btn-sm" onclick="showAIRecommendationsHistory(); event.stopPropagation();">📜 История рекомендаций</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function toggleAIRecommendationDetails() {
+            const details = document.querySelector('.ai-recommendation-details');
+            const arrow = document.querySelector('.ai-recommendation-arrow');
+            
+            if (details && arrow) {
+                const isExpanded = details.style.display !== 'none';
+                if (isExpanded) {
+                    details.style.display = 'none';
+                    arrow.style.transform = 'rotate(0deg)';
+                } else {
+                    details.style.display = 'block';
+                    arrow.style.transform = 'rotate(90deg)';
+                }
+            }
+        }
+        
+        function generateAIRecommendation() {
+            // Analyze all pets and generate recommendations
+            const today = new Date().toISOString().split('T')[0];
+            pets.forEach(pet => {
+                // Check if recommendation already exists for today
+                const existingRec = aiRecommendations.find(r => 
+                    r.petId === pet.id && r.date === today
+                );
+                
+                if (!existingRec) {
+                    const recommendation = analyzePetHealth(pet);
+                    if (recommendation) {
+                        aiRecommendations.push(recommendation);
+                    }
+                }
+            });
+        }
+        
+        function analyzePetHealth(pet) {
+            const today = new Date().toISOString().split('T')[0];
+            let healthScore = 8; // Base score
+            const details = {
+                nutrition: '',
+                weight: '',
+                activity: '',
+                medical: '',
+                concerns: [],
+                recommendations: []
+            };
+            
+            // Analyze nutrition
+            if (pet.nutritionData) {
+                const goal = pet.nutritionData.dailyCalorieGoal || 0;
+                let todayCalories = 0;
+                if (pet.nutritionData.meals) {
+                    pet.nutritionData.meals.forEach(meal => {
+                        if (meal.date && meal.date.startsWith(today)) {
+                            todayCalories += meal.calories || 0;
+                        }
+                    });
+                }
+                
+                if (goal > 0) {
+                    const percent = Math.round((todayCalories / goal) * 100);
+                    if (percent >= 80 && percent <= 120) {
+                        details.nutrition = `Питание сбалансированное (${percent}% от цели)`;
+                    } else if (percent < 80) {
+                        details.nutrition = `Недостаточно калорий (${percent}% от цели)`;
+                        details.concerns.push('Недостаточное питание');
+                        details.recommendations.push('Увеличьте порции или добавьте перекусы');
+                        healthScore -= 1;
+                    } else {
+                        details.nutrition = `Превышение калорий (${percent}% от цели)`;
+                        details.concerns.push('Избыточное питание');
+                        details.recommendations.push('Следите за размером порций');
+                        healthScore -= 1;
+                    }
+                }
+            }
+            
+            // Analyze weight
+            if (pet.weightHistory && pet.weightHistory.length > 0) {
+                const recent = pet.weightHistory.slice(0, 3);
+                if (recent.length >= 2) {
+                    const trend = recent[0].weight - recent[recent.length - 1].weight;
+                    if (pet.weightGoals) {
+                        if (pet.weightGoals.goalType === 'lose' && trend < 0) {
+                            details.weight = `Вес снижается (${Math.abs(trend).toFixed(1)} кг) - отлично!`;
+                            details.recommendations.push('Продолжайте текущий режим для достижения цели');
+                        } else if (pet.weightGoals.goalType === 'gain' && trend > 0) {
+                            details.weight = `Вес увеличивается (${trend.toFixed(1)} кг) - отлично!`;
+                        } else {
+                            details.weight = `Вес стабильный (${pet.weight.toFixed(1)} кг)`;
+                        }
+                    } else {
+                        details.weight = `Вес стабильный (${pet.weight.toFixed(1)} кг)`;
+                    }
+                }
+            }
+            
+            // Analyze medical records
+            if (pet.vaccinationStatus) {
+                const dueSoon = pet.vaccinationStatus.filter(v => v.status === 'due_soon');
+                if (dueSoon.length > 0) {
+                    details.medical = `Требуется вакцинация: ${dueSoon.map(v => v.vaccine).join(', ')}`;
+                    details.concerns.push('Скоро истекает срок вакцинации');
+                    details.recommendations.push(`Запланируйте вакцинацию: ${dueSoon.map(v => v.vaccine).join(', ')}`);
+                    healthScore -= 1;
+                } else {
+                    details.medical = 'Все вакцинации актуальны';
+                }
+            }
+            
+            // Analyze symptoms
+            if (pet.symptoms && pet.symptoms.length > 0) {
+                const recentSymptoms = pet.symptoms.filter(s => {
+                    const symptomDate = new Date(s.date);
+                    const weekAgo = new Date();
+                    weekAgo.setDate(weekAgo.getDate() - 7);
+                    return symptomDate >= weekAgo;
+                });
+                
+                if (recentSymptoms.length > 0) {
+                    const avgSeverity = recentSymptoms.reduce((sum, s) => sum + (s.severity || 0), 0) / recentSymptoms.length;
+                    if (avgSeverity >= 5) {
+                        details.concerns.push('Наблюдаются симптомы повышенной тяжести');
+                        details.recommendations.push('Рекомендуется консультация ветеринара');
+                        healthScore -= 2;
+                    }
+                }
+            }
+            
+            // Determine status
+            let status = 'positive';
+            if (healthScore < 6) {
+                status = 'critical';
+            } else if (healthScore < 7 || details.concerns.length > 0) {
+                status = 'warning';
+            }
+            
+            // Generate summary
+            let summary = '';
+            if (status === 'positive') {
+                summary = `Общее состояние ${pet.name} хорошее. Все показатели в норме.`;
+            } else if (status === 'warning') {
+                summary = `Состояние ${pet.name} требует внимания. Есть несколько моментов для улучшения.`;
+            } else {
+                summary = `Состояние ${pet.name} требует срочного внимания. Рекомендуется консультация ветеринара.`;
+            }
+            
+            return {
+                id: aiRecommendations.length + 1,
+                date: today,
+                petId: pet.id,
+                summary: summary,
+                status: status,
+                details: {
+                    ...details,
+                    healthScore: Math.max(1, Math.min(10, healthScore))
+                }
+            };
+        }
+        
+        function showAIRecommendationsHistory() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'ai-recommendations-history-modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+                    <div class="modal-header">
+                        <h2>📜 История рекомендаций ИИ</h2>
+                        <button class="close-btn" onclick="closeModal('ai-recommendations-history-modal')">&times;</button>
+                    </div>
+                    <div style="padding: 20px;">
+                        <div class="timeline">
+                            ${aiRecommendations.sort((a, b) => new Date(b.date) - new Date(a.date)).map(rec => {
+                                const pet = pets.find(p => p.id === rec.petId);
+                                const petName = pet ? pet.name : 'Питомец';
+                                const statusEmoji = rec.status === 'positive' ? '✅' : rec.status === 'warning' ? '⚠️' : '🔴';
+                                return `
+                                    <div class="timeline-item">
+                                        <div class="timeline-date">${formatDate(rec.date)}</div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-title" style="display: flex; align-items: center; gap: 8px;">
+                                                ${statusEmoji} ${petName}
+                                            </div>
+                                            <div style="margin: 8px 0; padding: 12px; background: var(--color-bg-1); border-radius: var(--radius-base);">
+                                                <p style="margin: 0; font-size: 14px;">${rec.summary}</p>
+                                            </div>
+                                            ${rec.details ? `
+                                                <div style="margin-top: 12px;">
+                                                    <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 8px;">
+                                                        Оценка здоровья: <strong>${rec.details.healthScore}/10</strong>
+                                                    </div>
+                                                    ${rec.details.recommendations && rec.details.recommendations.length > 0 ? `
+                                                        <div style="font-size: 12px; color: var(--color-text-secondary);">
+                                                            <strong>Рекомендации:</strong>
+                                                            <ul style="margin: 4px 0 0 20px; padding: 0;">
+                                                                ${rec.details.recommendations.map(r => `<li style="margin-bottom: 4px;">${r}</li>`).join('')}
+                                                            </ul>
+                                                        </div>
+                                                    ` : ''}
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.style.display = 'flex';
         }
         
         function getNextEvent(pet) {
